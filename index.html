@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BionicText</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
@@ -18,7 +17,7 @@
             authDomain: "bionictext-ai-7f98e.firebaseapp.com",
             projectId: "bionictext-ai-7f98e",
             storageBucket: "bionictext-ai-7f98e.firebasestorage.app",
-            messagingSenderId: "YOUR_SENDER_ID",
+            messagingSenderId: "-",
             appId: "1:YOUR_PROJECT_NUMBER:web:d10beff107a257d344cc31",
             measurementId: "G-MDF68KE75Q"
         };
@@ -1675,21 +1674,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const prevBtn = document.getElementById('prevAchievements');
     const nextBtn = document.getElementById('nextAchievements');
     
-    if (prevBtn && nextBtn) {
-            prevBtn.addEventListener('click', () => {
-                if (currentAchievementPage > 1) {
-                    currentAchievementPage--;
-                    updateAchievementsPagination();
-                    updateAchievements([]); // Boş results ile çağır, gerçek veri updateAchievements içinde yüklenecek
-                }
-            });
-            
-            nextBtn.addEventListener('click', () => {
-                currentAchievementPage++;
-                updateAchievementsPagination();
-                updateAchievements([]); // Boş results ile çağır, gerçek veri updateAchievements içinde yüklenecek
-            });
-        }
+    
 });
 
         // Translation functions
