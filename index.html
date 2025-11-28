@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
  <head>
@@ -86,7 +85,7 @@
       </div>
      </div>
      <div class="flex items-center space-x-4"><!-- Language Selector -->
-      <div class="relative"><select id="languageSelector" onchange="changeLanguage()" class="bg-white text-primary px-3 py-2 rounded-lg text-sm font-medium border-0 focus:ring-2 focus:ring-blue-300 cursor-pointer"> <option value="en">🇺🇸 English</option> <option value="tr" selected>🇹🇷 Türkçe</option> <option value="it">   🇹 Italiano</option> </select>
+      <div class="relative"><select id="languageSelector" onchange="changeLanguage()" class="bg-white text-primary px-3 py-2 rounded-lg text-sm font-medium border-0 focus:ring-2 focus:ring-blue-300 cursor-pointer"> <option value="en">🇺🇸 English</option> <option value="tr" selected>🇹🇷 Türkçe</option> <option value="it">���🇹 Italiano</option> </select>
       </div><!-- Login Button (shown when not logged in) -->
       <div id="authButtons"><button onclick="showAuth()" class="bg-white text-primary px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors" data-translate="login">Login</button>
       </div><!-- Profile Menu (shown when logged in) -->
@@ -551,40 +550,244 @@
       <div class="space-y-6"><!-- Achievements -->
        <div class="bg-white rounded-xl shadow-lg p-6">
         <h3 class="text-xl font-semibold text-primary mb-4">Achievements</h3>
-        <div class="space-y-3" id="achievements">
-         <div class="flex items-center p-3 bg-gray-50 rounded-lg opacity-50">
-          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3"><span class="text-sm">🏆</span>
+        <div class="space-y-2 max-h-96 overflow-y-auto" id="achievements">
+         <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">🏆</span>
           </div>
-          <div>
-           <div class="font-medium text-gray-700">
-            First Test
+          <div class="flex-1 min-w-0">
+           <div class="font-medium text-gray-700 text-sm">
+            İlk Test
            </div>
            <div class="text-xs text-gray-500">
-            Complete your first reading test
+            İlk okuma testini tamamla
            </div>
           </div>
          </div>
-         <div class="flex items-center p-3 bg-gray-50 rounded-lg opacity-50">
-          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3"><span class="text-sm">⚡</span>
+         <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">⚡</span>
           </div>
-          <div>
-           <div class="font-medium text-gray-700">
-            Speed Demon
+          <div class="flex-1 min-w-0">
+           <div class="font-medium text-gray-700 text-sm">
+            Hız Canavarı
            </div>
            <div class="text-xs text-gray-500">
-            Reach 300+ WPM with BionicText
+            BionicText ile 300+ WPM'e ulaş
            </div>
           </div>
          </div>
-         <div class="flex items-center p-3 bg-gray-50 rounded-lg opacity-50">
-          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3"><span class="text-sm">📈</span>
+         <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">📚</span>
           </div>
-          <div>
-           <div class="font-medium text-gray-700">
-            Consistent Reader
+          <div class="flex-1 min-w-0">
+           <div class="font-medium text-gray-700 text-sm">
+            Düzenli Okuyucu
            </div>
            <div class="text-xs text-gray-500">
-            Complete 10 tests
+            10 test tamamla
+           </div>
+          </div>
+         </div>
+         <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">🎯</span>
+          </div>
+          <div class="flex-1 min-w-0">
+           <div class="font-medium text-gray-700 text-sm">
+            Kesin Nişancı
+           </div>
+           <div class="text-xs text-gray-500">
+            3 testte 250+ WPM skorla
+           </div>
+          </div>
+         </div>
+         <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">🚀</span>
+          </div>
+          <div class="flex-1 min-w-0">
+           <div class="font-medium text-gray-700 text-sm">
+            Roket Adam
+           </div>
+           <div class="text-xs text-gray-500">
+            400+ WPM'e ulaş
+           </div>
+          </div>
+         </div>
+         <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">🌟</span>
+          </div>
+          <div class="flex-1 min-w-0">
+           <div class="font-medium text-gray-700 text-sm">
+            Yıldız Öğrenci
+           </div>
+           <div class="text-xs text-gray-500">
+            5 test tamamla
+           </div>
+          </div>
+         </div>
+         <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">💪</span>
+          </div>
+          <div class="flex-1 min-w-0">
+           <div class="font-medium text-gray-700 text-sm">
+            Güçlü Başlangıç
+           </div>
+           <div class="text-xs text-gray-500">
+            İlk testte 200+ WPM skorla
+           </div>
+          </div>
+         </div>
+         <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">📈</span>
+          </div>
+          <div class="flex-1 min-w-0">
+           <div class="font-medium text-gray-700 text-sm">
+            Gelişim Ustası
+           </div>
+           <div class="text-xs text-gray-500">
+            %50+ iyileşme kaydet
+           </div>
+          </div>
+         </div>
+         <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">🔥</span>
+          </div>
+          <div class="flex-1 min-w-0">
+           <div class="font-medium text-gray-700 text-sm">
+            Ateşli Okuyucu
+           </div>
+           <div class="text-xs text-gray-500">
+            7 gün üst üste test yap
+           </div>
+          </div>
+         </div>
+         <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">🎓</span>
+          </div>
+          <div class="flex-1 min-w-0">
+           <div class="font-medium text-gray-700 text-sm">
+            Mezun
+           </div>
+           <div class="text-xs text-gray-500">
+            25 test tamamla
+           </div>
+          </div>
+         </div>
+         <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">💎</span>
+          </div>
+          <div class="flex-1 min-w-0">
+           <div class="font-medium text-gray-700 text-sm">
+            Elmas Lig
+           </div>
+           <div class="text-xs text-gray-500">
+            500+ WPM'e ulaş
+           </div>
+          </div>
+         </div>
+         <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">🌈</span>
+          </div>
+          <div class="flex-1 min-w-0">
+           <div class="font-medium text-gray-700 text-sm">
+            Çeşitlilik
+           </div>
+           <div class="text-xs text-gray-500">
+            Her metin türünde test yap
+           </div>
+          </div>
+         </div>
+         <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">🏃</span>
+          </div>
+          <div class="flex-1 min-w-0">
+           <div class="font-medium text-gray-700 text-sm">
+            Maraton
+           </div>
+           <div class="text-xs text-gray-500">
+            50 test tamamla
+           </div>
+          </div>
+         </div>
+         <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">⭐</span>
+          </div>
+          <div class="flex-1 min-w-0">
+           <div class="font-medium text-gray-700 text-sm">
+            Süperstar
+           </div>
+           <div class="text-xs text-gray-500">
+            %100+ iyileşme kaydet
+           </div>
+          </div>
+         </div>
+         <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">🎪</span>
+          </div>
+          <div class="flex-1 min-w-0">
+           <div class="font-medium text-gray-700 text-sm">
+            Profesyonel
+           </div>
+           <div class="text-xs text-gray-500">
+            100 test tamamla
+           </div>
+          </div>
+         </div>
+         <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">🌍</span>
+          </div>
+          <div class="flex-1 min-w-0">
+           <div class="font-medium text-gray-700 text-sm">
+            Dünya Vatandaşı
+           </div>
+           <div class="text-xs text-gray-500">
+            3 farklı dilde test yap
+           </div>
+          </div>
+         </div>
+         <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">🎨</span>
+          </div>
+          <div class="flex-1 min-w-0">
+           <div class="font-medium text-gray-700 text-sm">
+            Özelleştirici
+           </div>
+           <div class="text-xs text-gray-500">
+            Özel metin ile test yap
+           </div>
+          </div>
+         </div>
+         <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">🧠</span>
+          </div>
+          <div class="flex-1 min-w-0">
+           <div class="font-medium text-gray-700 text-sm">
+            Beyin Gücü
+           </div>
+           <div class="text-xs text-gray-500">
+            AI asistan ile 10 sohbet yap
+           </div>
+          </div>
+         </div>
+         <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">📊</span>
+          </div>
+          <div class="flex-1 min-w-0">
+           <div class="font-medium text-gray-700 text-sm">
+            Veri Analisti
+           </div>
+           <div class="text-xs text-gray-500">
+            Verilerini dışa aktar
+           </div>
+          </div>
+         </div>
+         <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">👑</span>
+          </div>
+          <div class="flex-1 min-w-0">
+           <div class="font-medium text-gray-700 text-sm">
+            Okuma Kralı
+           </div>
+           <div class="text-xs text-gray-500">
+            Tüm başarımları kilitle
            </div>
           </div>
          </div>
@@ -801,7 +1004,7 @@
                 auth_email_placeholder: "E-posta adresinizi girin",
                 auth_password_placeholder: "Şifrenizi girin",
                 auth_signin: "Giriş Yap",
-                auth_signup: "Kay  t Ol",
+                auth_signup: "Kay��t Ol",
                 auth_no_account: "Hesabınız yok mu? ",
                 auth_create_account: "Hesap Oluştur",
                 auth_signup_subtitle: "Yeni hesap oluşturun",
@@ -832,7 +1035,7 @@
                 test_improvement: "Hız İyileştirmesi",
                 test_download_report: "PDF Rapor İndir",
                 test_take_again: "Testi Tekrar Al",
-                test_preset_text: "Haz  r Metin",
+                test_preset_text: "Haz��r Metin",
                 test_custom_text: "Özel Metin",
                 test_preset_ai: "AI Teknolojisi",
                 test_preset_science: "Bilim ve Doğa",
@@ -903,7 +1106,7 @@
                 assistant_feature_1: "Akıllı Analiz",
                 assistant_feature_1_desc: "Okuma kalıplarınız ve performans trendleriniz hakkında içgörüler edinin",
                 assistant_feature_2: "Kişiselleştirilmiş İpuçları",
-                assistant_feature_2_desc: "Okuma verilerinize ve hedeflerinize göre   zelleştirilmiş tavsiyeler alın",
+                assistant_feature_2_desc: "Okuma verilerinize ve hedeflerinize göre ��zelleştirilmiş tavsiyeler alın",
                 assistant_feature_3: "7/24 Destek",
                 assistant_feature_3_desc: "Okuma teknikleri ve BionicText hakkında istediğiniz zaman soru sorun",
                 quick_what_bionic: "BionicText nedir?",
@@ -1060,15 +1263,15 @@
                 literature: "Literature serves as a mirror to society, reflecting the values, struggles, and aspirations of different cultures and time periods. Through storytelling, authors have the power to transport readers to different worlds, challenge perspectives, and evoke deep emotional responses. Classic works like Shakespeare's plays continue to resonate with modern audiences because they explore universal themes of love, ambition, betrayal, and redemption. Contemporary literature addresses current social issues, giving voice to marginalized communities and exploring the complexities of modern life. The digital age has transformed how we consume literature, with e-books, audiobooks, and online platforms making literary works more accessible than ever before. Reading literature not only provides entertainment but also develops empathy, critical thinking skills, and cultural understanding."
             },
             tr: {
-                ai: "Yapay zekanın hızlı ilerlemesi, günlük yaşamın sayısız endüstrisini ve yönünü dönüştürmüştür. Sağlık teşhislerinden otonom araçlara kadar, AI sistemleri giderek daha sofistike ve yetenekli hale gelmektedir. Makine öğrenmesi algoritmaları artık büyük miktarlarda veriyi işleyerek kalıpları tanımlayabilir ve olağanüst   doğrulukla tahminlerde bulunabilir. Doğal dil işleme, bilgisayarların insan benzeri metinleri anlamasını ve üretmesini sağlayarak iletişim ve içerik oluşturmada devrim yaratmıştır. Bu teknolojileri geliştirmeye devam ederken, etik sonuçlarını göz önünde bulundurmak ve topluma bir bütün olarak fayda sağlamalarını garanti etmek çok önemli hale gelmiştir. AI'nın geleceği karmaşık küresel zorlukları çözmek için muazzam potansiyel barındırıyor, ancak aynı zamanda gizlilik, güvenlik ve istihdam piyasalarına etkisi konularında dikkatli değerlendirme gerektiriyor.",
-                science: "İklim değişikliği, dünya çapında hükümetler, işletmeler ve bireylerden acil eylem gerektiren zamanımızın en acil zorluklarından birini temsil etmektedir. Küresel ısınmanın etkileri, yükselen deniz seviyeleri, aşırı hava durumu kalıpları ve biyoçeşitliliği tehdit eden değişen ekosistemlerde zaten görülmektedir. Bilim insanları yenilenebilir enerji teknolojileri, karbon yakalama sistemleri ve sürdürülebilir tarım uygulamaları dahil olmak üzere yenilikçi çözümler geliştirmiştir. Güneş ve rüzgar enerjisi, fosil yakıtlara giderek daha uygun maliyetli alternatifler haline gelirken, elektrikli araçlar ulaşımda devrim yaratmaktadır. Ancak iklim değişikliğiyle mücadele, koordineli küresel çabalar, politika değişiklikleri ve bireysel yaşam tarzı deği    iklikleri gerektirmektedir.",
+                ai: "Yapay zekanın hızlı ilerlemesi, günlük yaşamın sayısız endüstrisini ve yönünü dönüştürmüştür. Sağlık teşhislerinden otonom araçlara kadar, AI sistemleri giderek daha sofistike ve yetenekli hale gelmektedir. Makine öğrenmesi algoritmaları artık büyük miktarlarda veriyi işleyerek kalıpları tanımlayabilir ve olağanüst�� doğrulukla tahminlerde bulunabilir. Doğal dil işleme, bilgisayarların insan benzeri metinleri anlamasını ve üretmesini sağlayarak iletişim ve içerik oluşturmada devrim yaratmıştır. Bu teknolojileri geliştirmeye devam ederken, etik sonuçlarını göz önünde bulundurmak ve topluma bir bütün olarak fayda sağlamalarını garanti etmek çok önemli hale gelmiştir. AI'nın geleceği karmaşık küresel zorlukları çözmek için muazzam potansiyel barındırıyor, ancak aynı zamanda gizlilik, güvenlik ve istihdam piyasalarına etkisi konularında dikkatli değerlendirme gerektiriyor.",
+                science: "İklim değişikliği, dünya çapında hükümetler, işletmeler ve bireylerden acil eylem gerektiren zamanımızın en acil zorluklarından birini temsil etmektedir. Küresel ısınmanın etkileri, yükselen deniz seviyeleri, aşırı hava durumu kalıpları ve biyoçeşitliliği tehdit eden değişen ekosistemlerde zaten görülmektedir. Bilim insanları yenilenebilir enerji teknolojileri, karbon yakalama sistemleri ve sürdürülebilir tarım uygulamaları dahil olmak üzere yenilikçi çözümler geliştirmiştir. Güneş ve rüzgar enerjisi, fosil yakıtlara giderek daha uygun maliyetli alternatifler haline gelirken, elektrikli araçlar ulaşımda devrim yaratmaktadır. Ancak iklim değişikliğiyle mücadele, koordineli küresel çabalar, politika değişiklikleri ve bireysel yaşam tarzı deği����iklikleri gerektirmektedir.",
                 history: "Yaklaşık 14. yüzyıldan 17. yüzyıla kadar uzanan Rönesans dönemi, Avrupa kültürü, sanatı ve entelektüel düşüncesinde derin bir dönüşümü işaret etmiştir. Bu çağ, klasik öğrenimin yeniden canlanması, sanatsal ifadenin çiçeklenmesi ve çığır açan bilimsel keşiflere tanık olmuştur. Leonardo da Vinci gibi önde gelen figürler, sanat, bilim ve mühendislikte mükemmelleşerek Rönesans'ın çok yönlü insan idealini somutlaştırmıştır. Johannes Gutenberg'in matbaayı icat etmesi bilginin yayılmasında devrim yaratarak kitapları daha erişilebilir hale getirdi ve fikirlerin değişimini hızlandırdı. Rönesans hümanizmi, bireysel insanların potansiyeli ve değerini vurgulayarak odağı tamamen dini kaygılardan laik öğrenime ve kişisel başarıya kaydırmıştır.",
                 literature: "Edebiyat topluma bir ayna görevi görerek farklı kültürlerin ve zaman dilimlerinin değerlerini, mücadelelerini ve özlemlerini yansıtır. Hikaye anlatıcılığı yoluyla yazarlar, okuyucuları farklı dünyalara taşıma, bakış açılarını sorgulama ve derin duygusal tepkiler uyandırma gücüne sahiptir. Shakespeare'in oyunları gibi klasik eserler, aşk, hırs, ihanet ve kurtuluş gibi evrensel temaları keşfettikleri için modern izleyicilerle rezonans kurmaya devam etmektedir. Çağdaş edebiyat güncel sosyal konuları ele alarak marjinalleştirilmiş topluluklara ses veriyor ve modern yaşamın karmaşıklıklarını keşfediyor. Dijital çağ, e-kitaplar, sesli kitaplar ve çevrimiçi platformlarla edebi eserleri her zamankinden daha erişilebilir hale getirerek edebiyatı nasıl tükettiğimizi dönüştürmüştür."
             },
             it: {
                 ai: "Il rapido progresso dell'intelligenza artificiale ha trasformato numerose industrie e aspetti della vita quotidiana. Dalla diagnostica sanitaria ai veicoli autonomi, i sistemi AI stanno diventando sempre più sofisticati e capaci. Gli algoritmi di machine learning possono ora elaborare enormi quantità di dati per identificare modelli e fare previsioni con notevole precisione. L'elaborazione del linguaggio naturale ha permesso ai computer di comprendere e generare testo simile a quello umano, rivoluzionando la comunicazione e la creazione di contenuti. Mentre continuiamo a sviluppare queste tecnologie, diventa cruciale considerare le loro implicazioni etiche e assicurarsi che beneficino la società nel suo insieme. Il futuro dell'AI ha un potenziale immenso per risolvere sfide globali complesse, ma richiede anche un'attenta considerazione della privacy, sicurezza e dell'impatto sui mercati del lavoro.",
                 science: "Il cambiamento climatico rappresenta una delle sfide più urgenti del nostro tempo, richiedendo azione immediata da governi, aziende e individui in tutto il mondo. Gli effetti del riscaldamento globale sono già visibili nell'innalzamento del livello del mare, nei modelli meteorologici estremi e negli ecosistemi in cambiamento che minacciano la biodiversità. Gli scienziati hanno sviluppato soluzioni innovative incluse tecnologie di energia rinnovabile, sistemi di cattura del carbonio e pratiche agricole sostenibili. L'energia solare ed eolica sono diventate alternative sempre più convenienti ai combustibili fossili, mentre i veicoli elettrici stanno rivoluzionando i trasporti. Tuttavia, affrontare il cambiamento climatico richiede sforzi globali coordinati, cambiamenti politici e modifiche dello stile di vita individuale.",
-                history: "Il periodo del Rinascimento, che va approssimativamente dal XIV al XVII secolo, ha segnato una profonda trasformazione nella cultura europea, nell'arte e nel pensiero intellettuale. Quest'era ha assistito al revival dell'apprendimento classico, al fiorire dell'espressione artistica e a scoperte scientifiche rivoluzionarie. Figure prominenti come Leonardo da Vinci incarnavano l'ideale rinascimentale del polimata, eccellendo nell'arte, nella scienza e nell'ingegneria. L'invenzione della stampa da parte di Johannes Gutenberg rivoluzion   la diffusione della conoscenza, rendendo i libri più accessibili e accelerando lo scambio di idee. L'umanesimo rinascimentale enfatizzava il potenziale e il valore degli esseri umani individuali, spostando l'attenzione dalle preoccupazioni puramente religiose all'apprendimento secolare e al successo personale.",
+                history: "Il periodo del Rinascimento, che va approssimativamente dal XIV al XVII secolo, ha segnato una profonda trasformazione nella cultura europea, nell'arte e nel pensiero intellettuale. Quest'era ha assistito al revival dell'apprendimento classico, al fiorire dell'espressione artistica e a scoperte scientifiche rivoluzionarie. Figure prominenti come Leonardo da Vinci incarnavano l'ideale rinascimentale del polimata, eccellendo nell'arte, nella scienza e nell'ingegneria. L'invenzione della stampa da parte di Johannes Gutenberg rivoluzion�� la diffusione della conoscenza, rendendo i libri più accessibili e accelerando lo scambio di idee. L'umanesimo rinascimentale enfatizzava il potenziale e il valore degli esseri umani individuali, spostando l'attenzione dalle preoccupazioni puramente religiose all'apprendimento secolare e al successo personale.",
                 literature: "La letteratura serve come specchio della società, riflettendo i valori, le lotte e le aspirazioni di diverse culture e periodi storici. Attraverso la narrazione, gli autori hanno il potere di trasportare i lettori in mondi diversi, sfidare le prospettive ed evocare profonde risposte emotive. Opere classiche come le opere di Shakespeare continuano a risuonare con il pubblico moderno perché esplorano temi universali di amore, ambizione, tradimento e redenzione. La letteratura contemporanea affronta questioni sociali attuali, dando voce alle comunità emarginate ed esplorando le complessità della vita moderna. L'era digitale ha trasformato il modo in cui consumiamo la letteratura, con e-book, audiolibri e piattaforme online che rendono le opere letterarie più accessibili che mai."
             }
         };
@@ -3993,5 +4196,5 @@ Visit: https://bionictext.ai
             }
         });
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a5af8cd72e4d606',t:'MTc2NDM0NDUxMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a5b03e766faf51b',t:'MTc2NDM0NDk2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
