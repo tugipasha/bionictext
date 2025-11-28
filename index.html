@@ -2,7 +2,7 @@
 <html lang="en">
  <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>BionicText AI</title>
   <script src="https://cdn.tailwindcss.com"></script><!-- Firebase -->
   <script type="module">
@@ -77,19 +77,23 @@
     <div class="flex justify-between h-16">
      <div class="flex items-center">
       <div class="flex-shrink-0">
-       <h1 class="text-white text-xl font-bold">BionicText AI</h1>
-      </div>
+       <h1 class="text-white text-lg sm:text-xl font-bold">BionicText AI</h1>
+      </div><!-- Mobile menu button --> <button onclick="toggleMobileMenu()" class="md:hidden ml-4 text-white p-2">
+       <svg id="menuIconOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+       </svg>
+       <svg id="menuIconClose" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+       </svg></button>
       <div class="hidden md:block ml-10">
        <div class="flex items-baseline space-x-4"><button onclick="showSection('home')" class="nav-btn text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-translate="nav_home">Ana Sayfa</button> <button onclick="showSection('test')" class="nav-btn text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-translate="nav_test">Test</button> <button onclick="showSection('converter')" class="nav-btn text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-translate="nav_converter">Dönüştürücü</button> <button onclick="showSection('assistant')" class="nav-btn text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-translate="nav_assistant">AI Asistan</button> <button onclick="showSection('profile')" class="nav-btn text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-translate="nav_profile">Profil</button> <button onclick="showSection('settings')" class="nav-btn text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-translate="nav_settings">Ayarlar</button>
        </div>
       </div>
      </div>
-     <div class="flex items-center space-x-4"><!-- Language Selector -->
+     <div class="flex items-center space-x-2 sm:space-x-4"><!-- Language Selector -->
       <div class="relative"><select id="languageSelector" onchange="changeLanguage()" class="bg-white text-primary px-3 py-2 rounded-lg text-sm font-medium border-0 focus:ring-2 focus:ring-blue-300 cursor-pointer"> <option value="en">🇺🇸 English</option> <option value="tr" selected>🇹🇷 Türkçe</option> <option value="it">���🇹 Italiano</option> </select>
       </div><!-- Login Button (shown when not logged in) -->
       <div id="authButtons"><button onclick="showAuth()" class="bg-white text-primary px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors" data-translate="login">Login</button>
-      </div><!-- Profile Menu (shown when logged in) -->
-      <div id="userMenu" class="hidden relative"><button onclick="toggleProfileMenu()" class="flex items-center space-x-2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-3 py-2 rounded-lg transition-colors">
+      </div><!-- Profile Menu (shown when logged in) - Desktop -->
+      <div id="userMenu" class="hidden relative"><button onclick="toggleProfileMenu()" class="hidden md:flex items-center space-x-2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-3 py-2 rounded-lg transition-colors">
         <div class="w-8 h-8 bg-white bg-opacity-30 rounded-full flex items-center justify-center"><span id="userInitialsNav" class="text-sm font-semibold">U</span>
         </div><span id="userNameNav" class="text-sm font-medium hidden md:block">User</span>
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -111,7 +115,7 @@
         </div>
         <div class="py-2"><button onclick="showSection('profile'); closeProfileMenu()" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-3">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-          </svg><span data-translate="profile_menu_profile">My Profile</span> </button> <button onclick="showSection('test'); closeProfileMenu()" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-3">
+          </svg><span data-translate="profile_menu_profile">Profilim</span> </button> <button onclick="showSection('test'); closeProfileMenu()" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-3">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
           </svg><span data-translate="profile_menu_test">Take Reading Test</span> </button> <button onclick="showSection('converter'); closeProfileMenu()" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-3">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
@@ -127,6 +131,28 @@
         </div>
        </div>
       </div>
+     </div>
+    </div>
+   </div><!-- Mobile Navigation Menu -->
+   <div id="mobileMenu" class="hidden md:hidden bg-primary border-t border-blue-800">
+    <div class="px-2 pt-2 pb-3 space-y-1"><button onclick="showSection('home'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_home">Ana Sayfa</button> <button onclick="showSection('test'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_test">Test</button> <button onclick="showSection('converter'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_converter">Dönüştürücü</button> <button onclick="showSection('assistant'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_assistant">AI Asistan</button> <button onclick="showSection('profile'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_profile">Profil</button> <button onclick="showSection('settings'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_settings">Ayarlar</button> <!-- Mobile Language Selector -->
+     <div class="px-3 py-2"><select id="languageSelectorMobile" onchange="changeLanguage()" class="w-full bg-white text-primary px-3 py-2 rounded-lg text-sm font-medium border-0 focus:ring-2 focus:ring-blue-300"> <option value="en">🇺🇸 English</option> <option value="tr" selected>🇹🇷 Türkçe</option> <option value="it">🇮🇹 Italiano</option> </select>
+     </div><!-- Mobile Auth Button -->
+     <div id="authButtonsMobile" class="px-3 py-2"><button onclick="showAuth(); toggleMobileMenu()" class="w-full bg-white text-primary px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors" data-translate="login">Login</button>
+     </div><!-- Mobile User Menu -->
+     <div id="userMenuMobile" class="hidden px-3 py-2 space-y-2">
+      <div class="flex items-center space-x-3 pb-2 border-b border-blue-800">
+       <div class="w-10 h-10 bg-white bg-opacity-30 rounded-full flex items-center justify-center"><span id="userInitialsMobile" class="text-white font-semibold">U</span>
+       </div>
+       <div>
+        <div id="userNameMobile" class="text-white font-medium">
+         User
+        </div>
+        <div id="userEmailMobile" class="text-xs text-gray-300">
+         user@example.com
+        </div>
+       </div>
+      </div><button onclick="exportAllData(); toggleMobileMenu()" class="w-full text-left text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm" data-translate="profile_menu_export">Veri Dışa Aktar</button> <button onclick="logout(); toggleMobileMenu()" class="w-full text-left text-red-300 hover:text-red-100 px-3 py-2 rounded-md text-sm" data-translate="profile_menu_logout">Çıkış Yap</button>
      </div>
     </div>
    </div>
@@ -172,15 +198,15 @@
   </div>
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"><!-- Home Section -->
    <div id="homeSection" class="section">
-    <div class="text-center mb-12">
-     <h1 class="text-4xl md:text-6xl font-bold text-primary mb-6">BionicText AI</h1>
-     <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-8" data-translate="home_subtitle">Enhance your reading speed and comprehension with AI-powered text formatting. Experience the future of efficient reading.</p>
+    <div class="text-center mb-8 sm:mb-12 px-4">
+     <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold text-primary mb-4 sm:mb-6">BionicText AI</h1>
+     <p class="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-6 sm:mb-8" data-translate="home_subtitle">Enhance your reading speed and comprehension with AI-powered text formatting. Experience the future of efficient reading.</p>
      <div class="flex flex-col sm:flex-row gap-4 justify-center"><button onclick="showSection('test')" class="bg-primary text-white px-8 py-4 rounded-lg font-medium hover:bg-blue-800 transition-colors" data-translate="home_start_test">Start Reading Test</button> <button onclick="showSection('converter')" class="border-2 border-primary text-primary px-8 py-4 rounded-lg font-medium hover:bg-primary hover:text-white transition-colors" data-translate="home_try_converter">Try Converter</button>
      </div>
     </div>
-    <div class="grid md:grid-cols-3 gap-8 mt-16">
-     <div class="bg-white p-8 rounded-xl shadow-lg text-center">
-      <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mt-8 sm:mt-12 md:mt-16 px-4">
+     <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg text-center">
+      <div class="w-12 h-12 sm:w-16 sm:h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
        </svg>
       </div>
@@ -206,15 +232,15 @@
     </div>
    </div><!-- Reading Speed Test Section -->
    <div id="testSection" class="section hidden">
-    <div class="max-w-4xl mx-auto">
-     <div class="text-center mb-8">
-      <h2 class="text-3xl font-bold text-primary mb-4" data-translate="test_title">Reading Speed Test</h2>
+    <div class="max-w-4xl mx-auto px-4">
+     <div class="text-center mb-6 sm:mb-8">
+      <h2 class="text-2xl sm:text-3xl font-bold text-primary mb-3 sm:mb-4" data-translate="test_title">Reading Speed Test</h2>
       <p class="text-gray-600" data-translate="test_subtitle">Compare your reading speed with normal text vs. BionicText format</p>
      </div><!-- Test Step 1: Normal Text -->
-     <div id="testStep1" class="bg-white rounded-xl shadow-lg p-8 mb-6">
-      <div class="flex items-center justify-between mb-6">
-       <h3 class="text-xl font-semibold text-primary" data-translate="test_step1">Step 1: Normal Text Reading</h3>
-       <div class="text-sm text-gray-500"><span id="timer1">00:00</span>
+     <div id="testStep1" class="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 mb-4 sm:mb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 gap-2">
+       <h3 class="text-base sm:text-lg md:text-xl font-semibold text-primary" data-translate="test_step1">Adım 1: Normal Metin Okuma</h3>
+       <div class="text-base sm:text-sm text-gray-500 font-mono"><span id="timer1">00:00</span>
        </div>
       </div><!-- Text Selection Options -->
       <div class="mb-4">
@@ -222,10 +248,10 @@
        </div>
       </div><!-- Preset Text Mode -->
       <div id="presetTextMode" class="test-text-mode">
-       <div class="mb-4"><select id="presetTextSelect" onchange="loadPresetText()" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"> <option value="ai" data-translate="test_preset_ai">AI Technology</option> <option value="science" data-translate="test_preset_science">Science &amp; Nature</option> <option value="history" data-translate="test_preset_history">History</option> <option value="literature" data-translate="test_preset_literature">Literature</option> </select>
+       <div class="mb-4"><select id="presetTextSelect" onchange="loadPresetText()" class="w-full px-3 sm:px-4 py-2 sm:py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"> <option value="ai" data-translate="test_preset_ai">AI Teknolojisi</option> <option value="science" data-translate="test_preset_science">Bilim ve Doğa</option> <option value="history" data-translate="test_preset_history">Tarih</option> <option value="literature" data-translate="test_preset_literature">Edebiyat</option> </select>
        </div>
-       <div id="presetTextContent" class="bg-gray-50 p-6 rounded-lg mb-6 text-lg leading-relaxed">
-        <p id="testText1">The rapid advancement of artificial intelligence has transformed numerous industries and aspects of daily life. From healthcare diagnostics to autonomous vehicles, AI systems are becoming increasingly sophisticated and capable. Machine learning algorithms can now process vast amounts of data to identify patterns and make predictions with remarkable accuracy. Natural language processing has enabled computers to understand and generate human-like text, revolutionizing communication and content creation. As we continue to develop these technologies, it becomes crucial to consider their ethical implications and ensure they benefit society as a whole. The future of AI holds immense potential for solving complex global challenges, but it also requires careful consideration of privacy, security, and the impact on employment markets.</p>
+       <div id="presetTextContent" class="bg-gray-50 p-4 sm:p-6 rounded-lg mb-4 sm:mb-6 text-sm sm:text-base md:text-lg leading-relaxed max-h-64 sm:max-h-96 overflow-y-auto">
+        <p id="testText1">Yapay zekanın hızlı ilerlemesi, günlük yaşamın sayısız endüstrisini ve yönünü dönüştürmüştür. Sağlık teşhislerinden otonom araçlara kadar, AI sistemleri giderek daha sofistike ve yetenekli hale gelmektedir. Makine öğrenmesi algoritmaları artık büyük miktarlarda veriyi işleyerek kalıpları tanımlayabilir ve olağanüstü doğrulukla tahminlerde bulunabilir. Doğal dil işleme, bilgisayarların insan benzeri metinleri anlamasını ve üretmesini sağlayarak iletişim ve içerik oluşturmada devrim yaratmıştır. Bu teknolojileri geliştirmeye devam ederken, etik sonuçlarını göz önünde bulundurmak ve topluma bir bütün olarak fayda sağlamalarını garanti etmek çok önemli hale gelmiştir.</p>
        </div>
       </div><!-- Custom Text Mode -->
       <div id="customTextMode" class="test-text-mode hidden">
@@ -237,69 +263,69 @@
         <p id="customDisplayText"></p>
        </div><button onclick="loadCustomText()" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors mb-4" data-translate="test_load_custom">Load Custom Text</button>
       </div>
-      <div class="flex gap-4"><button id="startBtn1" onclick="startTimer(1)" class="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors" data-translate="test_start_timer">Start Timer</button> <button id="finishBtn1" onclick="finishTimer(1)" class="bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors disabled:bg-gray-400" disabled data-translate="test_finish_timer">Finish Timer</button>
+      <div class="flex flex-col sm:flex-row gap-3 sm:gap-4"><button id="startBtn1" onclick="startTimer(1)" class="bg-primary text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-blue-800 transition-colors" data-translate="test_start_timer">Start Timer</button> <button id="finishBtn1" onclick="finishTimer(1)" class="bg-green-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-green-700 transition-colors disabled:bg-gray-400" disabled data-translate="test_finish_timer">Finish Timer</button>
       </div>
      </div><!-- Test Step 2: BionicText -->
-     <div id="testStep2" class="bg-white rounded-xl shadow-lg p-8 mb-6 hidden">
-      <div class="flex items-center justify-between mb-6">
-       <h3 class="text-xl font-semibold text-primary" data-translate="test_step2">Step 2: BionicText Reading</h3>
-       <div class="text-sm text-gray-500"><span id="timer2">00:00</span>
+     <div id="testStep2" class="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 hidden">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 gap-2">
+       <h3 class="text-base sm:text-lg md:text-xl font-semibold text-primary" data-translate="test_step2">Adım 2: BionicText Okuma</h3>
+       <div class="text-base sm:text-sm text-gray-500 font-mono"><span id="timer2">00:00</span>
        </div>
       </div>
-      <div class="bg-gray-50 p-6 rounded-lg mb-6 text-lg leading-relaxed">
-       <p id="testText2"><span class="bionic-bold">Th</span>e <span class="bionic-bold">rap</span>id <span class="bionic-bold">adv</span>ancement of <span class="bionic-bold">art</span>ificial <span class="bionic-bold">int</span>elligence has <span class="bionic-bold">tra</span>nsformed <span class="bionic-bold">num</span>erous <span class="bionic-bold">ind</span>ustries and <span class="bionic-bold">asp</span>ects of <span class="bionic-bold">dai</span>ly life. <span class="bionic-bold">Fr</span>om <span class="bionic-bold">hea</span>lthcare <span class="bionic-bold">dia</span>gnostics to <span class="bionic-bold">aut</span>onomous <span class="bionic-bold">veh</span>icles, AI <span class="bionic-bold">sys</span>tems are <span class="bionic-bold">bec</span>oming <span class="bionic-bold">inc</span>reasingly <span class="bionic-bold">sop</span>histicated and <span class="bionic-bold">cap</span>able. <span class="bionic-bold">Mac</span>hine <span class="bionic-bold">lea</span>rning <span class="bionic-bold">alg</span>orithms can now <span class="bionic-bold">pro</span>cess vast <span class="bionic-bold">amo</span>unts of data to <span class="bionic-bold">ide</span>ntify <span class="bionic-bold">pat</span>terns and make <span class="bionic-bold">pre</span>dictions <span class="bionic-bold">wi</span>th <span class="bionic-bold">rem</span>arkable <span class="bionic-bold">acc</span>uracy.</p>
+      <div class="bg-gray-50 p-4 sm:p-6 rounded-lg mb-4 sm:mb-6 text-sm sm:text-base md:text-lg leading-relaxed max-h-64 sm:max-h-96 overflow-y-auto">
+       <p id="testText2"><span class="bionic-bold">Ya</span>pay <span class="bionic-bold">ze</span>kanın <span class="bionic-bold">hı</span>zlı <span class="bionic-bold">il</span>erlemesi, <span class="bionic-bold">gü</span>nlük <span class="bionic-bold">ya</span>şamın <span class="bionic-bold">sa</span>yısız <span class="bionic-bold">en</span>düstrisini ve <span class="bionic-bold">yö</span>nünü <span class="bionic-bold">dö</span>nüştürmüştür.</p>
       </div>
-      <div class="flex gap-4"><button id="startBtn2" onclick="startTimer(2)" class="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors" data-translate="test_start_timer">Start Timer</button> <button id="finishBtn2" onclick="finishTimer(2)" class="bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors disabled:bg-gray-400" disabled data-translate="test_finish_timer">Finish Timer</button>
+      <div class="flex flex-col sm:flex-row gap-3 sm:gap-4"><button id="startBtn2" onclick="startTimer(2)" class="bg-primary text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-blue-800 transition-colors" data-translate="test_start_timer">Zamanlayıcıyı Başlat</button> <button id="finishBtn2" onclick="finishTimer(2)" class="bg-green-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-green-700 transition-colors disabled:bg-gray-400" disabled data-translate="test_finish_timer">Zamanlayıcıyı Bitir</button>
       </div>
      </div><!-- Test Results -->
-     <div id="testResults" class="bg-white rounded-xl shadow-lg p-8 hidden">
-      <h3 class="text-2xl font-semibold text-primary mb-6 text-center" data-translate="test_results_title">Your Reading Speed Results</h3>
-      <div class="grid md:grid-cols-2 gap-8 mb-8">
-       <div class="text-center">
-        <h4 class="text-lg font-medium text-gray-700 mb-2" data-translate="test_normal_text">Normal Text</h4>
-        <div class="text-3xl font-bold text-primary mb-2" id="normalWPM">
+     <div id="testResults" class="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 hidden">
+      <h3 class="text-xl sm:text-2xl font-semibold text-primary mb-4 sm:mb-6 text-center" data-translate="test_results_title">Okuma Hızı Sonuçlarınız</h3>
+      <div class="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 mb-6 sm:mb-8">
+       <div class="text-center bg-blue-50 p-4 rounded-lg">
+        <h4 class="text-sm sm:text-base md:text-lg font-medium text-gray-700 mb-2" data-translate="test_normal_text">Normal Metin</h4>
+        <div class="text-2xl sm:text-3xl font-bold text-primary mb-1 sm:mb-2" id="normalWPM">
          0
         </div>
-        <div class="text-sm text-gray-500" data-translate="test_wpm">
-         words per minute
+        <div class="text-xs sm:text-sm text-gray-500" data-translate="test_wpm">
+         dakikada kelime
         </div>
        </div>
-       <div class="text-center">
-        <h4 class="text-lg font-medium text-gray-700 mb-2" data-translate="test_bionic_text">BionicText</h4>
-        <div class="text-3xl font-bold text-primary mb-2" id="bionicWPM">
+       <div class="text-center bg-green-50 p-4 rounded-lg">
+        <h4 class="text-sm sm:text-base md:text-lg font-medium text-gray-700 mb-2" data-translate="test_bionic_text">BionicText</h4>
+        <div class="text-2xl sm:text-3xl font-bold text-green-600 mb-1 sm:mb-2" id="bionicWPM">
          0
         </div>
-        <div class="text-sm text-gray-500" data-translate="test_wpm">
-         words per minute
+        <div class="text-xs sm:text-sm text-gray-500" data-translate="test_wpm">
+         dakikada kelime
         </div>
        </div>
       </div>
-      <div class="bg-gray-50 p-6 rounded-lg mb-6">
-       <div class="flex justify-between items-center mb-2"><span class="text-sm font-medium text-gray-700" data-translate="test_improvement">Speed Improvement</span> <span class="text-sm font-bold text-primary" id="improvement">+0%</span>
+      <div class="bg-gray-50 p-4 sm:p-6 rounded-lg mb-4 sm:mb-6">
+       <div class="flex justify-between items-center mb-2"><span class="text-xs sm:text-sm font-medium text-gray-700" data-translate="test_improvement">Hız İyileştirmesi</span> <span class="text-sm sm:text-base font-bold text-primary" id="improvement">+0%</span>
        </div>
-       <div class="w-full bg-gray-200 rounded-full h-3">
-        <div class="bg-primary h-3 rounded-full progress-bar" id="progressBar" style="width: 0%"></div>
+       <div class="w-full bg-gray-200 rounded-full h-2 sm:h-3">
+        <div class="bg-primary h-2 sm:h-3 rounded-full progress-bar" id="progressBar" style="width: 0%"></div>
        </div>
       </div>
-      <div class="flex gap-4 justify-center"><button onclick="downloadResults()" class="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors" data-translate="test_download_report">Download PDF Report</button> <button onclick="resetTest()" class="border-2 border-primary text-primary px-6 py-3 rounded-lg font-medium hover:bg-primary hover:text-white transition-colors" data-translate="test_take_again">Take Test Again</button>
+      <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center"><button onclick="downloadResults()" class="bg-primary text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-blue-800 transition-colors" data-translate="test_download_report">PDF Rapor İndir</button> <button onclick="resetTest()" class="border-2 border-primary text-primary px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-primary hover:text-white transition-colors" data-translate="test_take_again">Testi Tekrar Al</button>
       </div>
      </div>
     </div>
    </div><!-- Converter Section -->
    <div id="converterSection" class="section hidden">
-    <div class="max-w-6xl mx-auto">
-     <div class="text-center mb-8">
-      <h2 class="text-3xl font-bold text-primary mb-4" data-translate="converter_title">BionicText Converter</h2>
-      <p class="text-gray-600" data-translate="converter_subtitle">Transform any text into BionicText format for enhanced reading speed</p>
+    <div class="max-w-6xl mx-auto px-4">
+     <div class="text-center mb-6 sm:mb-8">
+      <h2 class="text-2xl sm:text-3xl font-bold text-primary mb-3 sm:mb-4" data-translate="converter_title">BionicText Dönüştürücü</h2>
+      <p class="text-sm sm:text-base text-gray-600" data-translate="converter_subtitle">Gelişmiş okuma hızı için herhangi bir metni BionicText formatına dönüştürün</p>
      </div>
-     <div class="grid lg:grid-cols-2 gap-8"><!-- Input Section -->
-      <div class="bg-white rounded-xl shadow-lg p-6">
-       <h3 class="text-xl font-semibold text-primary mb-4" data-translate="converter_input_text">Input Text</h3>
+     <div class="grid lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8"><!-- Input Section -->
+      <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6">
+       <h3 class="text-lg sm:text-xl font-semibold text-primary mb-3 sm:mb-4" data-translate="converter_input_text">Giriş Metni</h3>
        <div class="mb-4">
-        <div class="flex flex-wrap gap-2 mb-4"><button onclick="setInputMode('text')" class="input-mode-btn bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium" data-translate="converter_text_input">Text Input</button> <button onclick="setInputMode('file')" class="input-mode-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-300" data-translate="converter_file_upload">File Upload</button> <button onclick="setInputMode('voice')" class="input-mode-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-300" data-translate="converter_voice_input">Voice Input</button>
+        <div class="flex flex-wrap gap-2 mb-4"><button onclick="setInputMode('text')" class="input-mode-btn bg-primary text-white px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium" data-translate="converter_text_input">Metin Girişi</button> <button onclick="setInputMode('file')" class="input-mode-btn bg-gray-200 text-gray-700 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-300" data-translate="converter_file_upload">Dosya Yükleme</button> <button onclick="setInputMode('voice')" class="input-mode-btn bg-gray-200 text-gray-700 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-300" data-translate="converter_voice_input">Ses Girişi</button>
         </div>
        </div><!-- Text Input Mode -->
-       <div id="textInputMode" class="input-mode"><textarea id="inputText" class="w-full h-64 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none resize-none" data-translate-placeholder="converter_paste_text" placeholder="Paste your text here or start typing..."></textarea>
+       <div id="textInputMode" class="input-mode"><textarea id="inputText" class="w-full h-48 sm:h-64 p-3 sm:p-4 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none resize-none" data-translate-placeholder="converter_paste_text" placeholder="Metninizi buraya yapıştırın veya yazmaya başlayın..."></textarea>
        </div><!-- File Upload Mode -->
        <div id="fileInputMode" class="input-mode hidden">
         <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-primary transition-colors">
@@ -344,13 +370,13 @@
     </div>
    </div><!-- AI Assistant Section -->
    <div id="assistantSection" class="section hidden">
-    <div class="max-w-4xl mx-auto">
-     <div class="text-center mb-8">
-      <h2 class="text-3xl font-bold text-primary mb-4" data-translate="assistant_title">AI Assistant</h2>
-      <p class="text-gray-600" data-translate="assistant_subtitle">Ask me anything about BionicText, reading techniques, or your personal reading data!</p>
+    <div class="max-w-4xl mx-auto px-4">
+     <div class="text-center mb-6 sm:mb-8">
+      <h2 class="text-2xl sm:text-3xl font-bold text-primary mb-3 sm:mb-4" data-translate="assistant_title">AI Asistan</h2>
+      <p class="text-sm sm:text-base text-gray-600" data-translate="assistant_subtitle">BionicText, okuma teknikleri veya kişisel okuma verileriniz hakkında her ����eyi sorabilirsiniz!</p>
      </div><!-- Chat Container -->
      <div class="bg-white rounded-xl shadow-lg overflow-hidden"><!-- Chat Header -->
-      <div class="bg-primary text-white p-4 flex items-center justify-between">
+      <div class="bg-primary text-white p-3 sm:p-4 flex items-center justify-between">
        <div class="flex items-center space-x-3">
         <div class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
@@ -364,7 +390,7 @@
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1-1H8a1 1 0 00-1 1v3M4 7h16"></path>
         </svg></button>
       </div><!-- Chat Messages -->
-      <div id="chatMessages" class="h-96 overflow-y-auto p-4 space-y-4 bg-gray-50"><!-- Welcome Message -->
+      <div id="chatMessages" class="h-64 sm:h-80 md:h-96 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 bg-gray-50"><!-- Welcome Message -->
        <div class="flex items-start space-x-3">
         <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
@@ -385,15 +411,15 @@
       <div class="p-4 border-t bg-white">
        <div class="flex flex-wrap gap-2 mb-4"><button onclick="sendQuickMessage('What is BionicText and how does it work?')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm transition-colors" data-translate="quick_what_bionic">What is BionicText?</button> <button onclick="sendQuickMessage('How can I improve my reading speed?')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm transition-colors" data-translate="quick_improve_speed">Improve reading speed</button> <button onclick="sendQuickMessage('Show me my reading statistics')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm transition-colors" data-translate="quick_my_stats">My statistics</button> <button onclick="sendQuickMessage('What are the benefits of speed reading?')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm transition-colors" data-translate="quick_benefits">Speed reading benefits</button>
        </div><!-- Chat Input -->
-       <div class="flex space-x-3"><input type="text" id="chatInput" placeholder="Type your message..." class="flex-1 border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary focus:border-transparent outline-none" data-translate-placeholder="assistant_input_placeholder" onkeypress="handleChatKeyPress(event)"> <button onclick="sendMessage()" class="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors flex items-center space-x-2" id="sendButton"> <span data-translate="assistant_send">Send</span>
-         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+       <div class="flex space-x-2 sm:space-x-3"><input type="text" id="chatInput" placeholder="Mesajınızı yazın..." class="flex-1 border border-gray-300 rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-primary focus:border-transparent outline-none" data-translate-placeholder="assistant_input_placeholder" onkeypress="handleChatKeyPress(event)"> <button onclick="sendMessage()" class="bg-primary text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-blue-800 transition-colors flex items-center space-x-1 sm:space-x-2" id="sendButton"> <span class="hidden sm:inline" data-translate="assistant_send">Gönder</span>
+         <svg class="w-5 h-5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
          </svg></button>
        </div>
       </div>
      </div><!-- AI Features Info -->
-     <div class="mt-8 grid md:grid-cols-3 gap-6">
-      <div class="bg-white p-6 rounded-xl shadow-lg text-center">
-       <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+     <div class="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+      <div class="bg-white p-4 sm:p-6 rounded-xl shadow-lg text-center">
+       <div class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
         <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
        </div>
@@ -420,13 +446,13 @@
     </div>
    </div><!-- Settings Section -->
    <div id="settingsSection" class="section hidden">
-    <div class="max-w-4xl mx-auto">
-     <div class="text-center mb-8">
-      <h2 class="text-3xl font-bold text-primary mb-4" data-translate="settings_title">Ayarlar</h2>
-      <p class="text-gray-600" data-translate="settings_subtitle">Okuma deneyiminizi kişiselleştirin</p>
+    <div class="max-w-4xl mx-auto px-4">
+     <div class="text-center mb-6 sm:mb-8">
+      <h2 class="text-2xl sm:text-3xl font-bold text-primary mb-3 sm:mb-4" data-translate="settings_title">Ayarlar</h2>
+      <p class="text-sm sm:text-base text-gray-600" data-translate="settings_subtitle">Okuma deneyiminizi kişiselleştirin</p>
      </div>
-     <div class="bg-white rounded-xl shadow-lg p-8 mb-6">
-      <h3 class="text-xl font-semibold text-primary mb-6" data-translate="settings_appearance">Görünüm Ayarları</h3><!-- Font Size -->
+     <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 mb-4 sm:mb-6">
+      <h3 class="text-lg sm:text-xl font-semibold text-primary mb-4 sm:mb-6" data-translate="settings_appearance">Görünüm Ayarları</h3><!-- Font Size -->
       <div class="mb-6"><label class="block text-sm font-medium text-gray-700 mb-3" data-translate="settings_font_size">Yazı Boyutu</label>
        <div class="flex items-center space-x-4"><input type="range" id="globalFontSize" min="14" max="24" value="18" class="flex-1" oninput="updateGlobalFontSize(this.value)"> <span id="fontSizeValue" class="text-sm font-medium text-gray-600 w-12 text-center">18px</span>
        </div>
@@ -446,10 +472,10 @@
        </div>
       </div><!-- Theme -->
       <div class="mb-6"><label class="block text-sm font-medium text-gray-700 mb-3" data-translate="settings_theme">Tema</label>
-       <div class="grid grid-cols-3 gap-4"><button onclick="setTheme('light')" class="theme-btn border-2 border-primary bg-white p-4 rounded-lg text-center hover:bg-gray-50 transition-colors">
-         <div class="w-12 h-12 bg-white border-2 border-gray-300 rounded-lg mx-auto mb-2"></div><span class="text-sm font-medium" data-translate="settings_light">Açık</span> </button> <button onclick="setTheme('dark')" class="theme-btn border-2 border-gray-300 p-4 rounded-lg text-center hover:bg-gray-50 transition-colors">
-         <div class="w-12 h-12 bg-gray-800 border-2 border-gray-600 rounded-lg mx-auto mb-2"></div><span class="text-sm font-medium" data-translate="settings_dark">Koyu</span> </button> <button onclick="setTheme('sepia')" class="theme-btn border-2 border-gray-300 p-4 rounded-lg text-center hover:bg-gray-50 transition-colors">
-         <div class="w-12 h-12 bg-yellow-50 border-2 border-yellow-200 rounded-lg mx-auto mb-2"></div><span class="text-sm font-medium" data-translate="settings_sepia">Sepya</span> </button>
+       <div class="grid grid-cols-3 gap-2 sm:gap-4"><button onclick="setTheme('light')" class="theme-btn border-2 border-primary bg-white p-3 sm:p-4 rounded-lg text-center hover:bg-gray-50 transition-colors">
+         <div class="w-8 h-8 sm:w-12 sm:h-12 bg-white border-2 border-gray-300 rounded-lg mx-auto mb-1 sm:mb-2"></div><span class="text-xs sm:text-sm font-medium" data-translate="settings_light">Açık</span> </button> <button onclick="setTheme('dark')" class="theme-btn border-2 border-gray-300 p-3 sm:p-4 rounded-lg text-center hover:bg-gray-50 transition-colors">
+         <div class="w-8 h-8 sm:w-12 sm:h-12 bg-gray-800 border-2 border-gray-600 rounded-lg mx-auto mb-1 sm:mb-2"></div><span class="text-xs sm:text-sm font-medium" data-translate="settings_dark">Koyu</span> </button> <button onclick="setTheme('sepia')" class="theme-btn border-2 border-gray-300 p-3 sm:p-4 rounded-lg text-center hover:bg-gray-50 transition-colors">
+         <div class="w-8 h-8 sm:w-12 sm:h-12 bg-yellow-50 border-2 border-yellow-200 rounded-lg mx-auto mb-1 sm:mb-2"></div><span class="text-xs sm:text-sm font-medium" data-translate="settings_sepia">Sepya</span> </button>
        </div>
       </div><!-- Reset Button -->
       <div class="pt-4 border-t border-gray-200"><button onclick="resetSettings()" class="w-full bg-gray-600 text-white py-3 rounded-lg font-medium hover:bg-gray-700 transition-colors" data-translate="settings_reset">Ayarları Sıfırla</button>
@@ -473,84 +499,84 @@
     </div>
    </div><!-- Profile Section -->
    <div id="profileSection" class="section hidden">
-    <div class="max-w-6xl mx-auto"><!-- Profile Header -->
-     <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
-      <div class="flex items-center justify-between">
-       <div class="flex items-center space-x-4">
-        <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center"><span class="text-white text-xl font-bold" id="userInitials">U</span>
+    <div class="max-w-6xl mx-auto px-4"><!-- Profile Header -->
+     <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 mb-6 sm:mb-8">
+      <div class="flex flex-col sm:flex-row items-center sm:justify-between gap-4">
+       <div class="flex flex-col sm:flex-row items-center sm:space-x-4 text-center sm:text-left">
+        <div class="w-14 h-14 sm:w-16 sm:h-16 bg-primary rounded-full flex items-center justify-center mb-2 sm:mb-0"><span class="text-white text-lg sm:text-xl font-bold" id="userInitials">U</span>
         </div>
         <div>
-         <h2 class="text-2xl font-bold text-primary" id="profileUserName" data-translate="profile_title">User Profile</h2>
-         <p class="text-gray-600" id="profileUserEmail">user@example.com</p>
-         <p class="text-sm text-gray-500"><span data-translate="profile_member_since">Member since</span> <span id="memberSince">Today</span></p>
+         <h2 class="text-xl sm:text-2xl font-bold text-primary" id="profileUserName" data-translate="profile_title">Kullanıcı Profili</h2>
+         <p class="text-sm sm:text-base text-gray-600" id="profileUserEmail">user@example.com</p>
+         <p class="text-xs sm:text-sm text-gray-500"><span data-translate="profile_member_since">Üyelik tarihi</span> <span id="memberSince">Bugün</span></p>
         </div>
        </div>
-       <div class="text-right">
-        <div class="text-3xl font-bold text-primary" id="totalTests">
+       <div class="text-center sm:text-right bg-blue-50 px-6 py-3 rounded-lg">
+        <div class="text-2xl sm:text-3xl font-bold text-primary" id="totalTests">
          0
         </div>
-        <div class="text-sm text-gray-500" data-translate="profile_total_tests">
-         Total Tests
+        <div class="text-xs sm:text-sm text-gray-500" data-translate="profile_total_tests">
+         Toplam Test
         </div>
        </div>
       </div>
      </div>
-     <div class="grid lg:grid-cols-3 gap-8"><!-- Reading Statistics -->
-      <div class="lg:col-span-2 bg-white rounded-xl shadow-lg p-6">
-       <h3 class="text-xl font-semibold text-primary mb-6">Reading Statistics</h3>
-       <div class="grid md:grid-cols-2 gap-4 mb-6">
-        <div class="bg-blue-50 p-4 rounded-lg text-center">
-         <div class="text-2xl font-bold text-primary" id="avgNormalSpeed">
+     <div class="grid lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8"><!-- Reading Statistics -->
+      <div class="lg:col-span-2 bg-white rounded-xl shadow-lg p-4 sm:p-6">
+       <h3 class="text-lg sm:text-xl font-semibold text-primary mb-4 sm:mb-6">Okuma İstatistikleri</h3>
+       <div class="grid grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
+        <div class="bg-blue-50 p-3 sm:p-4 rounded-lg text-center">
+         <div class="text-xl sm:text-2xl font-bold text-primary" id="avgNormalSpeed">
           0
          </div>
-         <div class="text-sm text-gray-600">
-          Avg Normal Speed (WPM)
+         <div class="text-xs sm:text-sm text-gray-600">
+          Ort Normal Hız (WPM)
          </div>
         </div>
-        <div class="bg-green-50 p-4 rounded-lg text-center">
-         <div class="text-2xl font-bold text-green-600" id="avgBionicSpeed">
+        <div class="bg-green-50 p-3 sm:p-4 rounded-lg text-center">
+         <div class="text-xl sm:text-2xl font-bold text-green-600" id="avgBionicSpeed">
           0
          </div>
-         <div class="text-sm text-gray-600">
-          Avg BionicText Speed (WPM)
+         <div class="text-xs sm:text-sm text-gray-600">
+          Ort BionicText Hız
          </div>
         </div>
-        <div class="bg-purple-50 p-4 rounded-lg text-center">
-         <div class="text-2xl font-bold text-purple-600" id="avgImprovement">
+        <div class="bg-purple-50 p-3 sm:p-4 rounded-lg text-center">
+         <div class="text-xl sm:text-2xl font-bold text-purple-600" id="avgImprovement">
           0%
          </div>
-         <div class="text-sm text-gray-600">
-          Average Improvement
+         <div class="text-xs sm:text-sm text-gray-600">
+          Ortalama İyileşme
          </div>
         </div>
-        <div class="bg-yellow-50 p-4 rounded-lg text-center">
-         <div class="text-2xl font-bold text-yellow-600" id="bestImprovement">
+        <div class="bg-yellow-50 p-3 sm:p-4 rounded-lg text-center">
+         <div class="text-xl sm:text-2xl font-bold text-yellow-600" id="bestImprovement">
           0%
          </div>
-         <div class="text-sm text-gray-600">
-          Best Improvement
+         <div class="text-xs sm:text-sm text-gray-600">
+          En İyi İyileşme
          </div>
         </div>
        </div><!-- Progress Chart -->
-       <div class="mb-6">
-        <h4 class="text-lg font-medium text-gray-700 mb-3">Reading Speed Progress</h4>
-        <div class="bg-gray-50 p-4 rounded-lg">
+       <div class="mb-4 sm:mb-6">
+        <h4 class="text-base sm:text-lg font-medium text-gray-700 mb-2 sm:mb-3">Okuma Hızı İlerlemesi</h4>
+        <div class="bg-gray-50 p-3 sm:p-4 rounded-lg">
          <canvas id="progressChart" width="400" height="200" class="w-full"></canvas>
         </div>
        </div><!-- Recent Test History -->
        <div>
-        <h4 class="text-lg font-medium text-gray-700 mb-3">Recent Test Results</h4>
+        <h4 class="text-base sm:text-lg font-medium text-gray-700 mb-2 sm:mb-3">Son Test Sonuçları</h4>
         <div class="space-y-2" id="recentTests">
-         <div class="text-center text-gray-500 py-8">
-          <p>No test results yet. Take your first reading speed test!</p><button onclick="navigateToSection('test')" class="mt-2 text-primary hover:text-blue-800 font-medium">Start Test</button>
+         <div class="text-center text-gray-500 py-6 sm:py-8">
+          <p class="text-sm sm:text-base">Henüz test sonucu yok. İlk okuma hızı testini yap!</p><button onclick="showSection('test')" class="mt-2 text-primary hover:text-blue-800 font-medium text-sm sm:text-base">Teste Başla</button>
          </div>
         </div>
        </div>
       </div><!-- Achievements & Goals -->
-      <div class="space-y-6"><!-- Achievements -->
-       <div class="bg-white rounded-xl shadow-lg p-6">
-        <h3 class="text-xl font-semibold text-primary mb-4">Achievements</h3>
-        <div class="space-y-2 max-h-96 overflow-y-auto" id="achievements">
+      <div class="space-y-4 sm:space-y-6"><!-- Achievements -->
+       <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6">
+        <h3 class="text-lg sm:text-xl font-semibold text-primary mb-3 sm:mb-4">Başarımlar</h3>
+        <div class="space-y-2 max-h-64 sm:max-h-96 overflow-y-auto" id="achievements">
          <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
           <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">🏆</span>
           </div>
@@ -636,7 +662,7 @@
           </div>
          </div>
          <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
-          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">📈</span>
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">��</span>
           </div>
           <div class="flex-1 min-w-0">
            <div class="font-medium text-gray-700 text-sm">
@@ -793,9 +819,9 @@
          </div>
         </div>
        </div><!-- Quick Actions -->
-       <div class="bg-white rounded-xl shadow-lg p-6">
-        <h3 class="text-xl font-semibold text-primary mb-4">Quick Actions</h3>
-        <div class="space-y-3"><button onclick="showSection('test')" class="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors"> Take New Test </button> <button onclick="showSection('converter')" class="w-full border-2 border-primary text-primary py-3 rounded-lg font-medium hover:bg-primary hover:text-white transition-colors"> Convert Text </button> <button onclick="exportAllData()" class="w-full bg-gray-600 text-white py-3 rounded-lg font-medium hover:bg-gray-700 transition-colors"> Export All Data </button> <button onclick="deleteAllData()" class="w-full bg-red-600 text-white py-3 rounded-lg font-medium hover:bg-red-700 transition-colors"> Delete All Data </button>
+       <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6">
+        <h3 class="text-lg sm:text-xl font-semibold text-primary mb-3 sm:mb-4">Hızlı Eylemler</h3>
+        <div class="space-y-2 sm:space-y-3"><button onclick="showSection('test')" class="w-full bg-primary text-white py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-blue-800 transition-colors"> Yeni Test Yap </button> <button onclick="showSection('converter')" class="w-full border-2 border-primary text-primary py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-primary hover:text-white transition-colors"> Metin Dönüştür </button> <button onclick="exportAllData()" class="w-full bg-gray-600 text-white py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-gray-700 transition-colors"> Tüm Verileri Dışa Aktar </button> <button onclick="deleteAllData()" class="w-full bg-red-600 text-white py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-red-700 transition-colors"> Tüm Verileri Sil </button>
         </div>
        </div>
       </div>
@@ -986,7 +1012,7 @@
                 settings_title: "Ayarlar",
                 settings_subtitle: "Okuma deneyiminizi kişiselleştirin",
                 settings_appearance: "Görünüm Ayarları",
-                settings_font_size: "Yazı Boyutu",
+                settings_font_size: "Yaz�� Boyutu",
                 settings_line_height: "Satır Yüksekliği",
                 settings_bold_intensity: "Kalın Metin Yoğunluğu (BionicText)",
                 settings_theme: "Tema",
@@ -1267,9 +1293,9 @@
                 literature: "Literature serves as a mirror to society, reflecting the values, struggles, and aspirations of different cultures and time periods. Through storytelling, authors have the power to transport readers to different worlds, challenge perspectives, and evoke deep emotional responses. Classic works like Shakespeare's plays continue to resonate with modern audiences because they explore universal themes of love, ambition, betrayal, and redemption. Contemporary literature addresses current social issues, giving voice to marginalized communities and exploring the complexities of modern life. The digital age has transformed how we consume literature, with e-books, audiobooks, and online platforms making literary works more accessible than ever before. Reading literature not only provides entertainment but also develops empathy, critical thinking skills, and cultural understanding."
             },
             tr: {
-                ai: "Yapay zekanın hızlı ilerlemesi, günlük yaşamın sayısız endüstrisini ve yönünü dönüştürmüştür. Sağlık teşhislerinden otonom araçlara kadar, AI sistemleri giderek daha sofistike ve yetenekli hale gelmektedir. Makine öğrenmesi algoritmaları artık büyük miktarlarda veriyi işleyerek kalıpları tanımlayabilir ve olağanüst�� doğrulukla tahminlerde bulunabilir. Doğal dil işleme, bilgisayarların insan benzeri metinleri anlamasını ve üretmesini sağlayarak iletişim ve içerik oluşturmada devrim yaratmıştır. Bu teknolojileri geliştirmeye devam ederken, etik sonuçlarını göz önünde bulundurmak ve topluma bir bütün olarak fayda sağlamalarını garanti etmek çok önemli hale gelmiştir. AI'nın geleceği karmaşık küresel zorlukları çözmek için muazzam potansiyel barındırıyor, ancak aynı zamanda gizlilik, güvenlik ve istihdam piyasalarına etkisi konularında dikkatli değerlendirme gerektiriyor.",
-                science: "İklim değişikliği, dünya çapında hükümetler, işletmeler ve bireylerden acil eylem gerektiren zamanımızın en acil zorluklarından birini temsil etmektedir. Küresel ısınmanın etkileri, yükselen deniz seviyeleri, aşırı hava durumu kalıpları ve biyoçeşitliliği tehdit eden değişen ekosistemlerde zaten görülmektedir. Bilim insanları yenilenebilir enerji teknolojileri, karbon yakalama sistemleri ve sürdürülebilir tarım uygulamaları dahil olmak üzere yenilikçi çözümler geliştirmiştir. Güneş ve rüzgar enerjisi, fosil yakıtlara giderek daha uygun maliyetli alternatifler haline gelirken, elektrikli araçlar ulaşımda devrim yaratmaktadır. Ancak iklim değişikliğiyle mücadele, koordineli küresel çabalar, politika değişiklikleri ve bireysel yaşam tarzı deği����iklikleri gerektirmektedir.",
-                history: "Yaklaşık 14. yüzyıldan 17. yüzyıla kadar uzanan Rönesans dönemi, Avrupa kültürü, sanatı ve entelektüel düşüncesinde derin bir dönüşümü işaret etmiştir. Bu çağ, klasik öğrenimin yeniden canlanması, sanatsal ifadenin çiçeklenmesi ve çığır açan bilimsel keşiflere tanık olmuştur. Leonardo da Vinci gibi önde gelen figürler, sanat, bilim ve mühendislikte mükemmelleşerek Rönesans'ın çok yönlü insan idealini somutlaştırmıştır. Johannes Gutenberg'in matbaayı icat etmesi bilginin yayılmasında devrim yaratarak kitapları daha erişilebilir hale getirdi ve fikirlerin değişimini hızlandırdı. Rönesans hümanizmi, bireysel insanların potansiyeli ve değerini vurgulayarak odağı tamamen dini kaygılardan laik öğrenime ve kişisel başarıya kaydırmıştır.",
+                ai: "Yapay zekanın hızlı ilerlemesi, g��nlük yaşamın sayısız endüstrisini ve yönünü dönüştürmüştür. Sağl��k teşhislerinden otonom araçlara kadar, AI sistemleri giderek daha sofistike ve yetenekli hale gelmektedir. Makine öğrenmesi algoritmaları artık büyük miktarlarda veriyi işleyerek kalıpları tanımlayabilir ve olağanüst�� doğrulukla tahminlerde bulunabilir. Doğal dil işleme, bilgisayarların insan benzeri metinleri anlamasını ve üretmesini sağlayarak iletişim ve içerik oluşturmada devrim yaratmıştır. Bu teknolojileri geliştirmeye devam ederken, etik sonuçlarını göz önünde bulundurmak ve topluma bir bütün olarak fayda sağlamalarını garanti etmek çok önemli hale gelmiştir. AI'nın geleceği karmaşık küresel zorlukları çözmek için muazzam potansiyel barındırıyor, ancak aynı zamanda gizlilik, güvenlik ve istihdam piyasalarına etkisi konularında dikkatli değerlendirme gerektiriyor.",
+                science: "İklim değişikliği, dünya ��apında hükümetler, işletmeler ve bireylerden acil eylem gerektiren zamanımızın en acil zorluklarından birini temsil etmektedir. Küresel ısınmanın etkileri, yükselen deniz seviyeleri, aşırı hava durumu kalıpları ve biyoçeşitliliği tehdit eden değişen ekosistemlerde zaten görülmektedir. Bilim insanları yenilenebilir enerji teknolojileri, karbon yakalama sistemleri ve sürdürülebilir tarım uygulamaları dahil olmak üzere yenilikçi çözümler geliştirmiştir. Güneş ve rüzgar enerjisi, fosil yakıtlara giderek daha uygun maliyetli alternatifler haline gelirken, elektrikli araçlar ulaşımda devrim yaratmaktadır. Ancak iklim değişikliğiyle mücadele, koordineli küresel çabalar, politika değişiklikleri ve bireysel yaşam tarzı deği����iklikleri gerektirmektedir.",
+                history: "Yaklaşık 14. yüzyıldan 17. yüzyıla kadar uzanan Rönesans dönemi, Avrupa kültürü, sanatı ve entelektüel düşüncesinde derin bir dönüşümü işaret etmiştir. Bu çağ, klasik öğrenimin yeniden canlanması, sanatsal ifadenin çiçeklenmesi ve ����ğır açan bilimsel keşiflere tanık olmuştur. Leonardo da Vinci gibi önde gelen figürler, sanat, bilim ve mühendislikte mükemmelleşerek Rönesans'ın çok yönlü insan idealini somutlaştırmıştır. Johannes Gutenberg'in matbaayı icat etmesi bilginin yayılmasında devrim yaratarak kitapları daha erişilebilir hale getirdi ve fikirlerin değişimini hızlandırdı. Rönesans hümanizmi, bireysel insanların potansiyeli ve değerini vurgulayarak odağı tamamen dini kaygılardan laik öğrenime ve kişisel başarıya kaydırmıştır.",
                 literature: "Edebiyat topluma bir ayna görevi görerek farklı kültürlerin ve zaman dilimlerinin değerlerini, mücadelelerini ve özlemlerini yansıtır. Hikaye anlatıcılığı yoluyla yazarlar, okuyucuları farklı dünyalara taşıma, bakış açılarını sorgulama ve derin duygusal tepkiler uyandırma gücüne sahiptir. Shakespeare'in oyunları gibi klasik eserler, aşk, hırs, ihanet ve kurtuluş gibi evrensel temaları keşfettikleri için modern izleyicilerle rezonans kurmaya devam etmektedir. Çağdaş edebiyat güncel sosyal konuları ele alarak marjinalleştirilmiş topluluklara ses veriyor ve modern yaşamın karmaşıklıklarını keşfediyor. Dijital çağ, e-kitaplar, sesli kitaplar ve çevrimiçi platformlarla edebi eserleri her zamankinden daha erişilebilir hale getirerek edebiyatı nasıl tükettiğimizi dönüştürmüştür."
             },
             it: {
@@ -1280,6 +1306,17 @@
             }
         };
 
+        // Mobile menu toggle
+        window.toggleMobileMenu = function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuIconOpen = document.getElementById('menuIconOpen');
+            const menuIconClose = document.getElementById('menuIconClose');
+            
+            mobileMenu.classList.toggle('hidden');
+            menuIconOpen.classList.toggle('hidden');
+            menuIconClose.classList.toggle('hidden');
+        };
+        
         // Global function declarations - these must be in global scope
         window.showSection = function(sectionName) {
             console.log('Navigating to section:', sectionName);
@@ -1478,7 +1515,16 @@
 
         window.changeLanguage = function() {
             const selector = document.getElementById('languageSelector');
-            currentLanguage = selector.value;
+            const selectorMobile = document.getElementById('languageSelectorMobile');
+            
+            // Sync both selectors
+            if (event && event.target) {
+                currentLanguage = event.target.value;
+                if (selector) selector.value = currentLanguage;
+                if (selectorMobile) selectorMobile.value = currentLanguage;
+            } else {
+                currentLanguage = selector ? selector.value : (selectorMobile ? selectorMobile.value : 'tr');
+            }
             
             // Update speech recognition language
             if (recognition) {
@@ -1883,7 +1929,7 @@ Generated by BionicText AI
 
         // Achievement definitions
         const achievements = [
-            { id: 'first_test', emoji: '🏆', name: 'İlk Test', desc: 'İlk okuma testini tamamla', check: (data) => data.testCount >= 1 },
+            { id: 'first_test', emoji: '🏆', name: 'İlk Test', desc: '����lk okuma testini tamamla', check: (data) => data.testCount >= 1 },
             { id: 'speed_demon', emoji: '⚡', name: 'Hız Canavarı', desc: 'BionicText ile 300+ WPM\'e ulaş', check: (data) => data.maxBionicWPM >= 300 },
             { id: 'regular_reader', emoji: '📚', name: 'Düzenli Okuyucu', desc: '10 test tamamla', check: (data) => data.testCount >= 10 },
             { id: 'sharp_shooter', emoji: '🎯', name: 'Kesin Nişancı', desc: '3 testte 250+ WPM skorla', check: (data) => data.highScores >= 3 },
@@ -1891,14 +1937,14 @@ Generated by BionicText AI
             { id: 'star_student', emoji: '🌟', name: 'Yıldız Öğrenci', desc: '5 test tamamla', check: (data) => data.testCount >= 5 },
             { id: 'strong_start', emoji: '💪', name: 'Güçlü Başlangıç', desc: 'İlk testte 200+ WPM skorla', check: (data) => data.firstTestWPM >= 200 },
             { id: 'improvement_master', emoji: '📈', name: 'Gelişim Ustası', desc: '%50+ iyileşme kaydet', check: (data) => data.maxImprovement >= 50 },
-            { id: 'fire_reader', emoji: '🔥', name: 'Ateşli Okuyucu', desc: '7 gün üst üste test yap', check: (data) => data.consecutiveDays >= 7 },
-            { id: 'graduate', emoji: '🎓', name: 'Mezun', desc: '25 test tamamla', check: (data) => data.testCount >= 25 },
+            { id: 'fire_reader', emoji: '��', name: 'Ateşli Okuyucu', desc: '7 gün üst üste test yap', check: (data) => data.consecutiveDays >= 7 },
+            { id: 'graduate', emoji: '����', name: 'Mezun', desc: '25 test tamamla', check: (data) => data.testCount >= 25 },
             { id: 'diamond_league', emoji: '💎', name: 'Elmas Lig', desc: '500+ WPM\'e ulaş', check: (data) => data.maxBionicWPM >= 500 },
             { id: 'variety', emoji: '🌈', name: 'Çeşitlilik', desc: 'Her metin türünde test yap', check: (data) => data.textTypesCount >= 4 },
             { id: 'marathon', emoji: '🏃', name: 'Maraton', desc: '50 test tamamla', check: (data) => data.testCount >= 50 },
             { id: 'superstar', emoji: '⭐', name: 'Süperstar', desc: '%100+ iyileşme kaydet', check: (data) => data.maxImprovement >= 100 },
             { id: 'professional', emoji: '🎪', name: 'Profesyonel', desc: '100 test tamamla', check: (data) => data.testCount >= 100 },
-            { id: 'world_citizen', emoji: '🌍', name: 'Dünya Vatandaşı', desc: '3 farklı dilde test yap', check: (data) => data.languageCount >= 3 },
+            { id: 'world_citizen', emoji: '���', name: 'Dünya Vatandaşı', desc: '3 farklı dilde test yap', check: (data) => data.languageCount >= 3 },
             { id: 'customizer', emoji: '🎨', name: 'Özelleştirici', desc: 'Özel metin ile test yap', check: (data) => data.customTextUsed },
             { id: 'brain_power', emoji: '🧠', name: 'Beyin Gücü', desc: 'AI asistan ile 10 sohbet yap', check: (data) => data.messageCount >= 10 },
             { id: 'data_analyst', emoji: '📊', name: 'Veri Analisti', desc: 'Verilerini dışa aktar', check: (data) => data.dataExported },
@@ -2111,6 +2157,17 @@ Generated by BionicText AI
             console.log('App initialization complete');
         });
 
+        // Mobile menu toggle
+        window.toggleMobileMenu = function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuIconOpen = document.getElementById('menuIconOpen');
+            const menuIconClose = document.getElementById('menuIconClose');
+            
+            mobileMenu.classList.toggle('hidden');
+            menuIconOpen.classList.toggle('hidden');
+            menuIconClose.classList.toggle('hidden');
+        };
+        
         // Global function declarations - these must be in global scope
         window.showSection = function(sectionName) {
             console.log('Navigating to section:', sectionName);
@@ -2309,7 +2366,16 @@ Generated by BionicText AI
 
         window.changeLanguage = function() {
             const selector = document.getElementById('languageSelector');
-            currentLanguage = selector.value;
+            const selectorMobile = document.getElementById('languageSelectorMobile');
+            
+            // Sync both selectors
+            if (event && event.target) {
+                currentLanguage = event.target.value;
+                if (selector) selector.value = currentLanguage;
+                if (selectorMobile) selectorMobile.value = currentLanguage;
+            } else {
+                currentLanguage = selector ? selector.value : (selectorMobile ? selectorMobile.value : 'tr');
+            }
             
             // Update speech recognition language
             if (recognition) {
@@ -2869,7 +2935,16 @@ Generated by BionicText AI
 
         window.changeLanguage = function() {
             const selector = document.getElementById('languageSelector');
-            currentLanguage = selector.value;
+            const selectorMobile = document.getElementById('languageSelectorMobile');
+            
+            // Sync both selectors
+            if (event && event.target) {
+                currentLanguage = event.target.value;
+                if (selector) selector.value = currentLanguage;
+                if (selectorMobile) selectorMobile.value = currentLanguage;
+            } else {
+                currentLanguage = selector ? selector.value : (selectorMobile ? selectorMobile.value : 'tr');
+            }
             
             // Update speech recognition language
             if (recognition) {
@@ -3357,6 +3432,12 @@ Generated by BionicText AI
             document.getElementById('authButtons').classList.add('hidden');
             document.getElementById('userMenu').classList.remove('hidden');
             
+            // Mobile menu
+            const authButtonsMobile = document.getElementById('authButtonsMobile');
+            const userMenuMobile = document.getElementById('userMenuMobile');
+            if (authButtonsMobile) authButtonsMobile.classList.add('hidden');
+            if (userMenuMobile) userMenuMobile.classList.remove('hidden');
+            
             // Update user info in navigation
             const initials = userData.name.charAt(0).toUpperCase();
             document.getElementById('userInitialsNav').textContent = initials;
@@ -3366,6 +3447,14 @@ Generated by BionicText AI
             document.getElementById('userInitialsDropdown').textContent = initials;
             document.getElementById('userNameDropdown').textContent = userData.name;
             document.getElementById('userEmailDropdown').textContent = userData.email;
+            
+            // Update mobile user info
+            const userInitialsMobile = document.getElementById('userInitialsMobile');
+            const userNameMobile = document.getElementById('userNameMobile');
+            const userEmailMobile = document.getElementById('userEmailMobile');
+            if (userInitialsMobile) userInitialsMobile.textContent = initials;
+            if (userNameMobile) userNameMobile.textContent = userData.name;
+            if (userEmailMobile) userEmailMobile.textContent = userData.email;
         }
 
         function updateUIForLoggedOutUser() {
@@ -3373,6 +3462,12 @@ Generated by BionicText AI
             document.getElementById('authButtons').classList.remove('hidden');
             document.getElementById('userMenu').classList.add('hidden');
             closeProfileMenu();
+            
+            // Mobile menu
+            const authButtonsMobile = document.getElementById('authButtonsMobile');
+            const userMenuMobile = document.getElementById('userMenuMobile');
+            if (authButtonsMobile) authButtonsMobile.classList.remove('hidden');
+            if (userMenuMobile) userMenuMobile.classList.add('hidden');
         }
 
         function toggleProfileMenu() {
@@ -4361,5 +4456,5 @@ Visit: https://bionictext.ai
             }
         });
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a5b3ee9c01f6852',t:'MTc2NDM0NzM4My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a5b613e0244d5ff',t:'MTc2NDM0ODc4OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
