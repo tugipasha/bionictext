@@ -27,7 +27,7 @@
         const db = getFirestore(app);
         const analytics = getAnalytics(app);
 
-        // Make Firebase available globally
+        // Global Firebase değişkenleri
         window.firebaseAuth = auth;
         window.firebaseDb = db;
         window.firebaseSignIn = signInWithEmailAndPassword;
@@ -61,7 +61,7 @@
         .bionic-text { font-weight: 400; }
         .bionic-text .bold { font-weight: 700; color: #1a2b4c; }
         .bionic-bold {
-            font-weight: 700; /* sadece o kısmı kalın yap */
+            font-weight: 700;
         }
         .fade-in { animation: fadeIn 0.5s ease-in; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -72,14 +72,14 @@
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
  </head>
- <body class="bg-gray-50 min-h-screen"><!-- Navigation -->
+ <body class="bg-gray-50 min-h-screen"><!-- Navigatsyon -->
   <nav class="bg-primary shadow-lg">
    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16">
      <div class="flex items-center">
       <div class="flex-shrink-0">
        <h1 class="text-white text-lg sm:text-xl font-bold">BionicText AI</h1>
-      </div><!-- Mobile menu button --> <button onclick="toggleMobileMenu()" class="md:hidden ml-4 text-white p-2">
+      </div><!-- Mobil menu buton --> <button onclick="toggleMobileMenu()" class="md:hidden ml-4 text-white p-2">
        <svg id="menuIconOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
        </svg>
        <svg id="menuIconClose" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -89,11 +89,11 @@
        </div>
       </div>
      </div>
-     <div class="flex items-center space-x-2 sm:space-x-4"><!-- Language Selector -->
+     <div class="flex items-center space-x-2 sm:space-x-4"><!-- Dil Ayarlama -->
       <div class="relative"><select id="languageSelector" onchange="changeLanguage()" class="bg-white text-primary px-3 py-2 rounded-lg text-sm font-medium border-0 focus:ring-2 focus:ring-blue-300 cursor-pointer"> <option value="en">🇺🇸 English</option> <option value="tr" selected>🇹🇷 Türkçe</option> <option value="it">���🇹 Italiano</option> </select>
-      </div><!-- Login Button (shown when not logged in) -->
+      </div><!-- Login Buton-->
       <div id="authButtons"><button onclick="showAuth()" class="bg-white text-primary px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors" data-translate="login">Login</button>
-      </div><!-- Profile Menu (shown when logged in) - Desktop -->
+      </div><!-- Profil Menüsü-->
       <div id="userMenu" class="hidden relative"><button onclick="toggleProfileMenu()" class="hidden md:flex items-center space-x-2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-3 py-2 rounded-lg transition-colors">
         <div class="w-8 h-8 bg-white bg-opacity-30 rounded-full flex items-center justify-center"><span id="userInitialsNav" class="text-sm font-semibold">U</span>
         </div><span id="userNameNav" class="text-sm font-medium hidden md:block">User</span>
@@ -134,13 +134,13 @@
       </div>
      </div>
     </div>
-   </div><!-- Mobile Navigation Menu -->
+   </div><!-- Mobil Navigation Menu -->
    <div id="mobileMenu" class="hidden md:hidden bg-primary border-t border-blue-800">
     <div class="px-2 pt-2 pb-3 space-y-1"><button onclick="showSection('home'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_home">Ana Sayfa</button> <button onclick="showSection('test'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_test">Test</button> <button onclick="showSection('converter'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_converter">Dönüştürücü</button> <button onclick="showSection('assistant'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_assistant">AI Asistan</button> <button onclick="showSection('profile'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_profile">Profil</button> <button onclick="showSection('settings'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_settings">Ayarlar</button> <!-- Mobile Language Selector -->
      <div class="px-3 py-2"><select id="languageSelectorMobile" onchange="changeLanguage()" class="w-full bg-white text-primary px-3 py-2 rounded-lg text-sm font-medium border-0 focus:ring-2 focus:ring-blue-300"> <option value="en">🇺🇸 English</option> <option value="tr" selected>🇹🇷 Türkçe</option> <option value="it">🇮🇹 Italiano</option> </select>
-     </div><!-- Mobile Auth Button -->
+     </div><!-- Mobil Auth Button -->
      <div id="authButtonsMobile" class="px-3 py-2"><button onclick="showAuth(); toggleMobileMenu()" class="w-full bg-white text-primary px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors" data-translate="login">Login</button>
-     </div><!-- Mobile User Menu -->
+     </div><!-- Mobil User Menu -->
      <div id="userMenuMobile" class="hidden px-3 py-2 space-y-2">
       <div class="flex items-center space-x-3 pb-2 border-b border-blue-800">
        <div class="w-10 h-10 bg-white bg-opacity-30 rounded-full flex items-center justify-center"><span id="userInitialsMobile" class="text-white font-semibold">U</span>
@@ -157,7 +157,7 @@
      </div>
     </div>
    </div>
-  </nav><!-- Authentication Modal -->
+  </nav>
   <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 modal hidden z-50 flex items-center justify-center">
    <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4 shadow-2xl">
     <div class="text-center mb-6">
@@ -179,7 +179,7 @@
      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
      </svg></button>
    </div>
-  </div><!-- Main Content --> <!-- Notification Toast -->
+  </div><!-- Main Content -->
   <div id="notification" class="fixed top-4 right-4 z-50 hidden">
    <div class="bg-white border-l-4 border-blue-500 rounded-lg shadow-lg p-4 max-w-sm">
     <div class="flex items-center">
@@ -197,7 +197,7 @@
     </div>
    </div>
   </div>
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"><!-- Home Section -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"><!-- Home -->
    <div id="homeSection" class="section">
     <div class="text-center mb-8 sm:mb-12 px-4">
      <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold text-primary mb-4 sm:mb-6">BionicText AI</h1>
@@ -231,30 +231,30 @@
       <p class="text-gray-600" data-translate="home_ai_desc">Advanced algorithms analyze text patterns to optimize formatting for maximum reading efficiency.</p>
      </div>
     </div>
-   </div><!-- Reading Speed Test Section -->
+   </div><!-- Reading Speed Test -->
    <div id="testSection" class="section hidden">
     <div class="max-w-4xl mx-auto px-4">
      <div class="text-center mb-6 sm:mb-8">
       <h2 class="text-2xl sm:text-3xl font-bold text-primary mb-3 sm:mb-4" data-translate="test_title">Reading Speed Test</h2>
       <p class="text-gray-600" data-translate="test_subtitle">Compare your reading speed with normal text vs. BionicText format</p>
-     </div><!-- Test Step 1: Normal Text -->
+     </div><!-- 1. Test Kısmı-->
      <div id="testStep1" class="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 mb-4 sm:mb-6">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 gap-2">
        <h3 class="text-base sm:text-lg md:text-xl font-semibold text-primary" data-translate="test_step1">Adım 1: Normal Metin Okuma</h3>
        <div class="text-base sm:text-sm text-gray-500 font-mono"><span id="timer1">00:00</span>
        </div>
-      </div><!-- Text Selection Options -->
+      </div><!-- Text Ayarlama -->
       <div class="mb-4">
        <div class="flex flex-wrap gap-2 mb-4"><button onclick="setTestTextMode('preset')" class="test-text-btn bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium" data-translate="test_preset_text">Preset Text</button> <button onclick="setTestTextMode('custom')" class="test-text-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-300" data-translate="test_custom_text">Custom Text</button>
        </div>
-      </div><!-- Preset Text Mode -->
+      </div>
       <div id="presetTextMode" class="test-text-mode">
        <div class="mb-4"><select id="presetTextSelect" onchange="loadPresetText()" class="w-full px-3 sm:px-4 py-2 sm:py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"> <option value="ai" data-translate="test_preset_ai">AI Teknolojisi</option> <option value="science" data-translate="test_preset_science">Bilim ve Doğa</option> <option value="history" data-translate="test_preset_history">Tarih</option> <option value="literature" data-translate="test_preset_literature">Edebiyat</option> </select>
        </div>
        <div id="presetTextContent" class="bg-gray-50 p-4 sm:p-6 rounded-lg mb-4 sm:mb-6 text-sm sm:text-base md:text-lg leading-relaxed max-h-64 sm:max-h-96 overflow-y-auto">
         <p id="testText1">Yapay zekanın hızlı ilerlemesi, günlük yaşamın sayısız endüstrisini ve yönünü dönüştürmüştür. Sağlık teşhislerinden otonom araçlara kadar, AI sistemleri giderek daha sofistike ve yetenekli hale gelmektedir. Makine öğrenmesi algoritmaları artık büyük miktarlarda veriyi işleyerek kalıpları tanımlayabilir ve olağanüstü doğrulukla tahminlerde bulunabilir. Doğal dil işleme, bilgisayarların insan benzeri metinleri anlamasını ve üretmesini sağlayarak iletişim ve içerik oluşturmada devrim yaratmıştır. Bu teknolojileri geliştirmeye devam ederken, etik sonuçlarını göz önünde bulundurmak ve topluma bir bütün olarak fayda sağlamalarını garanti etmek çok önemli hale gelmiştir.</p>
        </div>
-      </div><!-- Custom Text Mode -->
+      </div>
       <div id="customTextMode" class="test-text-mode hidden">
        <div class="mb-4"><textarea id="customTestText" class="w-full h-32 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none" data-translate-placeholder="test_custom_placeholder" placeholder="Enter your own text here for the reading test..."></textarea>
         <div class="flex justify-between items-center mt-2 text-sm text-gray-500"><span data-translate="test_word_count">Word count: <span id="customWordCount">0</span></span> <span data-translate="test_recommended">Recommended: 100-200 words</span>
@@ -266,7 +266,7 @@
       </div>
       <div class="flex flex-col sm:flex-row gap-3 sm:gap-4"><button id="startBtn1" onclick="startTimer(1)" class="bg-primary text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-blue-800 transition-colors" data-translate="test_start_timer">Start Timer</button> <button id="finishBtn1" onclick="finishTimer(1)" class="bg-green-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-green-700 transition-colors disabled:bg-gray-400" disabled data-translate="test_finish_timer">Finish Timer</button>
       </div>
-     </div><!-- Test Step 2: BionicText -->
+     </div><!-- 2. Test Kısmı-->
      <div id="testStep2" class="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 hidden">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 gap-2">
        <h3 class="text-base sm:text-lg md:text-xl font-semibold text-primary" data-translate="test_step2">Adım 2: BionicText Okuma</h3>
@@ -278,7 +278,7 @@
       </div>
       <div class="flex flex-col sm:flex-row gap-3 sm:gap-4"><button id="startBtn2" onclick="startTimer(2)" class="bg-primary text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-blue-800 transition-colors" data-translate="test_start_timer">Zamanlayıcıyı Başlat</button> <button id="finishBtn2" onclick="finishTimer(2)" class="bg-green-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-green-700 transition-colors disabled:bg-gray-400" disabled data-translate="test_finish_timer">Zamanlayıcıyı Bitir</button>
       </div>
-     </div><!-- Test Results -->
+     </div><!-- Test Sonuçları -->
      <div id="testResults" class="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 hidden">
       <h3 class="text-xl sm:text-2xl font-semibold text-primary mb-4 sm:mb-6 text-center" data-translate="test_results_title">Okuma Hızı Sonuçlarınız</h3>
       <div class="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 mb-6 sm:mb-8">
@@ -312,22 +312,22 @@
       </div>
      </div>
     </div>
-   </div><!-- Converter Section -->
+   </div>
    <div id="converterSection" class="section hidden">
     <div class="max-w-6xl mx-auto px-4">
      <div class="text-center mb-6 sm:mb-8">
       <h2 class="text-2xl sm:text-3xl font-bold text-primary mb-3 sm:mb-4" data-translate="converter_title">BionicText Dönüştürücü</h2>
       <p class="text-sm sm:text-base text-gray-600" data-translate="converter_subtitle">Gelişmiş okuma hızı için herhangi bir metni BionicText formatına dönüştürün</p>
      </div>
-     <div class="grid lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8"><!-- Input Section -->
+     <div class="grid lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
       <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6">
        <h3 class="text-lg sm:text-xl font-semibold text-primary mb-3 sm:mb-4" data-translate="converter_input_text">Giriş Metni</h3>
        <div class="mb-4">
         <div class="flex flex-wrap gap-2 mb-4"><button onclick="setInputMode('text')" class="input-mode-btn bg-primary text-white px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium" data-translate="converter_text_input">Metin Girişi</button> <button onclick="setInputMode('file')" class="input-mode-btn bg-gray-200 text-gray-700 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-300" data-translate="converter_file_upload">Dosya Yükleme</button> <button onclick="setInputMode('voice')" class="input-mode-btn bg-gray-200 text-gray-700 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-300" data-translate="converter_voice_input">Ses Girişi</button>
         </div>
-       </div><!-- Text Input Mode -->
+       </div>
        <div id="textInputMode" class="input-mode"><textarea id="inputText" class="w-full h-48 sm:h-64 p-3 sm:p-4 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none resize-none" data-translate-placeholder="converter_paste_text" placeholder="Metninizi buraya yapıştırın veya yazmaya başlayın..."></textarea>
-       </div><!-- File Upload Mode -->
+       </div>
        <div id="fileInputMode" class="input-mode hidden">
         <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-primary transition-colors">
          <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
@@ -335,7 +335,7 @@
          <p class="text-gray-600 mb-2" data-translate="converter_drop_file">Drop your PDF or TXT file here</p>
          <p class="text-sm text-gray-500 mb-4" data-translate="converter_click_browse">or click to browse</p><input type="file" id="fileInput" accept=".pdf,.txt" class="hidden" onchange="handleFileUpload(event)"> <button onclick="document.getElementById('fileInput').click()" class="bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-800 transition-colors" data-translate="converter_choose_file">Choose File</button>
         </div>
-       </div><!-- Voice Input Mode -->
+       </div>
        <div id="voiceInputMode" class="input-mode hidden">
         <div class="text-center p-8">
          <div class="w-24 h-24 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 cursor-pointer hover:bg-blue-800 transition-colors" onclick="toggleVoiceRecording()">
@@ -349,7 +349,7 @@
          </div>
         </div>
        </div><button onclick="convertText()" class="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors mt-4" data-translate="converter_convert">Convert to BionicText</button>
-      </div><!-- Output Section -->
+      </div>
       <div class="bg-white rounded-xl shadow-lg p-6">
        <div class="flex justify-between items-center mb-4">
         <h3 class="text-xl font-semibold text-primary" data-translate="converter_output">BionicText Output</h3>
@@ -360,7 +360,7 @@
         <p class="text-gray-500 italic" data-translate="converter_output_placeholder">Your converted BionicText will appear here...</p>
        </div>
        <div class="flex gap-2 mt-4"><button onclick="exportToPDF()" class="flex-1 bg-primary text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-800 transition-colors text-sm" data-translate="converter_export_pdf">Export PDF</button> <button onclick="exportToTXT()" class="flex-1 bg-gray-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-gray-700 transition-colors text-sm" data-translate="converter_export_txt">Export TXT</button> <button onclick="speakText()" class="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-green-700 transition-colors text-sm" data-translate="converter_speak">🔊 Speak</button>
-       </div><!-- TTS Options -->
+       </div>
        <div class="mt-4 p-4 bg-gray-50 rounded-lg">
         <h4 class="text-sm font-medium text-gray-700 mb-2" data-translate="converter_tts_options">Text-to-Speech Options</h4>
         <div class="flex gap-2"><select id="voiceLanguage" class="flex-1 px-3 py-2 border border-gray-300 rounded text-sm"> <option value="en-US">English (US)</option> <option value="tr-TR" selected>Turkish</option> <option value="es-ES">Spanish</option> <option value="it-IT">Italian</option> <option value="fr-FR">French</option> </select> <select id="voiceSpeed" class="px-3 py-2 border border-gray-300 rounded text-sm"> <option value="0.8">Slow</option> <option value="1" selected>Normal</option> <option value="1.2">Fast</option> </select>
@@ -369,14 +369,14 @@
       </div>
      </div>
     </div>
-   </div><!-- AI Assistant Section -->
+   </div>
    <div id="assistantSection" class="section hidden">
     <div class="max-w-4xl mx-auto px-4">
      <div class="text-center mb-6 sm:mb-8">
       <h2 class="text-2xl sm:text-3xl font-bold text-primary mb-3 sm:mb-4" data-translate="assistant_title">AI Asistan</h2>
       <p class="text-sm sm:text-base text-gray-600" data-translate="assistant_subtitle">BionicText, okuma teknikleri veya kişisel okuma verileriniz hakkında her ����eyi sorabilirsiniz!</p>
-     </div><!-- Chat Container -->
-     <div class="bg-white rounded-xl shadow-lg overflow-hidden"><!-- Chat Header -->
+     </div>
+     <div class="bg-white rounded-xl shadow-lg overflow-hidden">
       <div class="bg-primary text-white p-3 sm:p-4 flex items-center justify-between">
        <div class="flex items-center space-x-3">
         <div class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
@@ -390,8 +390,8 @@
        </div><button onclick="clearChat()" class="text-white hover:bg-white hover:bg-opacity-20 p-2 rounded-lg transition-colors" title="Clear chat">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1-1H8a1 1 0 00-1 1v3M4 7h16"></path>
         </svg></button>
-      </div><!-- Chat Messages -->
-      <div id="chatMessages" class="h-64 sm:h-80 md:h-96 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 bg-gray-50"><!-- Welcome Message -->
+      </div>
+      <div id="chatMessages" class="h-64 sm:h-80 md:h-96 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 bg-gray-50">
        <div class="flex items-start space-x-3">
         <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
@@ -408,16 +408,16 @@
          <p class="mt-2 text-sm text-gray-500" data-translate="assistant_ask">What would you like to know?</p>
         </div>
        </div>
-      </div><!-- Quick Suggestions -->
+      </div>
       <div class="p-4 border-t bg-white">
        <div class="flex flex-wrap gap-2 mb-4"><button onclick="sendQuickMessage('What is BionicText and how does it work?')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm transition-colors" data-translate="quick_what_bionic">What is BionicText?</button> <button onclick="sendQuickMessage('How can I improve my reading speed?')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm transition-colors" data-translate="quick_improve_speed">Improve reading speed</button> <button onclick="sendQuickMessage('Show me my reading statistics')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm transition-colors" data-translate="quick_my_stats">My statistics</button> <button onclick="sendQuickMessage('What are the benefits of speed reading?')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm transition-colors" data-translate="quick_benefits">Speed reading benefits</button>
-       </div><!-- Chat Input -->
+       </div>
        <div class="flex space-x-2 sm:space-x-3"><input type="text" id="chatInput" placeholder="Mesajınızı yazın..." class="flex-1 border border-gray-300 rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-primary focus:border-transparent outline-none" data-translate-placeholder="assistant_input_placeholder" onkeypress="handleChatKeyPress(event)"> <button onclick="sendMessage()" class="bg-primary text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-blue-800 transition-colors flex items-center space-x-1 sm:space-x-2" id="sendButton"> <span class="hidden sm:inline" data-translate="assistant_send">Gönder</span>
          <svg class="w-5 h-5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
          </svg></button>
        </div>
       </div>
-     </div><!-- AI Features Info -->
+     </div>
      <div class="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
       <div class="bg-white p-4 sm:p-6 rounded-xl shadow-lg text-center">
        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
@@ -1931,21 +1931,21 @@ Generated by BionicText AI
         // Achievement definitions
         const achievements = [
             { id: 'first_test', emoji: '🏆', name: 'İlk Test', desc: '����lk okuma testini tamamla', check: (data) => data.testCount >= 1 },
-            { id: 'speed_demon', emoji: '⚡', name: 'Hız Canavarı', desc: 'BionicText ile 300+ WPM\'e ulaş', check: (data) => data.maxBionicWPM >= 300 },
+            { id: 'speed_demon', emoji: '⚡', name: 'Hızlı ve Öfkeli', desc: 'BionicText ile 300+ WPM\'e ulaş', check: (data) => data.maxBionicWPM >= 300 },
             { id: 'regular_reader', emoji: '📚', name: 'Düzenli Okuyucu', desc: '10 test tamamla', check: (data) => data.testCount >= 10 },
-            { id: 'sharp_shooter', emoji: '🎯', name: 'Kesin Nişancı', desc: '3 testte 250+ WPM skorla', check: (data) => data.highScores >= 3 },
+            { id: 'sharp_shooter', emoji: '🎯', name: 'Keskin Nişancı', desc: '3 testte 250+ WPM skorla', check: (data) => data.highScores >= 3 },
             { id: 'rocket_man', emoji: '🚀', name: 'Roket Adam', desc: '400+ WPM\'e ulaş', check: (data) => data.maxBionicWPM >= 400 },
             { id: 'star_student', emoji: '🌟', name: 'Yıldız Öğrenci', desc: '5 test tamamla', check: (data) => data.testCount >= 5 },
             { id: 'strong_start', emoji: '💪', name: 'Güçlü Başlangıç', desc: 'İlk testte 200+ WPM skorla', check: (data) => data.firstTestWPM >= 200 },
             { id: 'improvement_master', emoji: '📈', name: 'Gelişim Ustası', desc: '%50+ iyileşme kaydet', check: (data) => data.maxImprovement >= 50 },
-            { id: 'fire_reader', emoji: '��', name: 'Ateşli Okuyucu', desc: '7 gün üst üste test yap', check: (data) => data.consecutiveDays >= 7 },
-            { id: 'graduate', emoji: '����', name: 'Mezun', desc: '25 test tamamla', check: (data) => data.testCount >= 25 },
-            { id: 'diamond_league', emoji: '💎', name: 'Elmas Lig', desc: '500+ WPM\'e ulaş', check: (data) => data.maxBionicWPM >= 500 },
+            { id: 'fire_reader', emoji: '✍️', name: 'İstikrarlı', desc: '7 gün üst üste test yap', check: (data) => data.consecutiveDays >= 7 },
+            { id: 'graduate', emoji: '🎓', name: 'Mezun', desc: '25 test tamamla', check: (data) => data.testCount >= 25 },
+            { id: 'diamond_league', emoji: '💎', name: 'Elmas Ligi', desc: '500+ WPM\'e ulaş', check: (data) => data.maxBionicWPM >= 500 },
             { id: 'variety', emoji: '🌈', name: 'Çeşitlilik', desc: 'Her metin türünde test yap', check: (data) => data.textTypesCount >= 4 },
             { id: 'marathon', emoji: '🏃', name: 'Maraton', desc: '50 test tamamla', check: (data) => data.testCount >= 50 },
             { id: 'superstar', emoji: '⭐', name: 'Süperstar', desc: '%100+ iyileşme kaydet', check: (data) => data.maxImprovement >= 100 },
             { id: 'professional', emoji: '🎪', name: 'Profesyonel', desc: '100 test tamamla', check: (data) => data.testCount >= 100 },
-            { id: 'world_citizen', emoji: '���', name: 'Dünya Vatandaşı', desc: '3 farklı dilde test yap', check: (data) => data.languageCount >= 3 },
+            { id: 'world_citizen', emoji: '🌏', name: 'Dünya Vatandaşı', desc: '3 farklı dilde test yap', check: (data) => data.languageCount >= 3 },
             { id: 'customizer', emoji: '🎨', name: 'Özelleştirici', desc: 'Özel metin ile test yap', check: (data) => data.customTextUsed },
             { id: 'brain_power', emoji: '🧠', name: 'Beyin Gücü', desc: 'AI asistan ile 10 sohbet yap', check: (data) => data.messageCount >= 10 },
             { id: 'data_analyst', emoji: '📊', name: 'Veri Analisti', desc: 'Verilerini dışa aktar', check: (data) => data.dataExported },
@@ -4459,5 +4459,6 @@ Visit: https://bionictext.ai
 </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a5b613e0244d5ff',t:'MTc2NDM0ODc4OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
