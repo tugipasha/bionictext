@@ -1,10 +1,11 @@
+
 <!doctype html>
 <html lang="en">
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>BionicText AI</title>
+  <title>BionicText</title>
   <script src="https://cdn.tailwindcss.com"></script><!-- Firebase -->
   <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -78,7 +79,7 @@
     <div class="flex justify-between h-16">
      <div class="flex items-center">
       <div class="flex-shrink-0">
-       <h1 class="text-white text-lg sm:text-xl font-bold">BionicText AI</h1>
+       <h1 class="text-white text-lg sm:text-xl font-bold">BionicText</h1>
       </div><!-- Mobil menu buton --> <button onclick="toggleMobileMenu()" class="md:hidden ml-4 text-white p-2">
        <svg id="menuIconOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
        </svg>
@@ -200,7 +201,7 @@
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"><!-- Home -->
    <div id="homeSection" class="section">
     <div class="text-center mb-8 sm:mb-12 px-4">
-     <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold text-primary mb-4 sm:mb-6">BionicText AI</h1>
+     <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold text-primary mb-4 sm:mb-6">BionicText</h1>
      <p class="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-6 sm:mb-8" data-translate="home_subtitle">Enhance your reading speed and comprehension with AI-powered text formatting. Experience the future of efficient reading.</p>
      <div class="flex flex-col sm:flex-row gap-4 justify-center"><button onclick="showSection('test')" class="bg-primary text-white px-8 py-4 rounded-lg font-medium hover:bg-blue-800 transition-colors" data-translate="home_start_test">Start Reading Test</button> <button onclick="showSection('converter')" class="border-2 border-primary text-primary px-8 py-4 rounded-lg font-medium hover:bg-primary hover:text-white transition-colors" data-translate="home_try_converter">Try Converter</button>
      </div>
@@ -249,8 +250,16 @@
        </div>
       </div>
       <div id="presetTextMode" class="test-text-mode">
-       <div class="mb-4"><select id="presetTextSelect" onchange="loadPresetText()" class="w-full px-3 sm:px-4 py-2 sm:py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"> <option value="ai" data-translate="test_preset_ai">AI Teknolojisi</option> <option value="science" data-translate="test_preset_science">Bilim ve Doğa</option> <option value="history" data-translate="test_preset_history">Tarih</option> <option value="literature" data-translate="test_preset_literature">Edebiyat</option> </select>
-       </div>
+       <div class="mb-4">
+    <select id="presetTextSelect" onchange="loadPresetText()" class="w-full px-3 sm:px-4 py-2 sm:py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+        <option value="ai" data-translate="test_preset_ai">AI Teknolojisi</option>
+        <option value="science" data-translate="test_preset_science">Bilim ve Doğa</option>
+        <option value="history" data-translate="test_preset_history">Tarih</option>
+        <option value="literature" data-translate="test_preset_literature">Edebiyat</option>
+        <option value="pamuk" data-translate="test_preset_pamuk">Orhan Pamuk - İstanbul</option>
+        <option value="atay" data-translate="test_preset_atay">Oğuz Atay - Tutunamayanlar</option>
+    </select>
+</div>
        <div id="presetTextContent" class="bg-gray-50 p-4 sm:p-6 rounded-lg mb-4 sm:mb-6 text-sm sm:text-base md:text-lg leading-relaxed max-h-64 sm:max-h-96 overflow-y-auto">
         <p id="testText1">Yapay zekanın hızlı ilerlemesi, günlük yaşamın sayısız endüstrisini ve yönünü dönüştürmüştür. Sağlık teşhislerinden otonom araçlara kadar, AI sistemleri giderek daha sofistike ve yetenekli hale gelmektedir. Makine öğrenmesi algoritmaları artık büyük miktarlarda veriyi işleyerek kalıpları tanımlayabilir ve olağanüstü doğrulukla tahminlerde bulunabilir. Doğal dil işleme, bilgisayarların insan benzeri metinleri anlamasını ve üretmesini sağlayarak iletişim ve içerik oluşturmada devrim yaratmıştır. Bu teknolojileri geliştirmeye devam ederken, etik sonuçlarını göz önünde bulundurmak ve topluma bir bütün olarak fayda sağlamalarını garanti etmek çok önemli hale gelmiştir.</p>
        </div>
@@ -1328,7 +1337,7 @@
             bionic: "Yapay zeka teknolojisi hayatımızı ve çalışma şeklimizi köklü biçimde değiştirmektedir. Modern AI uygulamaları tıbbi tanı sistemlerinden otonom sürüş araçlarına kadar geniş bir yelpazede, makinelerin başarabileceklerinin sınırlarını zorlamaktadır. Derin öğrenme ağları devasa veri kümelerini analiz ederek karmaşık örüntüleri tespit etmekte ve isabetli öngörüler üretmektedir. Bilgisayar sistemleri artık insansı yazılar anlayıp oluşturabiliyor, bu da iletişim ve içerik üretim biçimimizi baştan aşağı değiştiriyor. Bu güçlü araçların geliştirilmesi ahlaki soruların düşünceli bir şekilde ele alınmasını ve toplumsal etkilerin değerlendirilmesini gerektirmektedir. AI teknolojisi küresel sorunlara devrimsel çözümler vaat ediyor, ancak veri koruması, siber güvenlik ve işgücü kesintisi konularındaki endişeleri ele almamız gerekiyor."
         },
         science: {
-            normal: "İklim değişikliği, dünya genelinde hükümetler, işletmeler ve bireylerden acil eylem gerektiren zamanımızın en acil zorluklarından birini temsil etmektedir. Küresel ısınmanın etkileri, yükselen deniz seviyeleri, aşırı hava durumu kalıpları ve biyoçeşitliliği tehdit eden değişen ekosistemlerde zaten görülmektedir. Bilim insanları yenilenebilir enerji teknolojileri, karbon yakalama sistemleri ve sürdürülebilir tarım uygulamaları dahil olmak üzere yenilikçi çözümler geliştirmiştir. Güneş ve rüzgar enerjisi, fosil yakıtlara giderek daha uygun maliyetli alternatifler haline gelirken, elektrikli araçlar ulaşımda devrim yaratmaktadır. Ancak iklim değişikliğiyle mücadele, koordineli küresel çabalar, politika değişiklikleri ve bireysel yaşam tarzı değişiklikleri gerektirmektedir.",
+            normal: "İklim değişikliği, dünya genelinde hükümetler, işletmeler ve bireylerden acil eylem gerektiren zamanımızın en acil zorluklarından birini temsil etmektedir. Küresel ısınmanın etkileri, yükselen deniz seviyeleri, aşırı hava durumu kalıpları ve biyoçeşitliliği tehdit eden değişen ekosistemler de zaten görülmektedir. Bilim insanları yenilenebilir enerji teknolojileri, karbon yakalama sistemleri ve sürdürülebilir tarım uygulamaları dahil olmak üzere yenilikçi çözümler geliştirmiştir. Güneş ve rüzgar enerjisi, fosil yakıtlara giderek daha uygun maliyetli alternatifler haline gelirken, elektrikli araçlar ulaşımda devrim yaratmaktadır. Ancak iklim değişikliğiyle mücadele, koordineli küresel çabalar, politika değişiklikleri ve bireysel yaşam tarzı değişiklikleri gerektirmektedir.",
             bionic: "Çevresel değişimler tüm toplum kesimlerinden acil yanıt talep eden kritik tehditler oluşturmaktadır. Küresel sıcaklık artışları yükselen okyanus seviyeleri, benzeri görülmemiş hava olayları ve sayısız türü tehlikeye atan ekolojik dönüşümler yoluyla kendini göstermektedir. Araştırmacılar temiz enerji inovasyonu, emisyon azaltma teknolojisi ve çevre dostu tarım yöntemlerini kapsayan çığır açan yaklaşımlar öncülük etmektedir. Fotovoltaik paneller ve rüzgar türbinleri gibi yenilenebilir güç kaynakları geleneksel enerji için ekonomik açıdan uygulanabilir değiştirmeler sunarken, batarya ile çalışan arabalar nasıl seyahat ettiğimizi dönüştürmektedir. Çevresel bozulmayı başarıyla mücadele etmek uluslararası işbirliği, hükümet reformu ve kişisel davranış değişiklikleri gerektirir."
         },
         history: {
@@ -1337,7 +1346,15 @@
         },
         literature: {
             normal: "Edebiyat topluma bir ayna görevi görerek farklı kültürlerin ve zaman dilimlerinin değerlerini, mücadelelerini ve özlemlerini yansıtır. Hikaye anlatıcılığı yoluyla yazarlar, okuyucuları farklı dünyalara taşıma, bakış açılarını sorgulama ve derin duygusal tepkiler uyandırma gücüne sahiptir. Shakespeare'in oyunları gibi klasik eserler, aşk, hırs, ihanet ve kurtuluş gibi evrensel temaları keşfettikleri için modern izleyicilerle rezonans kurmaya devam etmektedir. Çağdaş edebiyat güncel sosyal konuları ele alarak marjinalleştirilmiş topluluklara ses veriyor ve modern yaşamın karmaşıklıklarını keşfediyor. Dijital çağ, e-kitaplar, sesli kitaplar ve çevrimiçi platformlarla edebi eserleri her zamankinden daha erişilebilir hale getirerek edebiyatı nasıl tükettiğimizi dönüştürmüştür.",
-            bionic: "Yazılı eserler insan uygarlığının yansımaları işlevi görür, çeşitli toplumlar ve tarihi anlar boyunca inançları, çatışmaları ve hayalleri yakalar. Anlatı sanatı yazarların izleyicileri hayali alemlere taşımasını, varsayımları sorgulamasını ve derin duyguları tetiklemesini sağlar. Shakespeare dramı gibi zamansız yaratımlar romantizm, özlem, sadakatsizlik ve kurtuluş dahil kalıcı konuları inceleyerek çağdaş izleyiciler için alakalılığını sürdürür. Modern yazı baskın toplumsal endişeleri ele alır, yetersiz temsil edilen sesleri güçlendirir ve günümüz varoluşunun inceliklerini araştırır. Dijital teknoloji elektronik metinler, ses kayıtları ve erişilebilirliği artıran web tabanlı hizmetler aracılığıyla edebi tüketimi devrimleştirdi. Edebiyatla ilgilenmek eğlenceden fazlasını sunar—şefkat, analitik yetenekler ve kültürler arası takdiri geliştirir."
+            bionic: "Yazılı eserler insan uygarlığının yansımaları işlevi görür, çeşitli toplumlar ve tarihi anlar boyunca inançları, çatışmaları ve hayalleri yakalar. Anlatı sanatı yazarların izleyicileri hayali alemlere taşımasını, varsayımları sorgulamasını ve derin duyguları tetiklemesini sağlar. Shakespeare draması gibi zamansız yaratımlar romantizm, özlem, sadakatsizlik ve kurtuluş dahil kalıcı konuları inceleyerek çağdaş izleyiciler için alakalılığını sürdürür. Modern yazı baskın toplumsal endişeleri ele alır, yetersiz temsil edilen sesleri güçlendirir ve günümüz varoluşunun inceliklerini araştırır. Dijital teknoloji elektronik metinler, ses kayıtları ve erişilebilirliği artıran web tabanlı hizmetler aracılığıyla edebi tüketimi devrimleştirdi. Edebiyatla ilgilenmek eğlenceden fazlasını sunar—şefkat, analitik yetenekler ve kültürler arası takdiri geliştirir."
+        },
+        pamuk: {
+            normal: "İstanbul sokaklarında yürürken, şehrin üzerine çökmüş o eski imparatorluğun heybetli ama artık solmuş izlerini görmek, geçmişi hatırlamak kadar ağır bir yüktü. Boğaz'ın iki yakası arasında gidip gelirken, vapurun camından bakıyor, kalabalığın arasında kaybolmuş kendi hayatımı düşünüyordum. Sokaklar, binalar, insanlar, hepsi bu şehrin hüznüne bulanmış, melankolik bir havaya bürünmüştü. Nişantaşı'nın geniş caddeleri, Beyoğlu'nun dar sokakları, Karaköy'ün kalabalık meydanları, hepsi farklı çağların, farklı yaşamların izlerini taşıyordu. Ahşap konaklar yıkılıyor, yerlerine modern apartmanlar dikiliyordu ama şehrin ruhu, o eski dokusu bir türlü kaybolmuyordu. Belki de İstanbul'un en büyük özelliği buydu: Sürekli değişmesine rağmen aynı kalan, modernleşmeye çalışırken geçmişine sıkı sıkıya sarılan bu garip kimliği.",
+            bionic: "Şehir yürürken hissediliyordu. Her köşede farklı bir zaman, farklı bir hayat saklıydı. Boğaz'dan geçen vapurlar, dar sokaklar, eski konaklar, yeni binalar hepsi bir arada duruyordu. Nişantaşı'ndan Beyoğlu'na, oradan Karaköy'e her adımda başka bir hikaye vardı. Ahşap evler yıkılıyor, beton yükseliyordu ama ruh değişmiyordu. Geçmiş ve gelecek arasında sıkışmış bir şehirdi burası. Modernleşmeye çalışan ama geçmişinden kurtulamayan, eski imparatorluğun hatıralarıyla yaşayan garip bir yerdi. Melankoli havada asılı duruyordu. Her şey değişiyordu ama aslında hiçbir şey değişmiyordu. İstanbul böyleydi işte. Çelişkilerle dolu, anlaşılması imkansız."
+        },
+        atay: {
+            normal: "Sabahtan beri bir şeyler düşünüyordum ama ne düşündüğümü tam olarak bilemiyordum. Belki de düşünmek dediğimiz şey, zaten böyle belirsiz, bulanık bir şeydir. İnsanın kendisine sorduğu sorular, aldığı cevaplar, bunların hiçbiri net değil ki. Bir şey söylemek istiyorsun, kelimeler gelmiyor. Bir yere varmak istiyorsun, yol kaybolmuş. Ne yapacağını bilmiyorsun ama yapmaya devam ediyorsun. Hayat böyle işte. Anlaşılması gereken ama anlaşılamayan, açıklanması gereken ama açıklanamayan bir şey. Kendimize dönüp baktığımızda ne görürüz? Bir yabancı. Kendi düşüncelerimiz bile bize ait değilmiş gibi geliyor. Sanki başka biri düşünüyor, biz sadece dinliyoruz. Kim bilir, belki de öyledir. Belki de biz sadece düşüncelerin içinden geçtiği bir yerden ibaretiz.",
+            bionic: "Düşünüyordum ama neyi bilmiyordum. Belki düşünmek zaten böyle belirsiz bir şeydi. Sorular, cevaplar hiçbiri net değildi. Söylemek istiyorsun, kelime yok. Varmak istiyorsun, yol kayıp. Ne yapacağın belli değil ama yapıyorsun. Hayat böyle. Anlaşılmaz ama yaşanır. Kendimize bakınca yabancı görürüz. Düşüncelerimiz bile bizim değil gibi. Sanki başkası düşünüyor, biz dinliyoruz. Kim bilir belki öyle. Belki sadece düşüncelerin geçtiği bir yerden ibaretiz. Tutunmaya çalışıyoruz ama tutunacak dal yok. Anlamak istiyoruz ama anlam yok. İşte böyle sürüp gidiyor."
         }
     },
     it: {
@@ -1746,7 +1763,7 @@ ${results.improvement > 0 ?
     'Keep practicing! BionicText can help improve your reading speed over time.'
 }
 
-Generated by BionicText AI
+Generated by BionicText
             `.trim();
             
             const blob = new Blob([report], { type: 'text/plain' });
