@@ -3,6 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>BionicText AI</title>
   <script src="https://cdn.tailwindcss.com"></script><!-- Firebase -->
   <script type="module">
@@ -26,7 +27,7 @@
         const db = getFirestore(app);
         const analytics = getAnalytics(app);
 
-        // Make Firebase available globally
+        // Global Firebase değişkenleri
         window.firebaseAuth = auth;
         window.firebaseDb = db;
         window.firebaseSignIn = signInWithEmailAndPassword;
@@ -60,7 +61,7 @@
         .bionic-text { font-weight: 400; }
         .bionic-text .bold { font-weight: 700; color: #1a2b4c; }
         .bionic-bold {
-            font-weight: 700; /* sadece o kısmı kalın yap */
+            font-weight: 700;
         }
         .fade-in { animation: fadeIn 0.5s ease-in; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -71,14 +72,14 @@
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
  </head>
- <body class="bg-gray-50 min-h-screen"><!-- Navigation -->
+ <body class="bg-gray-50 min-h-screen"><!-- Navigatsyon -->
   <nav class="bg-primary shadow-lg">
    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16">
      <div class="flex items-center">
       <div class="flex-shrink-0">
        <h1 class="text-white text-lg sm:text-xl font-bold">BionicText AI</h1>
-      </div><!-- Mobile menu button --> <button onclick="toggleMobileMenu()" class="md:hidden ml-4 text-white p-2">
+      </div><!-- Mobil menu buton --> <button onclick="toggleMobileMenu()" class="md:hidden ml-4 text-white p-2">
        <svg id="menuIconOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
        </svg>
        <svg id="menuIconClose" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -88,11 +89,11 @@
        </div>
       </div>
      </div>
-     <div class="flex items-center space-x-2 sm:space-x-4"><!-- Language Selector -->
-      <div class="relative"><select id="languageSelector" onchange="changeLanguage()" class="bg-white text-primary px-3 py-2 rounded-lg text-sm font-medium border-0 focus:ring-2 focus:ring-blue-300 cursor-pointer"> <option value="en">🇺🇸 English</option> <option value="tr" selected>🇹🇷 Türkçe</option> <option value="it">���🇹 Italiano</option> </select>
-      </div><!-- Login Button (shown when not logged in) -->
+     <div class="flex items-center space-x-2 sm:space-x-4"><!-- Dil Ayarlama -->
+      <div class="relative"><select id="languageSelector" onchange="changeLanguage()" class="bg-white text-primary px-3 py-2 rounded-lg text-sm font-medium border-0 focus:ring-2 focus:ring-blue-300 cursor-pointer"> <option value="en">🇺🇸 English</option> <option value="tr" selected>🇹🇷 Türkçe</option> <option value="it">   🇹 Italiano</option> </select>
+      </div><!-- Login Buton-->
       <div id="authButtons"><button onclick="showAuth()" class="bg-white text-primary px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors" data-translate="login">Login</button>
-      </div><!-- Profile Menu (shown when logged in) - Desktop -->
+      </div><!-- Profil Menüsü-->
       <div id="userMenu" class="hidden relative"><button onclick="toggleProfileMenu()" class="hidden md:flex items-center space-x-2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-3 py-2 rounded-lg transition-colors">
         <div class="w-8 h-8 bg-white bg-opacity-30 rounded-full flex items-center justify-center"><span id="userInitialsNav" class="text-sm font-semibold">U</span>
         </div><span id="userNameNav" class="text-sm font-medium hidden md:block">User</span>
@@ -133,13 +134,13 @@
       </div>
      </div>
     </div>
-   </div><!-- Mobile Navigation Menu -->
+   </div><!-- Mobil Navigation Menu -->
    <div id="mobileMenu" class="hidden md:hidden bg-primary border-t border-blue-800">
     <div class="px-2 pt-2 pb-3 space-y-1"><button onclick="showSection('home'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_home">Ana Sayfa</button> <button onclick="showSection('test'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_test">Test</button> <button onclick="showSection('converter'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_converter">Dönüştürücü</button> <button onclick="showSection('assistant'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_assistant">AI Asistan</button> <button onclick="showSection('profile'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_profile">Profil</button> <button onclick="showSection('settings'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_settings">Ayarlar</button> <!-- Mobile Language Selector -->
      <div class="px-3 py-2"><select id="languageSelectorMobile" onchange="changeLanguage()" class="w-full bg-white text-primary px-3 py-2 rounded-lg text-sm font-medium border-0 focus:ring-2 focus:ring-blue-300"> <option value="en">🇺🇸 English</option> <option value="tr" selected>🇹🇷 Türkçe</option> <option value="it">🇮🇹 Italiano</option> </select>
-     </div><!-- Mobile Auth Button -->
+     </div><!-- Mobil Auth Button -->
      <div id="authButtonsMobile" class="px-3 py-2"><button onclick="showAuth(); toggleMobileMenu()" class="w-full bg-white text-primary px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors" data-translate="login">Login</button>
-     </div><!-- Mobile User Menu -->
+     </div><!-- Mobil User Menu -->
      <div id="userMenuMobile" class="hidden px-3 py-2 space-y-2">
       <div class="flex items-center space-x-3 pb-2 border-b border-blue-800">
        <div class="w-10 h-10 bg-white bg-opacity-30 rounded-full flex items-center justify-center"><span id="userInitialsMobile" class="text-white font-semibold">U</span>
@@ -156,8 +157,8 @@
      </div>
     </div>
    </div>
-  </nav><!-- Authentication Modal -->
-  <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 modal hidden z-50 flex items-center justify-center">
+  </nav>
+  <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 modal hidden z-50 flex items-center justify-center" data-mode="signin">
    <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4 shadow-2xl">
     <div class="text-center mb-6">
      <h2 class="text-2xl font-bold text-primary mb-2" data-translate="auth_welcome">Welcome Back</h2>
@@ -178,7 +179,7 @@
      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
      </svg></button>
    </div>
-  </div><!-- Main Content --> <!-- Notification Toast -->
+  </div><!-- Main Content -->
   <div id="notification" class="fixed top-4 right-4 z-50 hidden">
    <div class="bg-white border-l-4 border-blue-500 rounded-lg shadow-lg p-4 max-w-sm">
     <div class="flex items-center">
@@ -196,7 +197,7 @@
     </div>
    </div>
   </div>
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"><!-- Home Section -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"><!-- Home -->
    <div id="homeSection" class="section">
     <div class="text-center mb-8 sm:mb-12 px-4">
      <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold text-primary mb-4 sm:mb-6">BionicText AI</h1>
@@ -230,30 +231,30 @@
       <p class="text-gray-600" data-translate="home_ai_desc">Advanced algorithms analyze text patterns to optimize formatting for maximum reading efficiency.</p>
      </div>
     </div>
-   </div><!-- Reading Speed Test Section -->
+   </div><!-- Reading Speed Test -->
    <div id="testSection" class="section hidden">
     <div class="max-w-4xl mx-auto px-4">
      <div class="text-center mb-6 sm:mb-8">
       <h2 class="text-2xl sm:text-3xl font-bold text-primary mb-3 sm:mb-4" data-translate="test_title">Reading Speed Test</h2>
       <p class="text-gray-600" data-translate="test_subtitle">Compare your reading speed with normal text vs. BionicText format</p>
-     </div><!-- Test Step 1: Normal Text -->
+     </div><!-- 1. Test Kısmı-->
      <div id="testStep1" class="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 mb-4 sm:mb-6">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 gap-2">
        <h3 class="text-base sm:text-lg md:text-xl font-semibold text-primary" data-translate="test_step1">Adım 1: Normal Metin Okuma</h3>
        <div class="text-base sm:text-sm text-gray-500 font-mono"><span id="timer1">00:00</span>
        </div>
-      </div><!-- Text Selection Options -->
+      </div><!-- Text Ayarlama -->
       <div class="mb-4">
        <div class="flex flex-wrap gap-2 mb-4"><button onclick="setTestTextMode('preset')" class="test-text-btn bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium" data-translate="test_preset_text">Preset Text</button> <button onclick="setTestTextMode('custom')" class="test-text-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-300" data-translate="test_custom_text">Custom Text</button>
        </div>
-      </div><!-- Preset Text Mode -->
+      </div>
       <div id="presetTextMode" class="test-text-mode">
        <div class="mb-4"><select id="presetTextSelect" onchange="loadPresetText()" class="w-full px-3 sm:px-4 py-2 sm:py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"> <option value="ai" data-translate="test_preset_ai">AI Teknolojisi</option> <option value="science" data-translate="test_preset_science">Bilim ve Doğa</option> <option value="history" data-translate="test_preset_history">Tarih</option> <option value="literature" data-translate="test_preset_literature">Edebiyat</option> </select>
        </div>
        <div id="presetTextContent" class="bg-gray-50 p-4 sm:p-6 rounded-lg mb-4 sm:mb-6 text-sm sm:text-base md:text-lg leading-relaxed max-h-64 sm:max-h-96 overflow-y-auto">
         <p id="testText1">Yapay zekanın hızlı ilerlemesi, günlük yaşamın sayısız endüstrisini ve yönünü dönüştürmüştür. Sağlık teşhislerinden otonom araçlara kadar, AI sistemleri giderek daha sofistike ve yetenekli hale gelmektedir. Makine öğrenmesi algoritmaları artık büyük miktarlarda veriyi işleyerek kalıpları tanımlayabilir ve olağanüstü doğrulukla tahminlerde bulunabilir. Doğal dil işleme, bilgisayarların insan benzeri metinleri anlamasını ve üretmesini sağlayarak iletişim ve içerik oluşturmada devrim yaratmıştır. Bu teknolojileri geliştirmeye devam ederken, etik sonuçlarını göz önünde bulundurmak ve topluma bir bütün olarak fayda sağlamalarını garanti etmek çok önemli hale gelmiştir.</p>
        </div>
-      </div><!-- Custom Text Mode -->
+      </div>
       <div id="customTextMode" class="test-text-mode hidden">
        <div class="mb-4"><textarea id="customTestText" class="w-full h-32 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none" data-translate-placeholder="test_custom_placeholder" placeholder="Enter your own text here for the reading test..."></textarea>
         <div class="flex justify-between items-center mt-2 text-sm text-gray-500"><span data-translate="test_word_count">Word count: <span id="customWordCount">0</span></span> <span data-translate="test_recommended">Recommended: 100-200 words</span>
@@ -265,7 +266,7 @@
       </div>
       <div class="flex flex-col sm:flex-row gap-3 sm:gap-4"><button id="startBtn1" onclick="startTimer(1)" class="bg-primary text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-blue-800 transition-colors" data-translate="test_start_timer">Start Timer</button> <button id="finishBtn1" onclick="finishTimer(1)" class="bg-green-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-green-700 transition-colors disabled:bg-gray-400" disabled data-translate="test_finish_timer">Finish Timer</button>
       </div>
-     </div><!-- Test Step 2: BionicText -->
+     </div><!-- 2. Test Kısmı-->
      <div id="testStep2" class="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 hidden">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 gap-2">
        <h3 class="text-base sm:text-lg md:text-xl font-semibold text-primary" data-translate="test_step2">Adım 2: BionicText Okuma</h3>
@@ -277,7 +278,7 @@
       </div>
       <div class="flex flex-col sm:flex-row gap-3 sm:gap-4"><button id="startBtn2" onclick="startTimer(2)" class="bg-primary text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-blue-800 transition-colors" data-translate="test_start_timer">Zamanlayıcıyı Başlat</button> <button id="finishBtn2" onclick="finishTimer(2)" class="bg-green-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-green-700 transition-colors disabled:bg-gray-400" disabled data-translate="test_finish_timer">Zamanlayıcıyı Bitir</button>
       </div>
-     </div><!-- Test Results -->
+     </div><!-- Test Sonuçları -->
      <div id="testResults" class="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 hidden">
       <h3 class="text-xl sm:text-2xl font-semibold text-primary mb-4 sm:mb-6 text-center" data-translate="test_results_title">Okuma Hızı Sonuçlarınız</h3>
       <div class="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 mb-6 sm:mb-8">
@@ -311,22 +312,22 @@
       </div>
      </div>
     </div>
-   </div><!-- Converter Section -->
+   </div>
    <div id="converterSection" class="section hidden">
     <div class="max-w-6xl mx-auto px-4">
      <div class="text-center mb-6 sm:mb-8">
       <h2 class="text-2xl sm:text-3xl font-bold text-primary mb-3 sm:mb-4" data-translate="converter_title">BionicText Dönüştürücü</h2>
       <p class="text-sm sm:text-base text-gray-600" data-translate="converter_subtitle">Gelişmiş okuma hızı için herhangi bir metni BionicText formatına dönüştürün</p>
      </div>
-     <div class="grid lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8"><!-- Input Section -->
+     <div class="grid lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
       <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6">
        <h3 class="text-lg sm:text-xl font-semibold text-primary mb-3 sm:mb-4" data-translate="converter_input_text">Giriş Metni</h3>
        <div class="mb-4">
         <div class="flex flex-wrap gap-2 mb-4"><button onclick="setInputMode('text')" class="input-mode-btn bg-primary text-white px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium" data-translate="converter_text_input">Metin Girişi</button> <button onclick="setInputMode('file')" class="input-mode-btn bg-gray-200 text-gray-700 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-300" data-translate="converter_file_upload">Dosya Yükleme</button> <button onclick="setInputMode('voice')" class="input-mode-btn bg-gray-200 text-gray-700 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-300" data-translate="converter_voice_input">Ses Girişi</button>
         </div>
-       </div><!-- Text Input Mode -->
+       </div>
        <div id="textInputMode" class="input-mode"><textarea id="inputText" class="w-full h-48 sm:h-64 p-3 sm:p-4 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none resize-none" data-translate-placeholder="converter_paste_text" placeholder="Metninizi buraya yapıştırın veya yazmaya başlayın..."></textarea>
-       </div><!-- File Upload Mode -->
+       </div>
        <div id="fileInputMode" class="input-mode hidden">
         <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-primary transition-colors">
          <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
@@ -334,7 +335,7 @@
          <p class="text-gray-600 mb-2" data-translate="converter_drop_file">Drop your PDF or TXT file here</p>
          <p class="text-sm text-gray-500 mb-4" data-translate="converter_click_browse">or click to browse</p><input type="file" id="fileInput" accept=".pdf,.txt" class="hidden" onchange="handleFileUpload(event)"> <button onclick="document.getElementById('fileInput').click()" class="bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-800 transition-colors" data-translate="converter_choose_file">Choose File</button>
         </div>
-       </div><!-- Voice Input Mode -->
+       </div>
        <div id="voiceInputMode" class="input-mode hidden">
         <div class="text-center p-8">
          <div class="w-24 h-24 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 cursor-pointer hover:bg-blue-800 transition-colors" onclick="toggleVoiceRecording()">
@@ -348,7 +349,7 @@
          </div>
         </div>
        </div><button onclick="convertText()" class="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors mt-4" data-translate="converter_convert">Convert to BionicText</button>
-      </div><!-- Output Section -->
+      </div>
       <div class="bg-white rounded-xl shadow-lg p-6">
        <div class="flex justify-between items-center mb-4">
         <h3 class="text-xl font-semibold text-primary" data-translate="converter_output">BionicText Output</h3>
@@ -359,7 +360,7 @@
         <p class="text-gray-500 italic" data-translate="converter_output_placeholder">Your converted BionicText will appear here...</p>
        </div>
        <div class="flex gap-2 mt-4"><button onclick="exportToPDF()" class="flex-1 bg-primary text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-800 transition-colors text-sm" data-translate="converter_export_pdf">Export PDF</button> <button onclick="exportToTXT()" class="flex-1 bg-gray-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-gray-700 transition-colors text-sm" data-translate="converter_export_txt">Export TXT</button> <button onclick="speakText()" class="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-green-700 transition-colors text-sm" data-translate="converter_speak">🔊 Speak</button>
-       </div><!-- TTS Options -->
+       </div>
        <div class="mt-4 p-4 bg-gray-50 rounded-lg">
         <h4 class="text-sm font-medium text-gray-700 mb-2" data-translate="converter_tts_options">Text-to-Speech Options</h4>
         <div class="flex gap-2"><select id="voiceLanguage" class="flex-1 px-3 py-2 border border-gray-300 rounded text-sm"> <option value="en-US">English (US)</option> <option value="tr-TR" selected>Turkish</option> <option value="es-ES">Spanish</option> <option value="it-IT">Italian</option> <option value="fr-FR">French</option> </select> <select id="voiceSpeed" class="px-3 py-2 border border-gray-300 rounded text-sm"> <option value="0.8">Slow</option> <option value="1" selected>Normal</option> <option value="1.2">Fast</option> </select>
@@ -368,14 +369,14 @@
       </div>
      </div>
     </div>
-   </div><!-- AI Assistant Section -->
+   </div>
    <div id="assistantSection" class="section hidden">
     <div class="max-w-4xl mx-auto px-4">
      <div class="text-center mb-6 sm:mb-8">
       <h2 class="text-2xl sm:text-3xl font-bold text-primary mb-3 sm:mb-4" data-translate="assistant_title">AI Asistan</h2>
-      <p class="text-sm sm:text-base text-gray-600" data-translate="assistant_subtitle">BionicText, okuma teknikleri veya kişisel okuma verileriniz hakkında her şeyi sorabilirsiniz!</p>
-     </div><!-- Chat Container -->
-     <div class="bg-white rounded-xl shadow-lg overflow-hidden"><!-- Chat Header -->
+      <p class="text-sm sm:text-base text-gray-600" data-translate="assistant_subtitle">BionicText, okuma teknikleri veya kişisel okuma verileriniz hakkında her     eyi sorabilirsiniz!</p>
+     </div>
+     <div class="bg-white rounded-xl shadow-lg overflow-hidden">
       <div class="bg-primary text-white p-3 sm:p-4 flex items-center justify-between">
        <div class="flex items-center space-x-3">
         <div class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
@@ -389,8 +390,8 @@
        </div><button onclick="clearChat()" class="text-white hover:bg-white hover:bg-opacity-20 p-2 rounded-lg transition-colors" title="Clear chat">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1-1H8a1 1 0 00-1 1v3M4 7h16"></path>
         </svg></button>
-      </div><!-- Chat Messages -->
-      <div id="chatMessages" class="h-64 sm:h-80 md:h-96 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 bg-gray-50"><!-- Welcome Message -->
+      </div>
+      <div id="chatMessages" class="h-64 sm:h-80 md:h-96 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 bg-gray-50">
        <div class="flex items-start space-x-3">
         <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
@@ -407,16 +408,16 @@
          <p class="mt-2 text-sm text-gray-500" data-translate="assistant_ask">What would you like to know?</p>
         </div>
        </div>
-      </div><!-- Quick Suggestions -->
+      </div>
       <div class="p-4 border-t bg-white">
        <div class="flex flex-wrap gap-2 mb-4"><button onclick="sendQuickMessage('What is BionicText and how does it work?')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm transition-colors" data-translate="quick_what_bionic">What is BionicText?</button> <button onclick="sendQuickMessage('How can I improve my reading speed?')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm transition-colors" data-translate="quick_improve_speed">Improve reading speed</button> <button onclick="sendQuickMessage('Show me my reading statistics')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm transition-colors" data-translate="quick_my_stats">My statistics</button> <button onclick="sendQuickMessage('What are the benefits of speed reading?')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm transition-colors" data-translate="quick_benefits">Speed reading benefits</button>
-       </div><!-- Chat Input -->
+       </div>
        <div class="flex space-x-2 sm:space-x-3"><input type="text" id="chatInput" placeholder="Mesajınızı yazın..." class="flex-1 border border-gray-300 rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-primary focus:border-transparent outline-none" data-translate-placeholder="assistant_input_placeholder" onkeypress="handleChatKeyPress(event)"> <button onclick="sendMessage()" class="bg-primary text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-blue-800 transition-colors flex items-center space-x-1 sm:space-x-2" id="sendButton"> <span class="hidden sm:inline" data-translate="assistant_send">Gönder</span>
          <svg class="w-5 h-5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
          </svg></button>
        </div>
       </div>
-     </div><!-- AI Features Info -->
+     </div>
      <div class="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
       <div class="bg-white p-4 sm:p-6 rounded-xl shadow-lg text-center">
        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
@@ -662,7 +663,7 @@
           </div>
          </div>
          <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
-          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm"></span>
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">  </span>
           </div>
           <div class="flex-1 min-w-0">
            <div class="font-medium text-gray-700 text-sm">
@@ -674,7 +675,7 @@
           </div>
          </div>
          <div class="flex items-center p-2 bg-gray-50 rounded-lg opacity-50">
-          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm"></span>
+          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0"><span class="text-sm">  </span>
           </div>
           <div class="flex-1 min-w-0">
            <div class="font-medium text-gray-700 text-sm">
@@ -847,464 +848,517 @@
         let testDates = [];
         let textTypes = new Set();
 
-        // Translation data
         const translations = {
-            en: {
-                // Navigation
-                nav_home: "Home",
-                nav_test: "Test",
-                nav_converter: "Converter",
-                nav_assistant: "AI Assistant",
-                nav_profile: "Profile",
-                nav_settings: "Settings",
-                login: "Login",
-                logout: "Logout",
-                
-                // Settings
-                settings_title: "Settings",
-                settings_subtitle: "Customize your reading experience",
-                settings_appearance: "Appearance Settings",
-                settings_font_size: "Font Size",
-                settings_line_height: "Line Height",
-                settings_bold_intensity: "Bold Text Intensity (BionicText)",
-                settings_theme: "Theme",
-                settings_light: "Light",
-                settings_dark: "Dark",
-                settings_sepia: "Sepia",
-                settings_reset: "Reset Settings",
-                settings_reading: "Reading Settings",
-                settings_reading_guide: "Reading Guide",
-                settings_guide_desc: "Increase reading focus with line highlighting",
-                settings_auto_scroll: "Auto-scroll",
-                settings_scroll_desc: "Automatic page scrolling while reading",
-                
-                // Authentication
-                auth_welcome: "Welcome Back",
-                auth_signin_subtitle: "Sign in to your account",
-                auth_email: "Email",
-                auth_password: "Password",
-                auth_email_placeholder: "Enter your email",
-                auth_password_placeholder: "Enter your password",
-                auth_signin: "Sign In",
-                auth_signup: "Sign up",
-                auth_no_account: "Don't have an account? ",
-                auth_create_account: "Create Account",
-                auth_signup_subtitle: "Sign up for a new account",
-                auth_have_account: "Already have an account? ",
-                
-                // Home page
-                home_subtitle: "Enhance your reading speed and comprehension with AI-powered text formatting. Experience the future of efficient reading.",
-                home_start_test: "Start Reading Test",
-                home_try_converter: "Try Converter",
-                home_speed_reading: "Speed Reading",
-                home_speed_desc: "Increase your reading speed by up to 200% with our scientifically-backed BionicText format.",
-                home_comprehension: "Better Comprehension",
-                home_comprehension_desc: "Maintain or improve understanding while reading faster through enhanced text formatting.",
-                home_ai_powered: "AI-Powered",
-                home_ai_desc: "Advanced algorithms analyze text patterns to optimize formatting for maximum reading efficiency.",
-                
-                // Test section
-                test_title: "Reading Speed Test",
-                test_subtitle: "Compare your reading speed with normal text vs. BionicText format",
-                test_step1: "Step 1: Normal Text Reading",
-                test_step2: "Step 2: BionicText Reading",
-                test_start_timer: "Start Timer",
-                test_finish_timer: "Finish Timer",
-                test_results_title: "Your Reading Speed Results",
-                test_normal_text: "Normal Text",
-                test_bionic_text: "BionicText",
-                test_wpm: "words per minute",
-                test_improvement: "Speed Improvement",
-                test_download_report: "Download PDF Report",
-                test_take_again: "Take Test Again",
-                test_preset_text: "Preset Text",
-                test_custom_text: "Custom Text",
-                test_preset_ai: "AI Technology",
-                test_preset_science: "Science & Nature",
-                test_preset_history: "History",
-                test_preset_literature: "Literature",
-                test_custom_placeholder: "Enter your own text here for the reading test...",
-                test_word_count: "Word count:",
-                test_recommended: "Recommended: 100-200 words",
-                test_load_custom: "Load Custom Text",
-                
-                // Converter section
-                converter_title: "BionicText Converter",
-                converter_subtitle: "Transform any text into BionicText format for enhanced reading speed",
-                converter_input_text: "Input Text",
-                converter_text_input: "Text Input",
-                converter_file_upload: "File Upload",
-                converter_voice_input: "Voice Input",
-                converter_paste_text: "Paste your text here or start typing...",
-                converter_drop_file: "Drop your PDF or TXT file here",
-                converter_click_browse: "or click to browse",
-                converter_choose_file: "Choose File",
-                converter_click_record: "Click to start recording",
-                converter_speak_clearly: "Speak clearly for best results",
-                converter_recording: "Recording... Click to stop",
-                converter_convert: "Convert to BionicText",
-                converter_output: "BionicText Output",
-                converter_output_placeholder: "Your converted BionicText will appear here...",
-                converter_export_pdf: "Export PDF",
-                converter_export_txt: "Export TXT",
-                converter_speak: "🔊 Speak",
-                converter_tts_options: "Text-to-Speech Options",
-                
-                // Profile section
-                profile_title: "User Profile",
-                profile_member_since: "Member since",
-                profile_total_tests: "Total Tests",
-                
-                // Profile menu
-                profile_menu_profile: "My Profile",
-                profile_menu_test: "Take Reading Test",
-                profile_menu_converter: "Convert Text",
-                profile_menu_assistant: "AI Assistant",
-                profile_menu_export: "Export Data",
-                profile_menu_logout: "Sign Out",
-                
-                // Notifications
-                notif_login_success: "Welcome back! Successfully logged in.",
-                notif_login_failed: "Login failed: ",
-                notif_test_saved: "Test results saved to your profile!",
-                notif_signin_to_save: "Sign in to save your test results!",
-                notif_data_exported: "Successfully exported test results!",
-                notif_data_deleted: "All data deleted successfully",
-                notif_no_data_export: "No test data to export. Take some tests first!",
-                
-                // AI Assistant
-                assistant_title: "AI Assistant",
-                assistant_subtitle: "Ask me anything about BionicText, reading techniques, or your personal reading data!",
-                assistant_name: "BionicText AI Assistant",
-                assistant_status: "Online • Ready to help",
-                assistant_welcome: "Hello! I'm your BionicText AI Assistant. I can help you with:",
-                assistant_help_1: "• Questions about BionicText and speed reading",
-                assistant_help_2: "• Analysis of your reading performance",
-                assistant_help_3: "• Tips to improve your reading speed",
-                assistant_help_4: "• General questions about anything!",
-                assistant_ask: "What would you like to know?",
-                assistant_input_placeholder: "Type your message...",
-                assistant_send: "Send",
-                assistant_feature_1: "Smart Analysis",
-                assistant_feature_1_desc: "Get insights about your reading patterns and performance trends",
-                assistant_feature_2: "Personalized Tips",
-                assistant_feature_2_desc: "Receive customized advice based on your reading data and goals",
-                assistant_feature_3: "24/7 Support",
-                assistant_feature_3_desc: "Ask questions anytime about reading techniques and BionicText",
-                quick_what_bionic: "What is BionicText?",
-                quick_improve_speed: "Improve reading speed",
-                quick_my_stats: "My statistics",
-                quick_benefits: "Speed reading benefits"
-            },
-            
-            tr: {
-                // Navigation
-                nav_home: "Ana Sayfa",
-                nav_test: "Test",
-                nav_converter: "Dönüştürücü",
-                nav_assistant: "AI Asistan",
-                nav_profile: "Profil",
-                nav_settings: "Ayarlar",
-                login: "Giriş Yap",
-                logout: "Çıkış Yap",
-                
-                // Settings
-                settings_title: "Ayarlar",
-                settings_subtitle: "Okuma deneyiminizi kişiselleştirin",
-                settings_appearance: "Görünüm Ayarları",
-                settings_font_size: "Yazı Boyutu",
-                settings_line_height: "Satır Yüksekliği",
-                settings_bold_intensity: "Kalın Metin Yoğunluğu (BionicText)",
-                settings_theme: "Tema",
-                settings_light: "Açık",
-                settings_dark: "Koyu",
-                settings_sepia: "Sepya",
-                settings_reset: "Ayarları Sıfırla",
-                settings_reading: "Okuma Ayarları",
-                settings_reading_guide: "Okuma Kılavuzu",
-                settings_guide_desc: "Satır vurgulama ile okuma odağını artırın",
-                settings_auto_scroll: "Otomatik Kaydırma",
-                settings_scroll_desc: "Okurken otomatik sayfa kaydırma",
-                
-                // Authentication
-                auth_welcome: "Tekrar Hoş Geldiniz",
-                auth_signin_subtitle: "Hesabınıza giriş yapın",
-                auth_email: "E-posta",
-                auth_password: "Şifre",
-                auth_email_placeholder: "E-posta adresinizi girin",
-                auth_password_placeholder: "Şifrenizi girin",
-                auth_signin: "Giriş Yap",
-                auth_signup: "Kayıt Ol",
-                auth_no_account: "Hesabınız yok mu? ",
-                auth_create_account: "Hesap Oluştur",
-                auth_signup_subtitle: "Yeni hesap oluşturun",
-                auth_have_account: "Zaten hesabınız var mı? ",
-                
-                // Home page
-                home_subtitle: "AI destekli metin biçimlendirme ile okuma hızınızı ve anlayışınızı artırın. Verimli okumanın geleceğini deneyimleyin.",
-                home_start_test: "Okuma Testini Başlat",
-                home_try_converter: "Dönüştürücüyü Dene",
-                home_speed_reading: "Hızlı Okuma",
-                home_speed_desc: "Bilimsel olarak desteklenen BionicText formatı ile okuma hızınızı %200'e kadar artırın.",
-                home_comprehension: "Daha İyi Anlayış",
-                home_comprehension_desc: "Gelişmiş metin biçimlendirme ile daha hızlı okurken anlayışınızı koruyun veya geliştirin.",
-                home_ai_powered: "AI Destekli",
-                home_ai_desc: "Gelişmiş algoritmalar, maksimum okuma verimliliği için metin kalıplarını analiz eder ve biçimlendirmeyi optimize eder.",
-                
-                // Test section
-                test_title: "Okuma Hızı Testi",
-                test_subtitle: "Normal metin ile BionicText formatındaki okuma hızınızı karşılaştırın",
-                test_step1: "Adım 1: Normal Metin Okuma",
-                test_step2: "Adım 2: BionicText Okuma",
-                test_start_timer: "Zamanlayıcıyı Başlat",
-                test_finish_timer: "Zamanlayıcıyı Bitir",
-                test_results_title: "Okuma Hızı Sonuçlarınız",
-                test_normal_text: "Normal Metin",
-                test_bionic_text: "BionicText",
-                test_wpm: "dakikada kelime",
-                test_improvement: "Hız İyileştirmesi",
-                test_download_report: "PDF Rapor İndir",
-                test_take_again: "Testi Tekrar Al",
-                test_preset_text: "Hazır Metin",
-                test_custom_text: "Özel Metin",
-                test_preset_ai: "AI Teknolojisi",
-                test_preset_science: "Bilim ve Doğa",
-                test_preset_history: "Tarih",
-                test_preset_literature: "Edebiyat",
-                test_custom_placeholder: "Okuma testi için kendi metninizi buraya girin...",
-                test_word_count: "Kelime sayısı:",
-                test_recommended: "Önerilen: 100-200 kelime",
-                test_load_custom: "Özel Metni Yükle",
-                
-                // Converter section
-                converter_title: "BionicText Dönüştürücü",
-                converter_subtitle: "Gelişmiş okuma hızı için herhangi bir metni BionicText formatına dönüştürün",
-                converter_input_text: "Giriş Metni",
-                converter_text_input: "Metin Girişi",
-                converter_file_upload: "Dosya Yükleme",
-                converter_voice_input: "Ses Girişi",
-                converter_paste_text: "Metninizi buraya yapıştırın veya yazmaya başlayın...",
-                converter_drop_file: "PDF veya TXT dosyanızı buraya bırakın",
-                converter_click_browse: "veya göz atmak için tıklayın",
-                converter_choose_file: "Dosya Seç",
-                converter_click_record: "Kayıt başlatmak için tıklayın",
-                converter_speak_clearly: "En iyi sonuçlar için net konuşun",
-                converter_recording: "Kaydediliyor... Durdurmak için tıklayın",
-                converter_convert: "BionicText'e Dönüştür",
-                converter_output: "BionicText Çıktısı",
-                converter_output_placeholder: "Dönüştürülmüş BionicText'iniz burada görünecek...",
-                converter_export_pdf: "PDF Dışa Aktar",
-                converter_export_txt: "TXT Dışa Aktar",
-                converter_speak: "🔊 Seslendir",
-                converter_tts_options: "Metinden Sese Seçenekleri",
-                
-                // Profile section
-                profile_title: "Kullanıcı Profili",
-                profile_member_since: "Üyelik tarihi",
-                profile_total_tests: "Toplam Test",
-                
-                // Profile menu
-                profile_menu_profile: "Profilim",
-                profile_menu_test: "Okuma Testi Yap",
-                profile_menu_converter: "Metin Dönüştür",
-                profile_menu_assistant: "AI Asistan",
-                profile_menu_export: "Veri Dışa Aktar",
-                profile_menu_logout: "Çıkış Yap",
-                
-                // Notifications
-                notif_login_success: "Tekrar hoş geldiniz! Başarıyla giriş yaptınız.",
-                notif_login_failed: "Giriş başarısız: ",
-                notif_test_saved: "Test sonuçları profilinize kaydedildi!",
-                notif_signin_to_save: "Test sonuçlarınızı kaydetmek için giriş yapın!",
-                notif_data_exported: "Test sonuçları başarıyla dışa aktarıldı!",
-                notif_data_deleted: "Tüm veriler başarıyla silindi",
-                notif_no_data_export: "Dışa aktarılacak test verisi yok. Önce bazı testler yapın!",
-                
-                // AI Assistant
-                assistant_title: "AI Asistan",
-                assistant_subtitle: "BionicText, okuma teknikleri veya kişisel okuma verileriniz hakkında her şeyi sorabilirsiniz!",
-                assistant_name: "BionicText AI Asistan",
-                assistant_status: "Çevrimiçi • Yardıma hazır",
-                assistant_welcome: "Merhaba! Ben BionicText AI Asistanınızım. Size şunlarda yardımcı olabilirim:",
-                assistant_help_1: "• BionicText ve hızlı okuma hakkında sorular",
-                assistant_help_2: "• Okuma performansınızın analizi",
-                assistant_help_3: "• Okuma hızınızı artırma ipuçları",
-                assistant_help_4: "• Her konuda genel sorular!",
-                assistant_ask: "Ne öğrenmek istersiniz?",
-                assistant_input_placeholder: "Mesajınızı yazın...",
-                assistant_send: "Gönder",
-                assistant_feature_1: "Akıllı Analiz",
-                assistant_feature_1_desc: "Okuma kalıplarınız ve performans trendleriniz hakkında içgörüler edinin",
-                assistant_feature_2: "Kişiselleştirilmiş İpuçları",
-                assistant_feature_2_desc: "Okuma verilerinize ve hedeflerinize göre özelleştirilmiş tavsiyeler alın",
-                assistant_feature_3: "7/24 Destek",
-                assistant_feature_3_desc: "Okuma teknikleri ve BionicText hakkında istediğiniz zaman soru sorun",
-                quick_what_bionic: "BionicText nedir?",
-                quick_improve_speed: "Okuma hızını artır",
-                quick_my_stats: "İstatistiklerim",
-                quick_benefits: "Hızlı okuma faydaları"
-            },
-            
-            it: {
-                // Navigation
-                nav_home: "Home",
-                nav_test: "Test",
-                nav_converter: "Convertitore",
-                nav_assistant: "Assistente AI",
-                nav_profile: "Profilo",
-                nav_settings: "Impostazioni",
-                login: "Accedi",
-                logout: "Esci",
-                
-                // Settings
-                settings_title: "Impostazioni",
-                settings_subtitle: "Personalizza la tua esperienza di lettura",
-                settings_appearance: "Impostazioni Aspetto",
-                settings_font_size: "Dimensione Carattere",
-                settings_line_height: "Altezza Linea",
-                settings_bold_intensity: "Intensità Testo Grassetto (BionicText)",
-                settings_theme: "Tema",
-                settings_light: "Chiaro",
-                settings_dark: "Scuro",
-                settings_sepia: "Seppia",
-                settings_reset: "Ripristina Impostazioni",
-                settings_reading: "Impostazioni Lettura",
-                settings_reading_guide: "Guida alla Lettura",
-                settings_guide_desc: "Aumenta la concentrazione con l'evidenziazione delle righe",
-                settings_auto_scroll: "Scorrimento Automatico",
-                settings_scroll_desc: "Scorrimento automatico della pagina durante la lettura",
-                
-                // Authentication
-                auth_welcome: "Bentornato",
-                auth_signin_subtitle: "Accedi al tuo account",
-                auth_email: "Email",
-                auth_password: "Password",
-                auth_email_placeholder: "Inserisci la tua email",
-                auth_password_placeholder: "Inserisci la tua password",
-                auth_signin: "Accedi",
-                auth_signup: "Registrati",
-                auth_no_account: "Non hai un account? ",
-                auth_create_account: "Crea Account",
-                auth_signup_subtitle: "Registrati per un nuovo account",
-                auth_have_account: "Hai già un account? ",
-                
-                // Home page
-                home_subtitle: "Migliora la tua velocità di lettura e comprensione con la formattazione del testo basata su AI. Sperimenta il futuro della lettura efficiente.",
-                home_start_test: "Inizia Test di Lettura",
-                home_try_converter: "Prova Convertitore",
-                home_speed_reading: "Lettura Veloce",
-                home_speed_desc: "Aumenta la tua velocità di lettura fino al 200% con il nostro formato BionicText scientificamente supportato.",
-                home_comprehension: "Migliore Comprensione",
-                home_comprehension_desc: "Mantieni o migliora la comprensione mentre leggi più velocemente attraverso la formattazione del testo migliorata.",
-                home_ai_powered: "Alimentato da AI",
-                home_ai_desc: "Algoritmi avanzati analizzano i modelli di testo per ottimizzare la formattazione per la massima efficienza di lettura.",
-                
-                // Test section
-                test_title: "Test di Velocità di Lettura",
-                test_subtitle: "Confronta la tua velocità di lettura con testo normale vs. formato BionicText",
-                test_step1: "Passo 1: Lettura Testo Normale",
-                test_step2: "Passo 2: Lettura BionicText",
-                test_start_timer: "Avvia Timer",
-                test_finish_timer: "Termina Timer",
-                test_results_title: "I Tuoi Risultati di Velocità di Lettura",
-                test_normal_text: "Testo Normale",
-                test_bionic_text: "BionicText",
-                test_wpm: "parole al minuto",
-                test_improvement: "Miglioramento Velocità",
-                test_download_report: "Scarica Report PDF",
-                test_take_again: "Rifai il Test",
-                
-                // Converter section
-                converter_title: "Convertitore BionicText",
-                converter_subtitle: "Trasforma qualsiasi testo in formato BionicText per una velocità di lettura migliorata",
-                converter_input_text: "Testo di Input",
-                converter_text_input: "Input Testo",
-                converter_file_upload: "Caricamento File",
-                converter_voice_input: "Input Vocale",
-                converter_paste_text: "Incolla il tuo testo qui o inizia a digitare...",
-                converter_drop_file: "Trascina il tuo file PDF o TXT qui",
-                converter_click_browse: "o clicca per sfogliare",
-                converter_choose_file: "Scegli File",
-                converter_click_record: "Clicca per iniziare la registrazione",
-                converter_speak_clearly: "Parla chiaramente per i migliori risultati",
-                converter_recording: "Registrando... Clicca per fermare",
-                converter_convert: "Converti in BionicText",
-                converter_output: "Output BionicText",
-                converter_output_placeholder: "Il tuo BionicText convertito apparirà qui...",
-                converter_export_pdf: "Esporta PDF",
-                converter_export_txt: "Esporta TXT",
-                converter_speak: "🔊 Parla",
-                converter_tts_options: "Opzioni Text-to-Speech",
-                
-                // Profile section
-                profile_title: "Profilo Utente",
-                profile_member_since: "Membro dal",
-                profile_total_tests: "Test Totali",
-                
-                // Profile menu
-                profile_menu_profile: "Il Mio Profilo",
-                profile_menu_test: "Fai Test di Lettura",
-                profile_menu_converter: "Converti Testo",
-                profile_menu_assistant: "Assistente AI",
-                profile_menu_export: "Esporta Dati",
-                profile_menu_logout: "Esci",
-                
-                // Notifications
-                notif_login_success: "Bentornato! Accesso effettuato con successo.",
-                notif_login_failed: "Accesso fallito: ",
-                notif_test_saved: "Risultati del test salvati nel tuo profilo!",
-                notif_signin_to_save: "Accedi per salvare i risultati del test!",
-                notif_data_exported: "Risultati del test esportati con successo!",
-                notif_data_deleted: "Tutti i dati eliminati con successo",
-                notif_no_data_export: "Nessun dato test da esportare. Fai prima alcuni test!",
-                
-                // AI Assistant
-                assistant_title: "Assistente AI",
-                assistant_subtitle: "Chiedimi qualsiasi cosa su BionicText, tecniche di lettura o i tuoi dati di lettura personali!",
-                assistant_name: "Assistente AI BionicText",
-                assistant_status: "Online • Pronto ad aiutare",
-                assistant_welcome: "Ciao! Sono il tuo Assistente AI BionicText. Posso aiutarti con:",
-                assistant_help_1: "• Domande su BionicText e lettura veloce",
-                assistant_help_2: "• Analisi delle tue prestazioni di lettura",
-                assistant_help_3: "• Consigli per migliorare la velocità di lettura",
-                assistant_help_4: "• Domande generali su qualsiasi argomento!",
-                assistant_ask: "Cosa vorresti sapere?",
-                assistant_input_placeholder: "Scrivi il tuo messaggio...",
-                assistant_send: "Invia",
-                assistant_feature_1: "Analisi Intelligente",
-                assistant_feature_1_desc: "Ottieni informazioni sui tuoi modelli di lettura e tendenze delle prestazioni",
-                assistant_feature_2: "Consigli Personalizzati",
-                assistant_feature_2_desc: "Ricevi consigli personalizzati basati sui tuoi dati di lettura e obiettivi",
-                assistant_feature_3: "Supporto 24/7",
-                assistant_feature_3_desc: "Fai domande in qualsiasi momento su tecniche di lettura e BionicText",
-                quick_what_bionic: "Cos'è BionicText?",
-                quick_improve_speed: "Migliora velocità lettura",
-                quick_my_stats: "Le mie statistiche",
-                quick_benefits: "Benefici lettura veloce"
-            }
-        };
+    en: {
+        // Navigation
+        nav_home: "Home",
+        nav_test: "Test",
+        nav_converter: "Converter",
+        nav_assistant: "AI Assistant",
+        nav_profile: "Profile",
+        nav_settings: "Settings",
+        login: "Login",
+        logout: "Logout",
 
-        // Preset texts for different languages
+        // Authentication
+        auth_welcome: "Welcome Back",
+        auth_signin_subtitle: "Sign in to your account",
+        auth_email: "Email",
+        auth_password: "Password",
+        auth_email_placeholder: "Enter your email",
+        auth_password_placeholder: "Enter your password",
+        auth_signin: "Sign In",
+        auth_signup: "Sign Up",
+        auth_no_account: "Don't have an account?",
+        auth_create_account: "Create Account",
+        auth_signup_subtitle: "Create a new account",
+        auth_have_account: "Already have an account?",
+
+        // Settings
+        settings_title: "Settings",
+        settings_subtitle: "Customize your reading experience",
+        settings_appearance: "Appearance Settings",
+        settings_font_size: "Font Size",
+        settings_line_height: "Line Height",
+        settings_bold_intensity: "Bold Text Intensity (BionicText)",
+        settings_theme: "Theme",
+        settings_light: "Light",
+        settings_dark: "Dark",
+        settings_sepia: "Sepia",
+        settings_reset: "Reset Settings",
+        settings_reading: "Reading Settings",
+        settings_reading_guide: "Reading Guide",
+        settings_guide_desc: "Increase reading focus with line highlighting",
+        settings_auto_scroll: "Auto-scroll",
+        settings_scroll_desc: "Automatic page scrolling while reading",
+
+        // Home
+        home_subtitle: "Enhance your reading speed and comprehension with AI-powered text formatting.",
+        home_start_test: "Start Reading Test",
+        home_try_converter: "Try Converter",
+        home_speed_reading: "Speed Reading",
+        home_speed_desc: "Increase reading speed by up to 200% with the BionicText format.",
+        home_comprehension: "Better Comprehension",
+        home_comprehension_desc: "Maintain or improve understanding while reading faster.",
+        home_ai_powered: "AI-Powered",
+        home_ai_desc: "AI algorithms analyze text patterns to optimize formatting.",
+
+        // Test
+        test_title: "Reading Speed Test",
+        test_subtitle: "Compare normal text vs. BionicText",
+        test_step1: "Step 1: Normal Text Reading",
+        test_step2: "Step 2: BionicText Reading",
+        test_start_timer: "Start Timer",
+        test_finish_timer: "Finish Timer",
+        test_results_title: "Your Results",
+        test_normal_text: "Normal Text",
+        test_bionic_text: "BionicText",
+        test_wpm: "words per minute",
+        test_improvement: "Speed Improvement",
+        test_download_report: "Download PDF Report",
+        test_take_again: "Take Test Again",
+        test_preset_text: "Preset Text",
+        test_custom_text: "Custom Text",
+        test_preset_ai: "AI Technology",
+        test_preset_science: "Science & Nature",
+        test_preset_history: "History",
+        test_preset_literature: "Literature",
+        test_custom_placeholder: "Enter your custom text…",
+        test_word_count: "Word count:",
+        test_recommended: "Recommended: 100-200 words",
+        test_load_custom: "Load Custom Text",
+
+        // Converter
+        converter_title: "BionicText Converter",
+        converter_subtitle: "Transform any text into BionicText",
+        converter_input_text: "Input Text",
+        converter_text_input: "Text Input",
+        converter_file_upload: "File Upload",
+        converter_voice_input: "Voice Input",
+        converter_paste_text: "Paste text or start typing…",
+        converter_drop_file: "Drop PDF or TXT here",
+        converter_click_browse: "or click to browse",
+        converter_choose_file: "Choose File",
+        converter_click_record: "Click to start recording",
+        converter_speak_clearly: "Speak clearly",
+        converter_recording: "Recording… Click to stop",
+        converter_convert: "Convert to BionicText",
+        converter_output: "BionicText Output",
+        converter_output_placeholder: "Converted text will appear here…",
+        converter_export_pdf: "Export PDF",
+        converter_export_txt: "Export TXT",
+        converter_speak: "🔊 Speak",
+        converter_tts_options: "Text-to-Speech Options",
+
+        // Profile
+        profile_title: "User Profile",
+        profile_member_since: "Member since",
+        profile_total_tests: "Total Tests",
+
+        // Profile Menu
+        profile_menu_profile: "My Profile",
+        profile_menu_test: "Take Reading Test",
+        profile_menu_converter: "Convert Text",
+        profile_menu_assistant: "AI Assistant",
+        profile_menu_export: "Export Data",
+        profile_menu_logout: "Sign Out",
+
+        // Notifications
+        notif_login_success: "Successfully logged in!",
+        notif_login_failed: "Login failed:",
+        notif_test_saved: "Test results saved!",
+        notif_signin_to_save: "Sign in to save results!",
+        notif_data_exported: "Data exported!",
+        notif_data_deleted: "All data deleted!",
+        notif_no_data_export: "No test data to export.",
+
+        // AI Assistant
+        assistant_title: "AI Assistant",
+        assistant_subtitle: "Ask anything about BionicText or reading!",
+        assistant_name: "BionicText AI Assistant",
+        assistant_status: "Online • Ready to help",
+        assistant_welcome: "Hello! I can help you with:",
+        assistant_help_1: "• Questions about speed reading",
+        assistant_help_2: "• Reading performance analysis",
+        assistant_help_3: "• Tips to improve reading speed",
+        assistant_help_4: "• Any general questions!",
+        assistant_ask: "What would you like to know?",
+        assistant_input_placeholder: "Type your message…",
+        assistant_send: "Send",
+        assistant_feature_1: "Smart Analysis",
+        assistant_feature_1_desc: "Insights into your reading habits",
+        assistant_feature_2: "Personalized Tips",
+        assistant_feature_2_desc: "Customized strategies for improvement",
+        assistant_feature_3: "24/7 Support",
+        assistant_feature_3_desc: "Ask anything anytime",
+        quick_what_bionic: "What is BionicText?",
+        quick_improve_speed: "Improve reading speed",
+        quick_my_stats: "My statistics",
+        quick_benefits: "Speed reading benefits"
+    },
+
+    // ============================================================
+    // =======================   TURKISH   =========================
+    // ============================================================
+
+    tr: {
+        // Navigation
+        nav_home: "Ana Sayfa",
+        nav_test: "Test",
+        nav_converter: "Dönüştürücü",
+        nav_assistant: "AI Asistan",
+        nav_profile: "Profil",
+        nav_settings: "Ayarlar",
+        login: "Giriş Yap",
+        logout: "Çıkış Yap",
+
+        // Authentication
+        auth_welcome: "Tekrar Hoş Geldiniz",
+        auth_signin_subtitle: "Hesabınıza giriş yapın",
+        auth_email: "E-posta",
+        auth_password: "Şifre",
+        auth_email_placeholder: "E-posta adresinizi girin",
+        auth_password_placeholder: "Şifrenizi girin",
+        auth_signin: "Giriş Yap",
+        auth_signup: "Kayıt Ol",
+        auth_no_account: "Hesabınız yok mu?",
+        auth_create_account: "Hesap Oluştur",
+        auth_signup_subtitle: "Yeni hesap oluşturun",
+        auth_have_account: "Zaten hesabınız var mı?",
+
+        // Settings
+        settings_title: "Ayarlar",
+        settings_subtitle: "Okuma deneyiminizi özelleştirin",
+        settings_appearance: "Görünüm Ayarları",
+        settings_font_size: "Yazı Boyutu",
+        settings_line_height: "Satır Yüksekliği",
+        settings_bold_intensity: "Kalınlık Yoğunluğu (BionicText)",
+        settings_theme: "Tema",
+        settings_light: "Açık",
+        settings_dark: "Koyu",
+        settings_sepia: "Sepya",
+        settings_reset: "Ayarları Sıfırla",
+        settings_reading: "Okuma Ayarları",
+        settings_reading_guide: "Okuma Kılavuzu",
+        settings_guide_desc: "Satır vurgulama ile odaklanmayı artırın",
+        settings_auto_scroll: "Otomatik Kaydırma",
+        settings_scroll_desc: "Okurken otomatik sayfa kaydırma",
+
+        // Home
+        home_subtitle: "AI destekli metin biçimi ile okuma hızınızı artırın.",
+        home_start_test: "Okuma Testini Başlat",
+        home_try_converter: "Dönüştürücüyü Dene",
+        home_speed_reading: "Hızlı Okuma",
+        home_speed_desc: "BionicText formatı ile okuma hızınızı %200'e kadar artırın.",
+        home_comprehension: "Daha İyi Anlayış",
+        home_comprehension_desc: "Daha hızlı okurken anlayışı koruyun.",
+        home_ai_powered: "AI Destekli",
+        home_ai_desc: "AI algoritmaları, metni optimize ederek verim sağlar.",
+
+        // Test
+        test_title: "Okuma Hızı Testi",
+        test_subtitle: "Normal metin vs. BionicText",
+        test_step1: "Adım 1: Normal Metin Okuma",
+        test_step2: "Adım 2: BionicText Okuma",
+        test_start_timer: "Zamanlayıcıyı Başlat",
+        test_finish_timer: "Zamanlayıcıyı Bitir",
+        test_results_title: "Sonuçlarınız",
+        test_normal_text: "Normal Metin",
+        test_bionic_text: "BionicText",
+        test_wpm: "dk/kelime",
+        test_improvement: "Hız Artışı",
+        test_download_report: "PDF Raporu İndir",
+        test_take_again: "Testi Tekrar Yap",
+        test_preset_text: "Hazır Metin",
+        test_custom_text: "Özel Metin",
+        test_preset_ai: "AI Teknolojisi",
+        test_preset_science: "Bilim & Doğa",
+        test_preset_history: "Tarih",
+        test_preset_literature: "Edebiyat",
+        test_custom_placeholder: "Metninizi girin…",
+        test_word_count: "Kelime sayısı:",
+        test_recommended: "Önerilen: 100-200 kelime",
+        test_load_custom: "Özel Metni Yükle",
+
+        // Converter
+        converter_title: "BionicText Dönüştürücü",
+        converter_subtitle: "Her metni BionicText’e dönüştürün",
+        converter_input_text: "Giriş Metni",
+        converter_text_input: "Metin Girişi",
+        converter_file_upload: "Dosya Yükleme",
+        converter_voice_input: "Ses Girişi",
+        converter_paste_text: "Metninizi yapıştırın…",
+        converter_drop_file: "PDF veya TXT dosyası bırakın",
+        converter_click_browse: "veya tıklayın",
+        converter_choose_file: "Dosya Seç",
+        converter_click_record: "Kaydı başlat",
+        converter_speak_clearly: "Net konuşun",
+        converter_recording: "Kaydediliyor… durdurmak için tıklayın",
+        converter_convert: "BionicText’e Dönüştür",
+        converter_output: "BionicText Çıktısı",
+        converter_output_placeholder: "Çıktı burada görünecek…",
+        converter_export_pdf: "PDF Dışa Aktar",
+        converter_export_txt: "TXT Dışa Aktar",
+        converter_speak: "🔊 Seslendir",
+        converter_tts_options: "Metinden Sese Seçenekleri",
+
+        // Profile
+        profile_title: "Kullanıcı Profili",
+        profile_member_since: "Üyelik tarihi",
+        profile_total_tests: "Toplam Test",
+
+        // Profile Menu
+        profile_menu_profile: "Profilim",
+        profile_menu_test: "Okuma Testi Yap",
+        profile_menu_converter: "Metin Dönüştür",
+        profile_menu_assistant: "AI Asistan",
+        profile_menu_export: "Veri Dışa Aktar",
+        profile_menu_logout: "Çıkış Yap",
+
+        // Notifications
+        notif_login_success: "Başarıyla giriş yapıldı!",
+        notif_login_failed: "Giriş başarısız:",
+        notif_test_saved: "Test sonuçları kaydedildi!",
+        notif_signin_to_save: "Kaydetmek için giriş yapın!",
+        notif_data_exported: "Veriler dışa aktarıldı!",
+        notif_data_deleted: "Tüm veriler silindi!",
+        notif_no_data_export: "Dışa aktarılacak veri yok.",
+
+        // AI Assistant
+        assistant_title: "AI Asistan",
+        assistant_subtitle: "BionicText veya okuma hakkında sorular sorun!",
+        assistant_name: "BionicText AI Asistan",
+        assistant_status: "Çevrimiçi • Hazır",
+        assistant_welcome: "Merhaba! Size yardımcı olabilirim:",
+        assistant_help_1: "• Hızlı okuma soruları",
+        assistant_help_2: "• Okuma performans analizi",
+        assistant_help_3: "• Hız artırma ipuçları",
+        assistant_help_4: "• Genel sorular",
+        assistant_ask: "Ne öğrenmek istersiniz?",
+        assistant_input_placeholder: "Mesajınızı yazın…",
+        assistant_send: "Gönder",
+        assistant_feature_1: "Akıllı Analiz",
+        assistant_feature_1_desc: "Okuma alışkanlıklarınız hakkında içgörü",
+        assistant_feature_2: "Kişisel Öneriler",
+        assistant_feature_2_desc: "Size özel gelişim önerileri",
+        assistant_feature_3: "7/24 Destek",
+        assistant_feature_3_desc: "İstediğiniz zaman sorun",
+        quick_what_bionic: "BionicText nedir?",
+        quick_improve_speed: "Hızımı artır",
+        quick_my_stats: "İstatistiklerim",
+        quick_benefits: "Faydalar"
+    },
+
+    // ============================================================
+    // ========================   ITALIAN   ========================
+    // ============================================================
+
+    it: {
+        // Navigation
+        nav_home: "Home",
+        nav_test: "Test",
+        nav_converter: "Convertitore",
+        nav_assistant: "Assistente AI",
+        nav_profile: "Profilo",
+        nav_settings: "Impostazioni",
+        login: "Accedi",
+        logout: "Esci",
+
+        // Authentication
+        auth_welcome: "Bentornato",
+        auth_signin_subtitle: "Accedi al tuo account",
+        auth_email: "Email",
+        auth_password: "Password",
+        auth_email_placeholder: "Inserisci la tua email",
+        auth_password_placeholder: "Inserisci la tua password",
+        auth_signin: "Accedi",
+        auth_signup: "Registrati",
+        auth_no_account: "Non hai un account?",
+        auth_create_account: "Crea Account",
+        auth_signup_subtitle: "Crea un nuovo account",
+        auth_have_account: "Hai già un account?",
+
+        // Settings
+        settings_title: "Impostazioni",
+        settings_subtitle: "Personalizza la tua esperienza di lettura",
+        settings_appearance: "Aspetto",
+        settings_font_size: "Dimensione Carattere",
+        settings_line_height: "Altezza Linea",
+        settings_bold_intensity: "Intensità Grassetto (BionicText)",
+        settings_theme: "Tema",
+        settings_light: "Chiaro",
+        settings_dark: "Scuro",
+        settings_sepia: "Seppia",
+        settings_reset: "Ripristina",
+        settings_reading: "Impostazioni Lettura",
+        settings_reading_guide: "Guida alla Lettura",
+        settings_guide_desc: "Migliora la concentrazione con evidenziazione",
+        settings_auto_scroll: "Scorrimento Automatico",
+        settings_scroll_desc: "Scorrimento automatico durante la lettura",
+
+        // Home
+        home_subtitle: "Migliora velocità e comprensione con AI.",
+        home_start_test: "Inizia Test",
+        home_try_converter: "Prova Convertitore",
+        home_speed_reading: "Lettura Veloce",
+        home_speed_desc: "Aumenta la velocità fino al 200%.",
+        home_comprehension: "Migliore Comprensione",
+        home_comprehension_desc: "Comprendi di più leggendo più veloce.",
+        home_ai_powered: "AI",
+        home_ai_desc: "L’AI ottimizza il testo automaticamente.",
+
+        // Test
+        test_title: "Test di Lettura",
+        test_subtitle: "Testo Normale vs. BionicText",
+        test_step1: "Passo 1: Lettura Testo Normale",
+        test_step2: "Passo 2: Lettura BionicText",
+        test_start_timer: "Avvia Timer",
+        test_finish_timer: "Termina Timer",
+        test_results_title: "Risultati",
+        test_normal_text: "Testo Normale",
+        test_bionic_text: "BionicText",
+        test_wpm: "parole/min",
+        test_improvement: "Miglioramento",
+        test_download_report: "Scarica PDF",
+        test_take_again: "Riprova",
+        test_preset_text: "Testo Predefinito",
+        test_custom_text: "Testo Personale",
+        test_preset_ai: "Tecnologia AI",
+        test_preset_science: "Scienza & Natura",
+        test_preset_history: "Storia",
+        test_preset_literature: "Letteratura",
+        test_custom_placeholder: "Inserisci il tuo testo…",
+        test_word_count: "Conteggio parole:",
+        test_recommended: "Consigliato: 100-200 parole",
+        test_load_custom: "Carica Testo",
+
+        // Converter
+        converter_title: "Convertitore BionicText",
+        converter_subtitle: "Trasforma testo in BionicText",
+        converter_input_text: "Testo d’Ingresso",
+        converter_text_input: "Input Testo",
+        converter_file_upload: "Carica File",
+        converter_voice_input: "Input Vocale",
+        converter_paste_text: "Incolla testo…",
+        converter_drop_file: "Trascina PDF o TXT",
+        converter_click_browse: "o sfoglia",
+        converter_choose_file: "Scegli File",
+        converter_click_record: "Inizia registrazione",
+        converter_speak_clearly: "Parla chiaramente",
+        converter_recording: "Registrazione…",
+        converter_convert: "Converti in BionicText",
+        converter_output: "Output",
+        converter_output_placeholder: "Testo convertito qui…",
+        converter_export_pdf: "Esporta PDF",
+        converter_export_txt: "Esporta TXT",
+        converter_speak: "🔊 Parla",
+        converter_tts_options: "Opzioni Audio",
+
+        // Profile
+        profile_title: "Profilo Utente",
+        profile_member_since: "Membro dal",
+        profile_total_tests: "Test Totali",
+
+        // Profile Menu
+        profile_menu_profile: "Profilo",
+        profile_menu_test: "Fai Test",
+        profile_menu_converter: "Converti Testo",
+        profile_menu_assistant: "Assistente AI",
+        profile_menu_export: "Esporta Dati",
+        profile_menu_logout: "Esci",
+
+        // Notifications
+        notif_login_success: "Accesso riuscito!",
+        notif_login_failed: "Errore di accesso:",
+        notif_test_saved: "Risultati salvati!",
+        notif_signin_to_save: "Accedi per salvare!",
+        notif_data_exported: "Dati esportati!",
+        notif_data_deleted: "Tutti i dati eliminati!",
+        notif_no_data_export: "Nessun dato da esportare.",
+
+        // AI Assistant
+        assistant_title: "Assistente AI",
+        assistant_subtitle: "Chiedi qualsiasi cosa!",
+        assistant_name: "Assistente BionicText",
+        assistant_status: "Online • Pronto",
+        assistant_welcome: "Ciao! Posso aiutarti con:",
+        assistant_help_1: "• Lettura veloce",
+        assistant_help_2: "• Analisi prestazioni",
+        assistant_help_3: "• Suggerimenti personalizzati",
+        assistant_help_4: "• Domande generali",
+        assistant_ask: "Cosa vuoi sapere?",
+        assistant_input_placeholder: "Scrivi…",
+        assistant_send: "Invia",
+        assistant_feature_1: "Analisi Smart",
+        assistant_feature_1_desc: "Approfondimenti sulle tue abitudini",
+        assistant_feature_2: "Suggerimenti Personalizzati",
+        assistant_feature_2_desc: "Consigli adattati a te",
+        assistant_feature_3: "Supporto 24/7",
+        assistant_feature_3_desc: "Sempre disponibile",
+        quick_what_bionic: "Cos’è BionicText?",
+        quick_improve_speed: "Migliora velocità",
+        quick_my_stats: "Statistiche",
+        quick_benefits: "Benefici"
+    }
+};
+
+
         const presetTexts = {
-            en: {
-                ai: "The rapid advancement of artificial intelligence has transformed numerous industries and aspects of daily life. From healthcare diagnostics to autonomous vehicles, AI systems are becoming increasingly sophisticated and capable. Machine learning algorithms can now process vast amounts of data to identify patterns and make predictions with remarkable accuracy. Natural language processing has enabled computers to understand and generate human-like text, revolutionizing communication and content creation. As we continue to develop these technologies, it becomes crucial to consider their ethical implications and ensure they benefit society as a whole. The future of AI holds immense potential for solving complex global challenges, but it also requires careful consideration of privacy, security, and the impact on employment markets.",
-                science: "Climate change represents one of the most pressing challenges of our time, requiring immediate action from governments, businesses, and individuals worldwide. The effects of global warming are already visible in rising sea levels, extreme weather patterns, and shifting ecosystems that threaten biodiversity. Scientists have developed innovative solutions including renewable energy technologies, carbon capture systems, and sustainable agriculture practices. Solar and wind power have become increasingly cost-effective alternatives to fossil fuels, while electric vehicles are revolutionizing transportation. However, addressing climate change requires coordinated global efforts, policy changes, and individual lifestyle modifications. The transition to a sustainable future depends on our collective commitment to reducing greenhouse gas emissions and protecting our planet for future generations.",
-                history: "The Renaissance period, spanning roughly from the 14th to the 17th century, marked a profound transformation in European culture, art, and intellectual thought. This era witnessed the revival of classical learning, the flourishing of artistic expression, and groundbreaking scientific discoveries. Prominent figures like Leonardo da Vinci embodied the Renaissance ideal of the polymath, excelling in art, science, and engineering. The invention of the printing press by Johannes Gutenberg revolutionized the spread of knowledge, making books more accessible and accelerating the exchange of ideas. Renaissance humanism emphasized the potential and worth of individual human beings, shifting focus from purely religious concerns to secular learning and personal achievement. This period laid the foundation for the modern world, influencing everything from artistic techniques to scientific methodology.",
-                literature: "Literature serves as a mirror to society, reflecting the values, struggles, and aspirations of different cultures and time periods. Through storytelling, authors have the power to transport readers to different worlds, challenge perspectives, and evoke deep emotional responses. Classic works like Shakespeare's plays continue to resonate with modern audiences because they explore universal themes of love, ambition, betrayal, and redemption. Contemporary literature addresses current social issues, giving voice to marginalized communities and exploring the complexities of modern life. The digital age has transformed how we consume literature, with e-books, audiobooks, and online platforms making literary works more accessible than ever before. Reading literature not only provides entertainment but also develops empathy, critical thinking skills, and cultural understanding."
-            },
-            tr: {
-                ai: "Yapay zekanın hızlı ilerlemesi, günlük yaşamın sayısız endüstrisini ve yönünü dönüştürmüştür. Sağlık teşhislerinden otonom araçlara kadar, AI sistemleri giderek daha sofistike ve yetenekli hale gelmektedir. Makine öğrenmesi algoritmaları artık büyük miktarlarda veriyi işleyerek kalıpları tanımlayabilir ve olağanüstü doğrulukla tahminlerde bulunabilir. Doğal dil işleme, bilgisayarların insan benzeri metinleri anlamasını ve üretmesini sağlayarak iletişim ve içerik oluşturmada devrim yaratmıştır. Bu teknolojileri geliştirmeye devam ederken, etik sonuçlarını göz önünde bulundurmak ve topluma bir bütün olarak fayda sağlamalarını garanti etmek çok önemli hale gelmiştir. AI'nın geleceği karmaşık küresel zorlukları çözmek için muazzam potansiyel barındırıyor, ancak aynı zamanda gizlilik, güvenlik ve istihdam piyasalarına etkisi konularında dikkatli değerlendirme gerektiriyor.",
-                science: "İklim değişikliği, dünya yapında hükümetler, işletmeler ve bireylerden acil eylem gerektiren zamanımızın en acil zorluklarından birini temsil etmektedir. Küresel ısınmanın etkileri, yükselen deniz seviyeleri, aşırı hava durumu kalıpları ve biyoçeşitliliği tehdit eden değişen ekosistemlerde zaten görülmektedir. Bilim insanları yenilenebilir enerji teknolojileri, karbon yakalama sistemleri ve sürdürülebilir tarım uygulamaları dahil olmak üzere yenilikçi çözümler geliştirmiştir. Güneş ve rüzgar enerjisi, fosil yakıtlara giderek daha uygun maliyetli alternatifler haline gelirken, elektrikli araçlar ulaşımda devrim yaratmaktadır. Ancak iklim değişikliğiyle mücadele, koordineli küresel çabalar, politika değişiklikleri ve bireysel yaşam tarzı değişiklikleri gerektirmektedir.",
-                history: "Yaklaşık 14. yüzyıldan 17. yüzyıla kadar uzanan Rönesans dönemi, Avrupa kültürü, sanatı ve entelektüel düşüncesinde derin bir dönüşümü işaret etmiştir. Bu çağ, klasik öğrenimin yeniden canlanması, sanatsal ifadenin çiçeklenmesi ve çığır açan bilimsel keşiflere tanık olmuştur. Leonardo da Vinci gibi önde gelen figürler, sanat, bilim ve mühendislikte mükemmelleşerek Rönesans'ın çok yönlü insan idealini somutlaştırmıştır. Johannes Gutenberg'in matbaayı icat etmesi bilginin yayılmasında devrim yaratarak kitapları daha erişilebilir hale getirdi ve fikirlerin değişimini hızlandırdı. Rönesans hümanizmi, bireysel insanların potansiyeli ve değerini vurgulayarak odağı tamamen dini kaygılardan laik öğrenime ve kişisel başarıya kaydırmıştır.",
-                literature: "Edebiyat topluma bir ayna görevi görerek farklı kültürlerin ve zaman dilimlerinin değerlerini, mücadelelerini ve özlemlerini yansıtır. Hikaye anlatıcılığı yoluyla yazarlar, okuyucuları farklı dünyalara taşıma, bakış açılarını sorgulama ve derin duygusal tepkiler uyandırma gücüne sahiptir. Shakespeare'in oyunları gibi klasik eserler, aşk, hırs, ihanet ve kurtuluş gibi evrensel temaları keşfettikleri için modern izleyicilerle rezonans kurmaya devam etmektedir. Çağdaş edebiyat güncel sosyal konuları ele alarak marjinalleştirilmiş topluluklara ses veriyor ve modern yaşamın karmaşıklıklarını keşfediyor. Dijital çağ, e-kitaplar, sesli kitaplar ve çevrimiçi platformlarla edebi eserleri her zamankinden daha erişilebilir hale getirerek edebiyatı nasıl tükettiğimizi dönüştürmüştür."
-            },
-            it: {
-                ai: "Il rapido progresso dell'intelligenza artificiale ha trasformato numerose industrie e aspetti della vita quotidiana. Dalla diagnostica sanitaria ai veicoli autonomi, i sistemi AI stanno diventando sempre più sofisticati e capaci. Gli algoritmi di machine learning possono ora elaborare enormi quantità di dati per identificare modelli e fare previsioni con notevole precisione. L'elaborazione del linguaggio naturale ha permesso ai computer di comprendere e generare testo simile a quello umano, rivoluzionando la comunicazione e la creazione di contenuti. Mentre continuiamo a sviluppare queste tecnologie, diventa cruciale considerare le loro implicazioni etiche e assicurarsi che beneficino la società nel suo insieme. Il futuro dell'AI ha un potenziale immenso per risolvere sfide globali complesse, ma richiede anche un'attenta considerazione della privacy, sicurezza e dell'impatto sui mercati del lavoro.",
-                science: "Il cambiamento climatico rappresenta una delle sfide più urgenti del nostro tempo, richiedendo azione immediata da governi, aziende e individui in tutto il mondo. Gli effetti del riscaldamento globale sono già visibili nell'innalzamento del livello del mare, nei modelli meteorologici estremi e negli ecosistemi in cambiamento che minacciano la biodiversità. Gli scienziati hanno sviluppato soluzioni innovative incluse tecnologie di energia rinnovabile, sistemi di cattura del carbonio e pratiche agricole sostenibili. L'energia solare ed eolica sono diventate alternative sempre più convenienti ai combustibili fossili, mentre i veicoli elettrici stanno rivoluzionando i trasporti. Tuttavia, affrontare il cambiamento climatico richiede sforzi globali coordinati, cambiamenti politici e modifiche dello stile di vita individuale.",
-                history: "Il periodo del Rinascimento, che va approssimativamente dal XIV al XVII secolo, ha segnato una profonda trasformazione nella cultura europea, nell'arte e nel pensiero intellettuale. Quest'era ha assistito al revival dell'apprendimento classico, al fiorire dell'espressione artistica e a scoperte scientifiche rivoluzionarie. Figure prominenti come Leonardo da Vinci incarnavano l'ideale rinascimentale del polimata, eccellendo nell'arte, nella scienza e nell'ingegneria. L'invenzione della stampa da parte di Johannes Gutenberg rivoluzion la diffusione della conoscenza, rendendo i libri più accessibili e accelerando lo scambio di idee. L'umanesimo rinascimentale enfatizzava il potenziale e il valore degli esseri umani individuali, spostando l'attenzione dalle preoccupazioni puramente religiose all'apprendimento secolare e al successo personale.",
-                literature: "La letteratura serve come specchio della società, riflettendo i valori, le lotte e le aspirazioni di diverse culture e periodi storici. Attraverso la narrazione, gli autori hanno il potere di trasportare i lettori in mondi diversi, sfidare le prospettive ed evocare profonde risposte emotive. Opere classiche come le opere di Shakespeare continuano a risuonare con il pubblico moderno perché esplorano temi universali di amore, ambizione, tradimento e redenzione. La letteratura contemporanea affronta questioni sociali attuali, dando voce alle comunità emarginate ed esplorando le complessità della vita moderna. L'era digitale ha trasformato il modo in cui consumiamo la letteratura, con e-book, audiolibri e piattaforme online che rendono le opere letterarie più accessibili che mai."
-            }
-        };
+    en: {
+        ai: {
+            normal: "The rapid advancement of artificial intelligence has transformed numerous industries and aspects of daily life. From healthcare diagnostics to autonomous vehicles, AI systems are becoming increasingly sophisticated and capable. Machine learning algorithms can now process vast amounts of data to identify patterns and make predictions with remarkable accuracy. Natural language processing has enabled computers to understand and generate human-like text, revolutionizing communication and content creation. As we continue to develop these technologies, it becomes crucial to consider their ethical implications and ensure they benefit society as a whole. The future of AI holds immense potential for solving complex global challenges, but it also requires careful consideration of privacy, security, and the impact on employment markets.",
+            bionic: "Artificial intelligence is reshaping how we live and work in profound ways. Modern AI applications range from medical diagnosis systems to self-driving cars, each pushing the boundaries of what machines can accomplish. Deep learning networks analyze enormous datasets to recognize complex patterns and generate accurate forecasts. Computer systems now comprehend and produce text that resembles human writing, transforming how we communicate and create content. The development of these powerful tools demands thoughtful consideration of moral questions and societal impact. AI technology promises revolutionary solutions to worldwide problems, yet we must address concerns about data protection, cybersecurity, and workforce disruption as we move forward into this new era."
+        },
+        science: {
+            normal: "Climate change represents one of the most pressing challenges of our time, requiring immediate action from governments, businesses, and individuals worldwide. The effects of global warming are already visible in rising sea levels, extreme weather patterns, and shifting ecosystems that threaten biodiversity. Scientists have developed innovative solutions including renewable energy technologies, carbon capture systems, and sustainable agriculture practices. Solar and wind power have become increasingly cost-effective alternatives to fossil fuels, while electric vehicles are revolutionizing transportation. However, addressing climate change requires coordinated global efforts, policy changes, and individual lifestyle modifications. The transition to a sustainable future depends on our collective commitment to reducing greenhouse gas emissions and protecting our planet for future generations.",
+            bionic: "Environmental shifts pose critical threats demanding urgent response from all sectors of society across the globe. Global temperature increases manifest through elevated ocean levels, unprecedented weather events, and ecological transformations endangering countless species. Researchers pioneer breakthrough approaches encompassing clean energy innovation, emission reduction technology, and eco-friendly farming methods. Renewable power sources like photovoltaic panels and wind turbines offer economically viable replacements for traditional energy, as battery-powered cars transform how we travel. Successfully combating environmental degradation necessitates international cooperation, governmental reform, and personal behavioral changes. Building a sustainable world requires unified dedication to minimizing carbon output and preserving Earth's resources for coming generations."
+        },
+        history: {
+            normal: "The Renaissance period, spanning roughly from the 14th to the 17th century, marked a profound transformation in European culture, art, and intellectual thought. This era witnessed the revival of classical learning, the flourishing of artistic expression, and groundbreaking scientific discoveries. Prominent figures like Leonardo da Vinci embodied the Renaissance ideal of the polymath, excelling in art, science, and engineering. The invention of the printing press by Johannes Gutenberg revolutionized the spread of knowledge, making books more accessible and accelerating the exchange of ideas. Renaissance humanism emphasized the potential and worth of individual human beings, shifting focus from purely religious concerns to secular learning and personal achievement. This period laid the foundation for the modern world, influencing everything from artistic techniques to scientific methodology.",
+            bionic: "Europe experienced dramatic cultural rebirth during the fourteenth through seventeenth centuries, transforming artistic creation, scholarly pursuits, and scientific understanding. The age brought renewed interest in ancient Greek and Roman knowledge, exceptional artistic achievements, and revolutionary scientific breakthroughs. Notable individuals such as Leonardo da Vinci exemplified the era's multi-talented ideal, demonstrating mastery across painting, natural philosophy, and technical design. Johannes Gutenberg's movable type printing innovation transformed how information spread throughout society, democratizing literature and facilitating rapid intellectual exchange. Humanist philosophy celebrated human capability and dignity, redirecting attention from exclusively spiritual matters toward worldly education and individual accomplishment. These developments established cornerstones of contemporary civilization, shaping modern approaches to creativity and empirical investigation."
+        },
+        literature: {
+            normal: "Literature serves as a mirror to society, reflecting the values, struggles, and aspirations of different cultures and time periods. Through storytelling, authors have the power to transport readers to different worlds, challenge perspectives, and evoke deep emotional responses. Classic works like Shakespeare's plays continue to resonate with modern audiences because they explore universal themes of love, ambition, betrayal, and redemption. Contemporary literature addresses current social issues, giving voice to marginalized communities and exploring the complexities of modern life. The digital age has transformed how we consume literature, with e-books, audiobooks, and online platforms making literary works more accessible than ever before. Reading literature not only provides entertainment but also develops empathy, critical thinking skills, and cultural understanding.",
+            bionic: "Written works function as reflections of human civilization, capturing beliefs, conflicts, and dreams across diverse societies and historical moments. Narrative art enables writers to carry audiences into imaginary realms, question assumptions, and trigger profound feelings. Timeless creations such as Shakespearean drama maintain relevance for contemporary viewers through their examination of enduring subjects including romance, aspiration, disloyalty, and salvation. Modern writing tackles pressing societal concerns, amplifying underrepresented voices and investigating the intricacies of present-day existence. Digital technology has revolutionized literary consumption through electronic texts, audio recordings, and web-based services that enhance availability. Engaging with literature offers more than amusement—it cultivates compassion, analytical abilities, and cross-cultural appreciation."
+        }
+    },
+    tr: {
+        ai: {
+            normal: "Yapay zekanın hızlı ilerlemesi, günlük yaşamın sayısız endüstrisini ve yönünü dönüştürmüştür. Sağlık teşhislerinden otonom araçlara kadar, AI sistemleri giderek daha sofistike ve yetenekli hale gelmektedir. Makine öğrenmesi algoritmaları artık büyük miktarlarda veriyi işleyerek kalıpları tanımlayabilir ve olağanüstü doğrulukla tahminlerde bulunabilir. Doğal dil işleme, bilgisayarların insan benzeri metinleri anlamasını ve üretmesini sağlayarak iletişim ve içerik oluşturmada devrim yaratmıştır. Bu teknolojileri geliştirmeye devam ederken, etik sonuçlarını göz önünde bulundurmak ve topluma bir bütün olarak fayda sağlamalarını garanti etmek çok önemli hale gelmiştir. AI'nın geleceği karmaşık küresel zorlukları çözmek için muazzam potansiyel barındırıyor, ancak aynı zamanda gizlilik, güvenlik ve istihdam piyasalarına etkisi konularında dikkatli değerlendirme gerektiriyor.",
+            bionic: "Yapay zeka teknolojisi hayatımızı ve çalışma şeklimizi köklü biçimde değiştirmektedir. Modern AI uygulamaları tıbbi tanı sistemlerinden otonom sürüş araçlarına kadar geniş bir yelpazede, makinelerin başarabileceklerinin sınırlarını zorlamaktadır. Derin öğrenme ağları devasa veri kümelerini analiz ederek karmaşık örüntüleri tespit etmekte ve isabetli öngörüler üretmektedir. Bilgisayar sistemleri artık insansı yazılar anlayıp oluşturabiliyor, bu da iletişim ve içerik üretim biçimimizi baştan aşağı değiştiriyor. Bu güçlü araçların geliştirilmesi ahlaki soruların düşünceli bir şekilde ele alınmasını ve toplumsal etkilerin değerlendirilmesini gerektirmektedir. AI teknolojisi küresel sorunlara devrimsel çözümler vaat ediyor, ancak veri koruması, siber güvenlik ve işgücü kesintisi konularındaki endişeleri ele almamız gerekiyor."
+        },
+        science: {
+            normal: "İklim değişikliği, dünya genelinde hükümetler, işletmeler ve bireylerden acil eylem gerektiren zamanımızın en acil zorluklarından birini temsil etmektedir. Küresel ısınmanın etkileri, yükselen deniz seviyeleri, aşırı hava durumu kalıpları ve biyoçeşitliliği tehdit eden değişen ekosistemlerde zaten görülmektedir. Bilim insanları yenilenebilir enerji teknolojileri, karbon yakalama sistemleri ve sürdürülebilir tarım uygulamaları dahil olmak üzere yenilikçi çözümler geliştirmiştir. Güneş ve rüzgar enerjisi, fosil yakıtlara giderek daha uygun maliyetli alternatifler haline gelirken, elektrikli araçlar ulaşımda devrim yaratmaktadır. Ancak iklim değişikliğiyle mücadele, koordineli küresel çabalar, politika değişiklikleri ve bireysel yaşam tarzı değişiklikleri gerektirmektedir.",
+            bionic: "Çevresel değişimler tüm toplum kesimlerinden acil yanıt talep eden kritik tehditler oluşturmaktadır. Küresel sıcaklık artışları yükselen okyanus seviyeleri, benzeri görülmemiş hava olayları ve sayısız türü tehlikeye atan ekolojik dönüşümler yoluyla kendini göstermektedir. Araştırmacılar temiz enerji inovasyonu, emisyon azaltma teknolojisi ve çevre dostu tarım yöntemlerini kapsayan çığır açan yaklaşımlar öncülük etmektedir. Fotovoltaik paneller ve rüzgar türbinleri gibi yenilenebilir güç kaynakları geleneksel enerji için ekonomik açıdan uygulanabilir değiştirmeler sunarken, batarya ile çalışan arabalar nasıl seyahat ettiğimizi dönüştürmektedir. Çevresel bozulmayı başarıyla mücadele etmek uluslararası işbirliği, hükümet reformu ve kişisel davranış değişiklikleri gerektirir."
+        },
+        history: {
+            normal: "Yaklaşık 14. yüzyıldan 17. yüzyıla kadar uzanan Rönesans dönemi, Avrupa kültürü, sanatı ve entelektüel düşüncesinde derin bir dönüşümü işaret etmiştir. Bu çağ, klasik öğrenimin yeniden canlanması, sanatsal ifadenin çiçeklenmesi ve çığır açan bilimsel keşiflere tanık olmuştur. Leonardo da Vinci gibi önde gelen figürler, sanat, bilim ve mühendislikte mükemmelleşerek Rönesans'ın çok yönlü insan idealini somutlaştırmıştır. Johannes Gutenberg'in matbaayı icat etmesi bilginin yayılmasında devrim yaratarak kitapları daha erişilebilir hale getirdi ve fikirlerin değişimini hızlandırdı. Rönesans hümanizmi, bireysel insanların potansiyeli ve değerini vurgulayarak odağı tamamen dini kaygılardan laik öğrenime ve kişisel başarıya kaydırmıştır.",
+            bionic: "Avrupa on dördüncü ile on yedinci yüzyıllar arasında çarpıcı kültürel yeniden doğuş yaşadı, sanatsal yaratımı, akademik uğraşları ve bilimsel anlayışı dönüştürdü. Dönem antik Yunan ve Roma bilgisine yeniden ilgi, istisnai sanatsal başarılar ve devrimci bilimsel atılımlar getirdi. Leonardo da Vinci gibi önemli bireyler çağın çok yetenekli idealini örnekledi, resim, doğa felsefesi ve teknik tasarım alanlarında ustalık göstererek. Johannes Gutenberg'in hareketli hurufat baskı inovasyonu bilginin toplum genelinde nasıl yayıldığını değiştirdi, edebiyatı demokratikleştirdi ve hızlı entelektüel alışverişi kolaylaştırdı. Hümanist felsefe insan kabiliyetini ve haysiyetini kutladı, dikkati münhasıran ruhani meselelerden dünyevi eğitime ve bireysel başarıya yönlendirdi."
+        },
+        literature: {
+            normal: "Edebiyat topluma bir ayna görevi görerek farklı kültürlerin ve zaman dilimlerinin değerlerini, mücadelelerini ve özlemlerini yansıtır. Hikaye anlatıcılığı yoluyla yazarlar, okuyucuları farklı dünyalara taşıma, bakış açılarını sorgulama ve derin duygusal tepkiler uyandırma gücüne sahiptir. Shakespeare'in oyunları gibi klasik eserler, aşk, hırs, ihanet ve kurtuluş gibi evrensel temaları keşfettikleri için modern izleyicilerle rezonans kurmaya devam etmektedir. Çağdaş edebiyat güncel sosyal konuları ele alarak marjinalleştirilmiş topluluklara ses veriyor ve modern yaşamın karmaşıklıklarını keşfediyor. Dijital çağ, e-kitaplar, sesli kitaplar ve çevrimiçi platformlarla edebi eserleri her zamankinden daha erişilebilir hale getirerek edebiyatı nasıl tükettiğimizi dönüştürmüştür.",
+            bionic: "Yazılı eserler insan uygarlığının yansımaları işlevi görür, çeşitli toplumlar ve tarihi anlar boyunca inançları, çatışmaları ve hayalleri yakalar. Anlatı sanatı yazarların izleyicileri hayali alemlere taşımasını, varsayımları sorgulamasını ve derin duyguları tetiklemesini sağlar. Shakespeare dramı gibi zamansız yaratımlar romantizm, özlem, sadakatsizlik ve kurtuluş dahil kalıcı konuları inceleyerek çağdaş izleyiciler için alakalılığını sürdürür. Modern yazı baskın toplumsal endişeleri ele alır, yetersiz temsil edilen sesleri güçlendirir ve günümüz varoluşunun inceliklerini araştırır. Dijital teknoloji elektronik metinler, ses kayıtları ve erişilebilirliği artıran web tabanlı hizmetler aracılığıyla edebi tüketimi devrimleştirdi. Edebiyatla ilgilenmek eğlenceden fazlasını sunar—şefkat, analitik yetenekler ve kültürler arası takdiri geliştirir."
+        }
+    },
+    it: {
+        ai: {
+            normal: "Il rapido progresso dell'intelligenza artificiale ha trasformato numerose industrie e aspetti della vita quotidiana. Dalla diagnostica sanitaria ai veicoli autonomi, i sistemi AI stanno diventando sempre più sofisticati e capaci. Gli algoritmi di machine learning possono ora elaborare enormi quantità di dati per identificare modelli e fare previsioni con notevole precisione. L'elaborazione del linguaggio naturale ha permesso ai computer di comprendere e generare testo simile a quello umano, rivoluzionando la comunicazione e la creazione di contenuti. Mentre continuiamo a sviluppare queste tecnologie, diventa cruciale considerare le loro implicazioni etiche e assicurarsi che beneficino la società nel suo insieme. Il futuro dell'AI ha un potenziale immenso per risolvere sfide globali complesse, ma richiede anche un'attenta considerazione della privacy, sicurezza e dell'impatto sui mercati del lavoro.",
+            bionic: "L'intelligenza artificiale sta rimodellando profondamente come viviamo e lavoriamo. Le applicazioni AI moderne spaziano da sistemi diagnostici medici alle automobili a guida autonoma, ciascuna spingendo i confini di ciò che le macchine possono realizzare. Le reti di apprendimento profondo analizzano dataset enormi per riconoscere pattern complessi e generare previsioni accurate. I sistemi computerizzati ora comprendono e producono testi che assomigliano alla scrittura umana, trasformando come comunichiamo e creiamo contenuti. Lo sviluppo di questi strumenti potenti richiede considerazione riflessiva delle questioni morali e dell'impatto sociale. La tecnologia AI promette soluzioni rivoluzionarie ai problemi mondiali, tuttavia dobbiamo affrontare preoccupazioni sulla protezione dei dati, la sicurezza informatica e l'interruzione della forza lavoro mentre avanziamo in questa nuova era."
+        },
+        science: {
+            normal: "Il cambiamento climatico rappresenta una delle sfide più urgenti del nostro tempo, richiedendo azione immediata da governi, aziende e individui in tutto il mondo. Gli effetti del riscaldamento globale sono già visibili nell'innalzamento del livello del mare, nei modelli meteorologici estremi e negli ecosistemi in cambiamento che minacciano la biodiversità. Gli scienziati hanno sviluppato soluzioni innovative incluse tecnologie di energia rinnovabile, sistemi di cattura del carbonio e pratiche agricole sostenibili. L'energia solare ed eolica sono diventate alternative sempre più convenienti ai combustibili fossili, mentre i veicoli elettrici stanno rivoluzionando i trasporti. Tuttavia, affrontare il cambiamento climatico richiede sforzi globali coordinati, cambiamenti politici e modifiche dello stile di vita individuale.",
+            bionic: "I cambiamenti ambientali pongono minacce critiche che richiedono risposta urgente da tutti i settori della società in tutto il globo. Gli aumenti della temperatura globale si manifestano attraverso livelli oceanici elevati, eventi meteorologici senza precedenti e trasformazioni ecologiche che mettono in pericolo innumerevoli specie. I ricercatori pionieristici approcci rivoluzionari che comprendono innovazione energetica pulita, tecnologia di riduzione delle emissioni e metodi agricoli eco-compatibili. Fonti di energia rinnovabile come pannelli fotovoltaici e turbine eoliche offrono sostituzioni economicamente praticabili per l'energia tradizionale, mentre le auto alimentate a batteria trasformano come viaggiamo. Combattere con successo il degrado ambientale richiede cooperazione internazionale, riforma governativa e cambiamenti comportamentali personali."
+        },
+        history: {
+            normal: "Il periodo del Rinascimento, che va approssimativamente dal XIV al XVII secolo, ha segnato una profonda trasformazione nella cultura europea, nell'arte e nel pensiero intellettuale. Quest'era ha assistito al revival dell'apprendimento classico, al fiorire dell'espressione artistica e a scoperte scientifiche rivoluzionarie. Figure prominenti come Leonardo da Vinci incarnavano l'ideale rinascimentale del polimata, eccellendo nell'arte, nella scienza e nell'ingegneria. L'invenzione della stampa da parte di Johannes Gutenberg rivoluzionò la diffusione della conoscenza, rendendo i libri più accessibili e accelerando lo scambio di idee. L'umanesimo rinascimentale enfatizzava il potenziale e il valore degli esseri umani individuali, spostando l'attenzione dalle preoccupazioni puramente religiose all'apprendimento secolare e al successo personale.",
+            bionic: "L'Europa sperimentò una drammatica rinascita culturale durante i secoli quattordicesimo attraverso diciassettesimo, trasformando la creazione artistica, le attività accademiche e la comprensione scientifica. L'età portò rinnovato interesse nella conoscenza greca e romana antica, eccezionali realizzazioni artistiche e scoperte scientifiche rivoluzionarie. Individui notevoli come Leonardo da Vinci esemplificarono l'ideale multi-talento dell'era, dimostrando padronanza attraverso pittura, filosofia naturale e progettazione tecnica. L'innovazione della stampa a caratteri mobili di Johannes Gutenberg trasformò come l'informazione si diffondeva attraverso la società, democratizzando la letteratura e facilitando il rapido scambio intellettuale. La filosofia umanista celebrava la capacità umana e la dignità, reindirizzando l'attenzione da questioni esclusivamente spirituali verso l'educazione mondana e il raggiungimento individuale."
+        },
+        literature: {
+            normal: "La letteratura serve come specchio della società, riflettendo i valori, le lotte e le aspirazioni di diverse culture e periodi storici. Attraverso la narrazione, gli autori hanno il potere di trasportare i lettori in mondi diversi, sfidare le prospettive ed evocare profonde risposte emotive. Opere classiche come le opere di Shakespeare continuano a risuonare con il pubblico moderno perché esplorano temi universali di amore, ambizione, tradimento e redenzione. La letteratura contemporanea affronta questioni sociali attuali, dando voce alle comunità emarginate ed esplorando le complessità della vita moderna. L'era digitale ha trasformato il modo in cui consumiamo la letteratura, con e-book, audiolibri e piattaforme online che rendono le opere letterarie più accessibili che mai.",
+            bionic: "Le opere scritte funzionano come riflessi della civilizzazione umana, catturando credenze, conflitti e sogni attraverso società diverse e momenti storici. L'arte narrativa consente agli scrittori di trasportare il pubblico in regni immaginari, interrogare assunzioni e innescare sentimenti profondi. Creazioni senza tempo come il dramma shakespeariano mantengono rilevanza per gli spettatori contemporanei attraverso il loro esame di soggetti duraturi inclusi romanticismo, aspirazione, slealtà e salvezza. La scrittura moderna affronta preoccupazioni sociali pressanti, amplificando voci sottorappresentate e investigando le complessità dell'esistenza attuale. La tecnologia digitale ha rivoluzionato il consumo letterario attraverso testi elettronici, registrazioni audio e servizi basati sul web che migliorano la disponibilità. Impegnarsi con la letteratura offre più che divertimento—coltiva compassione, abilità analitiche e apprezzamento interculturale."
+        }
+    }
+};
 
         // Mobile menu toggle
         window.toggleMobileMenu = function() {
@@ -1558,16 +1612,20 @@
         window.loadPresetText = function() {
             const select = document.getElementById('presetTextSelect');
             const textType = select.value;
-            const textContent = presetTexts[currentLanguage] && presetTexts[currentLanguage][textType] 
+            const textData = presetTexts[currentLanguage] && presetTexts[currentLanguage][textType] 
                 ? presetTexts[currentLanguage][textType] 
                 : presetTexts.en[textType];
             
-            document.getElementById('testText1').textContent = textContent;
-            currentTestText = textContent;
-            currentWordCount = textContent.split(/\s+/).length;
+            // Normal text için
+            const normalText = textData.normal;
+            document.getElementById('testText1').textContent = normalText;
+            currentTestText = normalText;
+            currentWordCount = normalText.split(/\s+/).length;
             
-            document.getElementById('testText2').innerHTML = convertToBionic(textContent);
-        };
+            // BionicText için farklı içerik kullan ve otomatik dönüştür
+            const bionicText = textData.bionic;
+            document.getElementById('testText2').innerHTML = convertToBionic(bionicText);
+};
 
         window.loadCustomText = function() {
             const customText = document.getElementById('customTestText').value.trim();
@@ -1929,22 +1987,22 @@ Generated by BionicText AI
 
         // Achievement definitions
         const achievements = [
-            { id: 'first_test', emoji: '🏆', name: 'İlk Test', desc: 'ilk okuma testini tamamla', check: (data) => data.testCount >= 1 },
-            { id: 'speed_demon', emoji: '⚡', name: 'Hız Canavarı', desc: 'BionicText ile 300+ WPM\'e ulaş', check: (data) => data.maxBionicWPM >= 300 },
+            { id: 'first_test', emoji: '🏆', name: 'İlk Test', desc: '    lk okuma testini tamamla', check: (data) => data.testCount >= 1 },
+            { id: 'speed_demon', emoji: '⚡', name: 'Hızlı ve Öfkeli', desc: 'BionicText ile 300+ WPM\'e ulaş', check: (data) => data.maxBionicWPM >= 300 },
             { id: 'regular_reader', emoji: '📚', name: 'Düzenli Okuyucu', desc: '10 test tamamla', check: (data) => data.testCount >= 10 },
-            { id: 'sharp_shooter', emoji: '🎯', name: 'Kesin Nişancı', desc: '3 testte 250+ WPM skorla', check: (data) => data.highScores >= 3 },
+            { id: 'sharp_shooter', emoji: '🎯', name: 'Keskin Nişancı', desc: '3 testte 250+ WPM skorla', check: (data) => data.highScores >= 3 },
             { id: 'rocket_man', emoji: '🚀', name: 'Roket Adam', desc: '400+ WPM\'e ulaş', check: (data) => data.maxBionicWPM >= 400 },
             { id: 'star_student', emoji: '🌟', name: 'Yıldız Öğrenci', desc: '5 test tamamla', check: (data) => data.testCount >= 5 },
             { id: 'strong_start', emoji: '💪', name: 'Güçlü Başlangıç', desc: 'İlk testte 200+ WPM skorla', check: (data) => data.firstTestWPM >= 200 },
             { id: 'improvement_master', emoji: '📈', name: 'Gelişim Ustası', desc: '%50+ iyileşme kaydet', check: (data) => data.maxImprovement >= 50 },
-            { id: 'fire_reader', emoji: '', name: 'Ateşli Okuyucu', desc: '7 gün üst üste test yap', check: (data) => data.consecutiveDays >= 7 },
-            { id: 'graduate', emoji: '', name: 'Mezun', desc: '25 test tamamla', check: (data) => data.testCount >= 25 },
-            { id: 'diamond_league', emoji: '💎', name: 'Elmas Lig', desc: '500+ WPM\'e ulaş', check: (data) => data.maxBionicWPM >= 500 },
+            { id: 'fire_reader', emoji: '✍️', name: 'İstikrarlı', desc: '7 gün üst üste test yap', check: (data) => data.consecutiveDays >= 7 },
+            { id: 'graduate', emoji: '🎓', name: 'Mezun', desc: '25 test tamamla', check: (data) => data.testCount >= 25 },
+            { id: 'diamond_league', emoji: '💎', name: 'Elmas Ligi', desc: '500+ WPM\'e ulaş', check: (data) => data.maxBionicWPM >= 500 },
             { id: 'variety', emoji: '🌈', name: 'Çeşitlilik', desc: 'Her metin türünde test yap', check: (data) => data.textTypesCount >= 4 },
             { id: 'marathon', emoji: '🏃', name: 'Maraton', desc: '50 test tamamla', check: (data) => data.testCount >= 50 },
             { id: 'superstar', emoji: '⭐', name: 'Süperstar', desc: '%100+ iyileşme kaydet', check: (data) => data.maxImprovement >= 100 },
             { id: 'professional', emoji: '🎪', name: 'Profesyonel', desc: '100 test tamamla', check: (data) => data.testCount >= 100 },
-            { id: 'world_citizen', emoji: '', name: 'Dünya Vatandaşı', desc: '3 farklı dilde test yap', check: (data) => data.languageCount >= 3 },
+            { id: 'world_citizen', emoji: '🌏', name: 'Dünya Vatandaşı', desc: '3 farklı dilde test yap', check: (data) => data.languageCount >= 3 },
             { id: 'customizer', emoji: '🎨', name: 'Özelleştirici', desc: 'Özel metin ile test yap', check: (data) => data.customTextUsed },
             { id: 'brain_power', emoji: '🧠', name: 'Beyin Gücü', desc: 'AI asistan ile 10 sohbet yap', check: (data) => data.messageCount >= 10 },
             { id: 'data_analyst', emoji: '📊', name: 'Veri Analisti', desc: 'Verilerini dışa aktar', check: (data) => data.dataExported },
@@ -2406,7 +2464,7 @@ Generated by BionicText AI
 
 
 
-        window.loadPresetText = function() {
+        /*window.loadPresetText = function() {
             const select = document.getElementById('presetTextSelect');
             const textType = select.value;
             const textContent = presetTexts[currentLanguage] && presetTexts[currentLanguage][textType] 
@@ -2418,7 +2476,7 @@ Generated by BionicText AI
             currentWordCount = textContent.split(/\s+/).length;
             
             document.getElementById('testText2').innerHTML = convertToBionic(textContent);
-        };
+        };*/
 
         window.loadCustomText = function() {
             const customText = document.getElementById('customTestText').value.trim();
@@ -2975,7 +3033,7 @@ Generated by BionicText AI
 
 
 
-        window.loadPresetText = function() {
+        /*window.loadPresetText = function() {
             const select = document.getElementById('presetTextSelect');
             const textType = select.value;
             const textContent = presetTexts[currentLanguage] && presetTexts[currentLanguage][textType] 
@@ -2987,7 +3045,7 @@ Generated by BionicText AI
             currentWordCount = textContent.split(/\s+/).length;
             
             document.getElementById('testText2').innerHTML = convertToBionic(textContent);
-        };
+        };*/
 
         window.loadCustomText = function() {
             const customText = document.getElementById('customTestText').value.trim();
@@ -3499,19 +3557,19 @@ Generated by BionicText AI
         }
 
         function loadPresetText() {
-            const select = document.getElementById('presetTextSelect');
-            const textType = select.value;
-            const textContent = presetTexts[currentLanguage] && presetTexts[currentLanguage][textType] 
-                ? presetTexts[currentLanguage][textType] 
-                : presetTexts.en[textType];
-            
-            document.getElementById('testText1').textContent = textContent;
-            currentTestText = textContent;
-            currentWordCount = textContent.split(/\s+/).length;
-            
-            // Update BionicText version
-            document.getElementById('testText2').innerHTML = convertToBionic(textContent);
-        }
+            const selected = document.getElementById("presetTextSelect").value;
+            const textData = presetTexts[currentLanguage] && presetTexts[currentLanguage][selected]
+                ? presetTexts[currentLanguage][selected]
+                : presetTexts.en[selected];
+
+            // Normal okuma metni
+            document.getElementById("testText1").innerText = textData.normal;
+            currentTestText = textData.normal;
+            currentWordCount = textData.normal.split(/\s+/).length;
+
+            // BionicText için farklı metin ve otomatik dönüştürme
+            document.getElementById("testText2").innerHTML = convertToBionic(textData.bionic);
+}
 
         function updateCustomWordCount() {
             const textarea = document.getElementById('customTestText');
@@ -3898,6 +3956,36 @@ Visit: https://bionictext.ai
         }
 
         // AI Assistant functions
+
+        async function callGeminiAPI(userMessage) {
+            const x = "AIzaSyCQXdA6mevtCUmni";
+            const y = "SYBxx2LpTVQzOnUOKI";
+            const apiKey = x + y;
+
+            const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: userMessage
+                        }]
+                    }]
+                })
+            });
+
+            const data = await response.json();
+
+            try {
+                return data.candidates[0].content.parts[0].text;
+            } catch (e) {
+                return "API hatası: " + JSON.stringify(data);
+            }
+}
+
+
         function sendMessage() {
             const input = document.getElementById('chatInput');
             const message = input.value.trim();
@@ -3907,12 +3995,14 @@ Visit: https://bionictext.ai
             addMessageToChat('user', message);
             input.value = '';
             
-            // Simulate AI response
-            setTimeout(() => {
-                const response = generateAIResponse(message);
-                addMessageToChat('ai', response);
-            }, 1000);
+            addMessageToChat("bot", "...");
+
+            callGeminiAPI(message).then(reply => {
+                document.getElementById("chatMessages").lastChild.remove();
+                addMessageToChat("bot", reply);
+            });
         }
+
 
         function sendQuickMessage(message) {
             document.getElementById('chatInput').value = message;
@@ -3953,7 +4043,7 @@ Visit: https://bionictext.ai
         function generateAIResponse(message) {
             const lowerMessage = message.toLowerCase();
             
-            if (lowerMessage.includes('bionic') || lowerMessage.includes('what is')) {
+            /*if (lowerMessage.includes('bionic') || lowerMessage.includes('what is')) {
                 return 'BionicText is a reading method that bolds the first part of words to help your eyes focus and increase reading speed. Studies show it can improve reading speed by up to 200% while maintaining comprehension.';
             } else if (lowerMessage.includes('improve') || lowerMessage.includes('speed')) {
                 return 'To improve your reading speed: 1) Practice regularly with BionicText, 2) Minimize subvocalization (inner voice), 3) Use your finger as a guide, 4) Read in chunks rather than word by word, 5) Take regular reading tests to track progress.';
@@ -3969,7 +4059,13 @@ Visit: https://bionictext.ai
                 return 'Speed reading benefits include: Better time management, increased productivity, improved focus and concentration, enhanced comprehension skills, reduced eye strain, and the ability to process more information quickly.';
             } else {
                 return 'That\'s an interesting question! I\'m here to help with BionicText, reading techniques, and analyzing your reading performance. Feel free to ask about improving your reading speed or take a reading test to get personalized insights.';
-            }
+            }*/
+
+            callGeminiAPI(message).then(reply => {
+                document.getElementById("chatMessages").lastChild.remove();
+
+                addMessageToChat("bot", reply);
+            });
         }
 
         function clearChat() {
@@ -4456,7 +4552,5 @@ Visit: https://bionictext.ai
             }
         });
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9abf1709b7d426ad',t:'MTc2NTM5NDMyNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a5b613e0244d5ff',t:'MTc2NDM0ODc4OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
-
