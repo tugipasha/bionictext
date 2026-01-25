@@ -11,18 +11,19 @@
   <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, deleteDoc, doc, onSnapshot, updateDoc, setDoc, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDHVblObPcwznJ3nL0g7s8NFhca7QXBpo4",
-            authDomain: "tubitak-cb01f.firebaseapp.com",
-            projectId: "tubitak-cb01f",
-            storageBucket: "tubitak-cb01f.firebasestorage.app",
-            messagingSenderId: "93431831930",
-            appId: "1:93431831930:web:d55f61f811a5fae5ee8ac3",
-            measurementId: "G-LC5V37BRTD"
-        };
+        const firebaseConfig = { 
+            apiKey: "AIzaSyAcGGh2CW2mS5t7_BObUKtARUt07SKyjRo", 
+            authDomain: "bionictext-3ba3e.firebaseapp.com", 
+            projectId: "bionictext-3ba3e", 
+            storageBucket: "bionictext-3ba3e.firebasestorage.app", 
+            messagingSenderId: "1013833191042", 
+            appId: "1:1013833191042:web:b4a5d8b38fbb578895ee9b", 
+            measurementId: "G-LS8RJYT1J8" 
+        }; 
+        window.translations = translations;
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
@@ -44,6 +45,10 @@
         window.firebaseOrderBy = orderBy;
         window.firebaseDeleteDoc = deleteDoc;
         window.firebaseDoc = doc;
+        window.firebaseOnSnapshot = onSnapshot;
+        window.firebaseUpdateDoc = updateDoc;
+        window.firebaseSetDoc = setDoc;
+        window.firebaseLimit = limit;
     </script>
   <script>
         tailwind.config = {
@@ -69,12 +74,131 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .progress-bar { transition: width 0.3s ease; }
         .modal { backdrop-filter: blur(10px); }
+
+        /* Theme Styles */
+        body.theme-dark { background-color: #1a1a1a !important; color: #ffffff !important; }
+        body.theme-dark .bg-white { background-color: #2a2a2a !important; color: #ffffff !important; }
+        body.theme-dark .bg-gray-50 { background-color: #1f1f1f !important; color: #ffffff !important; }
+        body.theme-dark .text-gray-900, body.theme-dark .text-gray-800, body.theme-dark .text-gray-700 { color: #f3f4f6 !important; }
+        body.theme-dark .text-gray-600, body.theme-dark .text-gray-500 { color: #d1d5db !important; }
+        body.theme-dark .border-gray-200, body.theme-dark .border-gray-300 { border-color: #374151 !important; }
+
+        body.theme-sepia { background-color: #f4ecd8 !important; color: #5c4a3a !important; }
+        body.theme-sepia .bg-white { background-color: #fdf6e3 !important; color: #5c4a3a !important; }
+        body.theme-sepia .bg-gray-50 { background-color: #eee8d5 !important; color: #5c4a3a !important; }
+        body.theme-sepia .text-gray-900, body.theme-sepia .text-gray-800, body.theme-sepia .text-gray-700 { color: #5c4a3a !important; }
+        body.theme-sepia .text-gray-600, body.theme-sepia .text-gray-500 { color: #839496 !important; }
+        body.theme-sepia .border-gray-200, body.theme-sepia .border-gray-300 { border-color: #d5be9a !important; }
+
+        /* Intro Animation */
+        #intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1a2b4c;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+
+        /* Tutorial Styles */
+        .tutorial-modal {
+            backdrop-filter: blur(8px);
+            z-index: 100;
+        }
+        .tutorial-step {
+            display: none;
+            animation: slideIn 0.3s ease-out;
+        }
+        .tutorial-step.active {
+            display: block;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .tutorial-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #d1d5db;
+            transition: all 0.3s ease;
+        }
+        .tutorial-dot.active {
+            width: 24px;
+            background-color: #1a2b4c;
+            border-radius: 4px;
+        }
+
+        /* Eye Exercise Animations */
+        @keyframes shakeHorizontal {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        .shake-horizontal {
+            animation: shakeHorizontal 0.4s ease-in-out;
+        }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .animate-fade-in {
+            animation: fadeInScale 0.4s ease-out forwards;
+        }
+
+        #intro-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .intro-logo {
+            width: 80px;
+            height: 80px;
+            color: white;
+            animation: introPulse 2s infinite ease-in-out;
+            margin-bottom: 20px;
+        }
+
+        .intro-title {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            animation: introSlideUp 1s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes introPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        @keyframes introSlideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
     </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
  </head>
- <body class="bg-gray-50 min-h-screen"><!-- Navigatsyon -->
+ <body class="bg-gray-50 min-h-screen">
+  <!-- Intro Overlay -->
+  <div id="intro-overlay">
+   <div class="intro-logo">
+    <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+     <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+    </svg>
+   </div>
+   <h1 class="intro-title">BionicText</h1>
+  </div>
+  <!-- Navigatsyon -->
   <nav class="bg-primary shadow-lg">
    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16">
@@ -87,7 +211,7 @@
        <svg id="menuIconClose" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
        </svg></button>
       <div class="hidden md:block ml-10">
-       <div class="flex items-baseline space-x-4"><button onclick="showSection('home')" class="nav-btn text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-translate="nav_home">Ana Sayfa</button> <button onclick="showSection('test')" class="nav-btn text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-translate="nav_test">Test</button> <button onclick="showSection('converter')" class="nav-btn text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-translate="nav_converter">Dönüştürücü</button> <button onclick="showSection('assistant')" class="nav-btn text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-translate="nav_assistant">AI Asistan</button> <button onclick="showSection('profile')" class="nav-btn text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-translate="nav_profile">Profil</button> 
+       <div class="flex items-baseline space-x-4"><button onclick="showSection('home')" class="nav-btn text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-translate="nav_home">Ana Sayfa</button> <button onclick="showSection('exercises')" class="nav-btn text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-translate="nav_exercises">Göz Egzersizleri</button> <button onclick="showSection('test')" class="nav-btn text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-translate="nav_test">Test</button> <button onclick="showSection('converter')" class="nav-btn text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-translate="nav_converter">Dönüştürücü</button> <button onclick="showSection('assistant')" class="nav-btn text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-translate="nav_assistant">AI Asistan</button> <button onclick="showSection('race')" class="nav-btn text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-translate="nav_race">Okuma Yarışı</button> <button onclick="showSection('profile')" class="nav-btn text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-translate="nav_profile">Profil</button> 
 <a href="./kitap.html" class="nav-btn text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-translate="nav_book_convert">Kitap Çevirme</a>
 <button onclick="showSection('settings')" ...
 <button onclick="showSection('settings')" class="nav-btn text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-translate="nav_settings">Ayarlar</button>
@@ -127,7 +251,9 @@
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
           </svg><span data-translate="profile_menu_converter">Convert Text</span> </button> <button onclick="showSection('assistant'); closeProfileMenu()" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-3">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
-          </svg><span data-translate="profile_menu_assistant">AI Assistant</span> </button>
+          </svg><span data-translate="profile_menu_assistant">AI Assistant</span> </button> <button onclick="window.startTutorial(); closeProfileMenu()" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-3">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg><span data-translate="profile_menu_tutorial">Nasıl Kullanılır (Öğretici)</span> </button>
          <div class="border-t border-gray-200 mt-2 pt-2"><button onclick="exportAllData(); closeProfileMenu()" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-3">
            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
            </svg><span data-translate="profile_menu_export">Export Data</span> </button> <button onclick="logout(); closeProfileMenu()" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center space-x-3">
@@ -141,7 +267,7 @@
     </div>
    </div><!-- Mobil Navigation Menu -->
    <div id="mobileMenu" class="hidden md:hidden bg-primary border-t border-blue-800">
-    <div class="px-2 pt-2 pb-3 space-y-1"><button onclick="showSection('home'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_home">Ana Sayfa</button> <button onclick="showSection('test'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_test">Test</button> <button onclick="showSection('converter'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_converter">Dönüştürücü</button> <button onclick="showSection('assistant'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_assistant">AI Asistan</button> <button onclick="showSection('profile'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_profile">Profil</button> <button onclick="showSection('settings'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_settings">Ayarlar</button> <!-- Mobile Language Selector -->
+    <div class="px-2 pt-2 pb-3 space-y-1"><button onclick="showSection('home'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_home">Ana Sayfa</button> <button onclick="showSection('exercises'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_exercises">Göz Egzersizleri</button> <button onclick="showSection('test'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_test">Test</button> <button onclick="showSection('converter'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_converter">Dönüştürücü</button> <button onclick="showSection('assistant'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_assistant">AI Asistan</button> <button onclick="showSection('race'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_race">Okuma Yarışı</button> <button onclick="showSection('profile'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_profile">Profil</button> <button onclick="showSection('settings'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left text-gray-300 hover:text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors" data-translate="nav_settings">Ayarlar</button> <!-- Mobile Language Selector -->
      <div class="px-3 py-2"><select id="languageSelectorMobile" onchange="changeLanguage()" class="w-full bg-white text-primary px-3 py-2 rounded-lg text-sm font-medium border-0 focus:ring-2 focus:ring-blue-300"> <option value="en">🇺🇸 English</option> <option value="tr" selected>🇹🇷 Türkçe</option> <option value="it">🇮🇹 Italiano</option> </select>
      </div><!-- Mobil Auth Button -->
      <div id="authButtonsMobile" class="px-3 py-2"><button onclick="showAuth(); toggleMobileMenu()" class="w-full bg-white text-primary px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors" data-translate="login">Login</button>
@@ -158,33 +284,127 @@
          user@example.com
         </div>
        </div>
-      </div><button onclick="exportAllData(); toggleMobileMenu()" class="w-full text-left text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm" data-translate="profile_menu_export">Veri Dışa Aktar</button> <button onclick="logout(); toggleMobileMenu()" class="w-full text-left text-red-300 hover:text-red-100 px-3 py-2 rounded-md text-sm" data-translate="profile_menu_logout">Çıkış Yap</button>
+      </div><button onclick="window.startTutorial(); toggleMobileMenu()" class="w-full text-left text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm flex items-center space-x-3">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg><span data-translate="profile_menu_tutorial">Nasıl Kullanılır (Öğretici)</span> </button> <button onclick="exportAllData(); toggleMobileMenu()" class="w-full text-left text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm" data-translate="profile_menu_export">Veri Dışa Aktar</button> <button onclick="logout(); toggleMobileMenu()" class="w-full text-left text-red-300 hover:text-red-100 px-3 py-2 rounded-md text-sm" data-translate="profile_menu_logout">Çıkış Yap</button>
      </div>
     </div>
    </div>
   </nav>
-  <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 modal hidden z-50 flex items-center justify-center" data-mode="signin">
-   <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4 shadow-2xl">
+  <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 modal hidden z-50 flex items-start sm:items-center justify-center overflow-y-auto py-4 sm:py-10" data-mode="signin" onclick="if(event.target === this) closeAuth()">
+   <div class="bg-white rounded-xl p-6 sm:p-8 max-w-md w-full mx-4 shadow-2xl relative my-auto">
     <div class="text-center mb-6">
      <h2 class="text-2xl font-bold text-primary mb-2" data-translate="auth_welcome">Welcome Back</h2>
      <p class="text-gray-600" data-translate="auth_signin_subtitle">Sign in to your account</p>
     </div>
     <div class="space-y-4">
-     <div><label class="block text-sm font-medium text-gray-700 mb-2" data-translate="auth_email">Email</label> <input type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" data-translate-placeholder="auth_email_placeholder" placeholder="Enter your email">
+     <div><label class="block text-sm font-medium text-gray-700 mb-2" data-translate="auth_email">Email</label> <input type="email" id="authEmail" inputmode="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" data-translate-placeholder="auth_email_placeholder" placeholder="Enter your email">
      </div>
      <div><label class="block text-sm font-medium text-gray-700 mb-2" data-translate="auth_password">Password</label>
-      <div class="relative"><input type="password" id="password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all pr-12" data-translate-placeholder="auth_password_placeholder" placeholder="Enter your password"> <button onclick="togglePassword()" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
+      <div class="relative"><input type="password" id="password" onkeyup="if(event.key === 'Enter') handleAuth()" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all pr-12" data-translate-placeholder="auth_password_placeholder" placeholder="Enter your password"> <button onclick="togglePassword()" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
         </svg></button>
       </div>
      </div>
-    </div><button onclick="login()" class="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors mt-6" data-translate="auth_signin">Sign In</button>
-    <div class="text-center mt-4"><span class="text-gray-600" data-translate="auth_no_account">Don't have an account? </span> <button onclick="toggleAuthMode()" class="text-primary font-medium hover:underline" data-translate="auth_signup">Sign up</button>
+    </div><button id="authSubmitBtn" onclick="handleAuth()" class="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors mt-6" data-translate="auth_signin">Sign In</button>
+    <div class="text-center mt-4"><span id="authToggleText" class="text-gray-600" data-translate="auth_no_account">Don't have an account? </span> <button id="authToggleBtn" onclick="toggleAuthMode()" class="text-primary font-medium hover:underline" data-translate="auth_signup">Sign up</button>
     </div><button onclick="closeAuth()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
      </svg></button>
    </div>
-  </div><!-- Main Content -->
+  </div>
+  
+  <!-- Tutorial Modal -->
+  <div id="tutorialModal" class="fixed inset-0 bg-black bg-opacity-60 tutorial-modal hidden z-[60] flex items-center justify-center p-4">
+   <div class="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl">
+    <div class="p-8">
+     <!-- Step 1 -->
+     <div id="tutorialStep1" class="tutorial-step active text-center">
+      <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+       <span class="text-4xl">🚀</span>
+      </div>
+      <h3 class="text-2xl font-bold text-primary mb-4" data-translate="tutorial_title">BionicText'e Hoş Geldiniz!</h3>
+      <p class="text-gray-600 mb-8 leading-relaxed" data-translate="tutorial_step1_desc">BionicText, her kelimenin başını kalınlaştırarak daha hızlı okumanıza yardımcı olur. Beyniniz geri kalanını otomatik olarak tamamlar.</p>
+      <div class="bg-gray-50 p-4 rounded-xl text-left border border-gray-100 mb-8">
+       <p class="text-sm text-gray-400 mb-2">Örnek / Example:</p>
+       <p class="text-lg font-medium"><span class="font-bold text-primary">Bio</span>nic<span class="font-bold text-primary">Te</span>xt <span class="font-bold text-primary">rea</span>ding <span class="font-bold text-primary">is</span> <span class="font-bold text-primary">fas</span>ter.</p>
+      </div>
+     </div>
+     <!-- Step 2 -->
+     <div id="tutorialStep2" class="tutorial-step text-center">
+      <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+       <span class="text-4xl">⚙️</span>
+      </div>
+      <h3 class="text-2xl font-bold text-primary mb-4" data-translate="tutorial_settings_title">Kişiselleştirin</h3>
+      <p class="text-gray-600 mb-8 leading-relaxed" data-translate="tutorial_step2_desc">Size en uygun olanı bulmak için Ayarlar'dan kalınlık yoğunluğunu ve yazı boyutunu ayarlayabilirsiniz.</p>
+      <div class="flex justify-center space-x-4 mb-8">
+       <div class="text-center">
+        <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-2 mx-auto">Aa</div>
+        <span class="text-xs text-gray-500" data-translate="settings_font_size">Boyut</span>
+       </div>
+       <div class="text-center">
+        <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-2 mx-auto"><b>B</b></div>
+        <span class="text-xs text-gray-500" data-translate="settings_bold_intensity">Kalınlık</span>
+       </div>
+      </div>
+     </div>
+     <!-- Step 3 -->
+     <div id="tutorialStep3" class="tutorial-step text-center">
+      <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+       <span class="text-4xl">📊</span>
+       </div>
+      <h3 class="text-2xl font-bold text-primary mb-4" data-translate="tutorial_test_title">Hızınızı Ölçün</h3>
+      <p class="text-gray-600 mb-8 leading-relaxed" data-translate="tutorial_step3_desc">Aradaki farkı kendiniz görmek için Okuma Hızı Testi'ni deneyin!</p>
+      <div class="bg-green-50 text-green-700 p-4 rounded-xl text-sm font-medium mb-8" data-translate="tutorial_ready">
+       Hazırsanız başlayalım!
+      </div>
+     </div>
+
+     <!-- Footer -->
+     <div class="flex items-center justify-between">
+      <button onclick="skipTutorial()" class="text-gray-400 hover:text-gray-600 font-medium px-4 py-2" data-translate="tutorial_skip">Atla</button>
+      <div class="flex space-x-2">
+       <div class="tutorial-dot active" id="dot1"></div>
+       <div class="tutorial-dot" id="dot2"></div>
+       <div class="tutorial-dot" id="dot3"></div>
+      </div>
+      <button id="tutorialNextBtn" onclick="nextTutorialStep()" class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-800 transition-all shadow-lg shadow-blue-200" data-translate="tutorial_next">Sonraki</button>
+     </div>
+    </div>
+   </div>
+  </div>
+
+  <!-- Share Badge Modal -->
+  <div id="shareBadgeModal" class="fixed inset-0 bg-black bg-opacity-50 z-[100] hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl transform transition-all">
+      <div class="text-center">
+        <div id="modalBadgeIcon" class="w-20 h-20 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl">🏆</div>
+        <h3 class="text-2xl font-bold text-primary mb-2" data-translate="share_badge_title">Başarımı Paylaş</h3>
+        <p id="modalBadgeName" class="text-lg font-semibold text-gray-800 mb-6">İlk Test</p>
+        
+        <div class="grid grid-cols-1 gap-3">
+          <button onclick="shareAchievement('x')" class="flex items-center justify-center space-x-3 w-full bg-black text-white py-3 rounded-xl font-medium hover:bg-gray-800 transition-colors">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+            <span data-translate="share_on_x">X'te Paylaş</span>
+          </button>
+          
+          <button onclick="shareAchievement('whatsapp')" class="flex items-center justify-center space-x-3 w-full bg-[#25D366] text-white py-3 rounded-xl font-medium hover:bg-[#22c35e] transition-colors">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-4.821 4.754a8.117 8.117 0 01-3.886-1.003l-.279-.166-2.887.756.77-2.814-.183-.291A8.106 8.106 0 014.1 9.513c0-4.478 3.644-8.122 8.125-8.122 2.17 0 4.21.844 5.742 2.377A8.062 8.062 0 0120.35 9.513c0 4.479-3.641 8.123-8.122 8.123m8.122-17.754A11.447 11.447 0 0012.65 0C5.667 0 .001 5.667.001 12.65a11.39 11.39 0 001.536 5.76L0 24l5.746-1.507a11.378 11.378 0 005.518 1.432h.005c6.983 0 12.65-5.667 12.65-12.65a11.433 11.433 0 00-3.295-8.239z"></path></svg>
+            <span data-translate="share_on_whatsapp">WhatsApp'ta Paylaş</span>
+          </button>
+          
+          <button onclick="shareAchievement('linkedin')" class="flex items-center justify-center space-x-3 w-full bg-[#0077B5] text-white py-3 rounded-xl font-medium hover:bg-[#006399] transition-colors">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0-2.761 2.239-5 5-5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>
+            <span data-translate="share_on_linkedin">LinkedIn'de Paylaş</span>
+          </button>
+        </div>
+        
+        <button onclick="closeShareModal()" class="mt-6 text-gray-500 hover:text-gray-700 font-medium transition-colors" data-translate="close">Kapat</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Main Content -->
   <div id="notification" class="fixed top-4 right-4 z-50 hidden">
    <div class="bg-white border-l-4 border-blue-500 rounded-lg shadow-lg p-4 max-w-sm">
     <div class="flex items-center">
@@ -383,6 +603,116 @@
      </div>
     </div>
    </div>
+   <div id="exercisesSection" class="section hidden">
+    <div class="max-w-6xl mx-auto px-4">
+     <div class="text-center mb-10">
+      <h2 class="text-3xl font-bold text-primary mb-4" data-translate="exercise_title">Göz Egzersiz Programı</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto" data-translate="exercise_subtitle">Okuma hızınızı ve odaklanmanızı artırmak için bilimsel temelli egzersizler.</p>
+     </div>
+     
+     <div class="grid md:grid-cols-2 gap-6" id="exerciseGrid">
+      <!-- Saccadic Jump Card -->
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+       <div class="flex items-start space-x-4">
+        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 flex-shrink-0">
+         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
+        </div>
+        <div class="flex-1">
+         <h3 class="text-xl font-bold text-primary mb-2" data-translate="exercise_saccadic_title">Odak Sıçraması</h3>
+         <p class="text-gray-500 text-sm mb-4" data-translate="exercise_saccadic_desc">Göz kaslarınızı hızlandırmak için noktaları takip edin.</p>
+         <button onclick="startExercise('saccadic')" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition-colors" data-translate="exercise_start">Egzersizi Başlat</button>
+        </div>
+       </div>
+      </div>
+
+      <!-- Schulte Table Card -->
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+       <div class="flex items-start space-x-4">
+        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 flex-shrink-0">
+         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+        </div>
+        <div class="flex-1">
+         <h3 class="text-xl font-bold text-primary mb-2" data-translate="exercise_schulte_title">Schulte Tablosu</h3>
+         <p class="text-gray-500 text-sm mb-4" data-translate="exercise_schulte_desc">Görsel algı genişliğinizi artırmak için sayıları bulun.</p>
+         <button onclick="startExercise('schulte')" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition-colors" data-translate="exercise_start">Egzersizi Başlat</button>
+        </div>
+       </div>
+      </div>
+
+      <!-- Peripheral Vision Card -->
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+       <div class="flex items-start space-x-4">
+        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-green-600 flex-shrink-0">
+         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+        </div>
+        <div class="flex-1">
+         <h3 class="text-xl font-bold text-primary mb-2" data-translate="exercise_peripheral_title">Geniş Açılı Bakış</h3>
+         <p class="text-gray-500 text-sm mb-4" data-translate="exercise_peripheral_desc">Merkeze odaklanırken kenarları fark etmeye çalışın.</p>
+         <button onclick="startExercise('peripheral')" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition-colors" data-translate="exercise_start">Egzersizi Başlat</button>
+        </div>
+       </div>
+      </div>
+
+      <!-- Infinity Trace Card -->
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+       <div class="flex items-start space-x-4">
+        <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center text-red-600 flex-shrink-0">
+         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+        </div>
+        <div class="flex-1">
+         <h3 class="text-xl font-bold text-primary mb-2" data-translate="exercise_infinity_title">Sonsuzluk Takibi</h3>
+         <p class="text-gray-500 text-sm mb-4" data-translate="exercise_infinity_desc">Göz esnekliğini artırmak için sonsuzluk sembolünü izleyin.</p>
+         <button onclick="startExercise('infinity')" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition-colors" data-translate="exercise_start">Egzersizi Başlat</button>
+        </div>
+       </div>
+      </div>
+     </div>
+
+     <!-- Active Exercise Area (Hidden by default) -->
+     <div id="activeExerciseArea" class="hidden bg-white rounded-3xl shadow-xl p-8 mt-6 relative min-h-[500px] flex flex-col">
+      <div class="flex justify-between items-center mb-8">
+       <button onclick="stopExercise()" class="text-gray-400 hover:text-primary transition-colors flex items-center space-x-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+        <span data-translate="exercise_back">Egzersizlere Dön</span>
+       </button>
+       <div class="flex space-x-6 text-sm font-bold text-primary">
+        <div id="exerciseTimerDisplay" class="flex items-center space-x-2">
+         <span data-translate="exercise_time">Süre</span>: <span id="exerciseTimerValue">00:00</span>
+        </div>
+        <div id="exerciseScoreDisplay" class="flex items-center space-x-2 hidden">
+         <span data-translate="exercise_score">Skor</span>: <span id="exerciseScoreValue">0</span>
+        </div>
+       </div>
+      </div>
+
+      <!-- Exercise Canvas/Container -->
+      <div id="exerciseContainer" class="flex-1 bg-gray-50 rounded-2xl relative overflow-hidden flex items-center justify-center border border-gray-100">
+       <!-- Dynamic content based on exercise -->
+      </div>
+
+      <!-- Instructions Overlay -->
+      <div id="exerciseInstructions" class="absolute inset-0 bg-white bg-opacity-95 z-10 flex flex-col items-center justify-center p-8 text-center rounded-3xl">
+       <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 mb-6">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+       </div>
+       <h3 class="text-2xl font-bold text-primary mb-4" data-translate="exercise_instructions">Talimatlar</h3>
+       <p id="exerciseInstructionText" class="text-gray-600 mb-8 max-w-md">Egzersiz talimatları buraya gelecek.</p>
+       
+       <div id="exerciseLevelSelection" class="mb-8">
+        <p class="text-sm font-bold text-gray-500 mb-3 uppercase tracking-wider" data-translate="exercise_level">Zorluk</p>
+        <div class="flex space-x-3 justify-center">
+         <button onclick="setExerciseLevel('easy')" class="level-btn px-6 py-2 rounded-xl border-2 border-gray-100 hover:border-primary transition-all font-medium" data-level="easy" data-translate="exercise_level_easy">Kolay</button>
+         <button onclick="setExerciseLevel('medium')" class="level-btn px-6 py-2 rounded-xl border-2 border-primary bg-primary bg-opacity-5 transition-all font-bold text-primary" data-level="medium" data-translate="exercise_level_medium">Orta</button>
+         <button onclick="setExerciseLevel('hard')" class="level-btn px-6 py-2 rounded-xl border-2 border-gray-100 hover:border-primary transition-all font-medium" data-level="hard" data-translate="exercise_level_hard">Zor</button>
+        </div>
+       </div>
+
+       <button id="startCountdownBtn" onclick="beginExerciseCountdown()" class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-800 transition-all shadow-lg" data-translate="exercise_start">Egzersizi Başlat</button>
+      </div>
+     </div>
+    </div>
+   </div>
+
    <div id="assistantSection" class="section hidden">
     <div class="max-w-4xl mx-auto px-4">
      <div class="text-center mb-6 sm:mb-8">
@@ -459,7 +789,117 @@
      </div>
     </div>
    </div><!-- Settings Section -->
-   <div id="settingsSection" class="section hidden">
+   <!-- Reading Race Section -->
+  <div id="raceSection" class="section hidden">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="text-center mb-12">
+     <h2 class="text-3xl font-bold text-gray-900 mb-4" data-translate="race_title">Reading Race</h2>
+     <p class="text-lg text-gray-600" data-translate="race_subtitle">Compete with another reader!</p>
+    </div>
+
+    <!-- Race Setup -->
+    <div id="raceSetup" class="bg-white rounded-2xl shadow-xl p-8 max-w-2xl mx-auto">
+     <div class="mb-8">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-xl font-bold text-gray-900" data-translate="race_select_mode">Select Mode</h3>
+        <div class="flex bg-gray-100 p-1 rounded-xl">
+          <button id="localModeBtn" onclick="switchRaceMode('local')" class="px-4 py-2 rounded-lg font-medium transition-all bg-white shadow-sm text-primary">Yerel</button>
+          <button id="onlineModeBtn" onclick="switchRaceMode('online')" class="px-4 py-2 rounded-lg font-medium transition-all text-gray-500 hover:text-primary">Online</button>
+        </div>
+      </div>
+     </div>
+
+     <!-- Local Setup -->
+     <div id="localSetup">
+       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div>
+         <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="race_player1">Player 1</label>
+         <input type="text" id="player1Name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none" placeholder="Name">
+        </div>
+        <div>
+         <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="race_player2">Player 2</label>
+         <input type="text" id="player2Name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none" placeholder="Name">
+        </div>
+       </div>
+     </div>
+
+     <!-- Online Setup -->
+     <div id="onlineSetup" class="hidden text-center py-6">
+       <div id="matchmakingStatus" class="mb-6">
+         <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4 hidden" id="matchmakingSpinner"></div>
+         <p id="matchmakingText" class="text-gray-600 font-medium" data-translate="race_find_match_desc">Diğer oyuncularla eşleşmek için butona basın</p>
+       </div>
+       <button id="findMatchBtn" onclick="findMatch()" class="bg-primary text-white px-10 py-4 rounded-xl font-bold hover:bg-blue-800 transition-all shadow-lg shadow-blue-200" data-translate="race_find_match">Eşleşme Bul</button>
+       <button id="cancelMatchBtn" onclick="cancelMatchmaking()" class="hidden bg-gray-200 text-gray-700 px-8 py-3 rounded-xl font-bold hover:bg-gray-300 transition-all mt-4">İptal Et</button>
+     </div>
+
+     <div id="raceSettings" class="mt-8 pt-8 border-t border-gray-100">
+       <div class="mb-8">
+        <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="race_select_text">Select Text</label>
+        <select id="raceTextSelect" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none">
+         <option value="ai" data-translate="test_preset_ai">AI Technology</option>
+         <option value="science" data-translate="test_preset_science">Science & Nature</option>
+         <option value="history" data-translate="test_preset_history">History</option>
+         <option value="literature" data-translate="test_preset_literature">Literature</option>
+        </select>
+       </div>
+
+       <div class="flex justify-center space-x-4">
+        <button onclick="startRace('normal')" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-xl font-bold hover:bg-gray-300 transition-all" data-translate="race_normal_mode">Normal Mode</button>
+        <button onclick="startRace('bionic')" class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-800 transition-all shadow-lg shadow-blue-200" data-translate="race_bionic_mode">Bionic Mode</button>
+       </div>
+     </div>
+    </div>
+
+    <!-- Race Active -->
+    <div id="raceActive" class="hidden">
+     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Player 1 Side -->
+      <div class="bg-white rounded-2xl shadow-xl p-6 border-t-4 border-blue-500">
+       <div class="flex justify-between items-center mb-4">
+        <h3 id="p1Display" class="text-xl font-bold text-gray-900">Player 1</h3>
+        <div id="p1Timer" class="text-2xl font-mono font-bold text-primary">00:00</div>
+       </div>
+       <div id="p1Text" class="prose max-w-none text-gray-800 leading-relaxed mb-6 h-96 overflow-y-auto p-4 bg-gray-50 rounded-lg bionic-text">
+        <!-- Text goes here -->
+       </div>
+       <button id="p1FinishBtn" onclick="finishPlayer(1)" class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-blue-800 transition-all disabled:opacity-50" data-translate="race_finish">Finish</button>
+      </div>
+
+      <!-- Player 2 Side -->
+      <div class="bg-white rounded-2xl shadow-xl p-6 border-t-4 border-green-500">
+       <div class="flex justify-between items-center mb-4">
+        <h3 id="p2Display" class="text-xl font-bold text-gray-900">Player 2</h3>
+        <div id="p2Timer" class="text-2xl font-mono font-bold text-primary">00:00</div>
+       </div>
+       <div id="p2Text" class="prose max-w-none text-gray-800 leading-relaxed mb-6 h-96 overflow-y-auto p-4 bg-gray-50 rounded-lg bionic-text">
+        <!-- Text goes here -->
+       </div>
+       <button id="p2FinishBtn" onclick="finishPlayer(2)" class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-blue-800 transition-all disabled:opacity-50" data-translate="race_finish">Finish</button>
+      </div>
+     </div>
+    </div>
+
+    <!-- Race Results -->
+    <div id="raceResults" class="hidden bg-white rounded-2xl shadow-xl p-8 max-w-2xl mx-auto text-center">
+     <div class="text-5xl mb-6">🏆</div>
+     <h3 id="winnerDisplay" class="text-3xl font-bold text-gray-900 mb-6">Player 1 Wins!</h3>
+     <div class="grid grid-cols-2 gap-8 mb-8">
+      <div class="p-4 bg-blue-50 rounded-xl">
+       <div id="resP1Name" class="font-bold text-blue-800 mb-1">Player 1</div>
+       <div id="resP1WPM" class="text-2xl font-black text-blue-900">0 WPM</div>
+      </div>
+      <div class="p-4 bg-green-50 rounded-xl">
+       <div id="resP2Name" class="font-bold text-green-800 mb-1">Player 2</div>
+       <div id="resP2WPM" class="text-2xl font-black text-green-900">0 WPM</div>
+      </div>
+     </div>
+     <button onclick="resetRace()" class="bg-gray-100 text-gray-700 px-8 py-3 rounded-xl font-bold hover:bg-gray-200 transition-all">Try Again</button>
+    </div>
+   </div>
+  </div>
+
+  <div id="settingsSection" class="section hidden">
     <div class="max-w-4xl mx-auto px-4">
      <div class="text-center mb-6 sm:mb-8">
       <h2 class="text-2xl sm:text-3xl font-bold text-primary mb-3 sm:mb-4" data-translate="settings_title">Ayarlar</h2>
@@ -508,6 +948,43 @@
          <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div></label>
        </div>
        <p class="text-sm text-gray-500" data-translate="settings_scroll_desc">Okurken otomatik sayfa kaydırma</p>
+      </div>
+     </div>
+     <!-- Focus Sounds Section -->
+     <div class="bg-white rounded-xl shadow-lg p-8 mt-6">
+      <h3 class="text-xl font-semibold text-primary mb-2" data-translate="settings_focus_sounds">Odaklanma Sesleri</h3>
+      <p class="text-sm text-gray-500 mb-6" data-translate="settings_focus_desc">Okurken odaklanmanıza yardımcı olacak arka plan sesleri.</p>
+      
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6">
+       <button onclick="playFocusSound('none')" class="sound-btn border-2 border-primary p-3 rounded-lg text-center hover:bg-gray-50 transition-colors">
+        <span class="text-xs font-medium" data-translate="sound_none">Yok</span>
+       </button>
+       <button onclick="playFocusSound('white_noise')" class="sound-btn border-2 border-gray-200 p-3 rounded-lg text-center hover:bg-gray-50 transition-colors">
+        <span class="text-xs font-medium" data-translate="sound_white_noise">Beyaz Gürültü</span>
+       </button>
+       <button onclick="playFocusSound('rain')" class="sound-btn border-2 border-gray-200 p-3 rounded-lg text-center hover:bg-gray-50 transition-colors">
+        <span class="text-xs font-medium" data-translate="sound_rain">Yağmur</span>
+       </button>
+       <button onclick="playFocusSound('forest')" class="sound-btn border-2 border-gray-200 p-3 rounded-lg text-center hover:bg-gray-50 transition-colors">
+        <span class="text-xs font-medium" data-translate="sound_forest">Orman</span>
+       </button>
+       <button onclick="playFocusSound('cafe')" class="sound-btn border-2 border-gray-200 p-3 rounded-lg text-center hover:bg-gray-50 transition-colors">
+        <span class="text-xs font-medium" data-translate="sound_cafe">Kafe</span>
+       </button>
+      </div>
+
+      <div class="flex items-center space-x-4">
+       <span class="text-sm font-medium text-gray-700" data-translate="settings_volume">Ses Seviyesi</span>
+       <input type="range" id="focusVolume" min="0" max="100" value="50" class="flex-1" oninput="updateFocusVolume(this.value)">
+       <span id="focusVolumeValue" class="text-sm font-medium text-gray-600 w-12 text-center">50%</span>
+      </div>
+     </div>
+     <!-- Help & Tutorial Section -->
+     <div class="bg-white rounded-xl shadow-lg p-8 mt-6">
+      <h3 class="text-xl font-semibold text-primary mb-6" data-translate="profile_menu_tutorial">Nasıl Kullanılır (Öğretici)</h3>
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+       <p class="text-sm text-gray-500" data-translate="tutorial_step1_desc">BionicText, her kelimenin başını kalınlaştırarak daha hızlı okumanıza yardımcı olur. Beyniniz geri kalanını otomatik olarak tamamlar.</p>
+       <button onclick="window.startTutorial()" class="w-full sm:w-auto bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors whitespace-nowrap" data-translate="profile_menu_tutorial">Öğreticiyi Başlat</button>
       </div>
      </div>
     </div>
@@ -583,6 +1060,15 @@
         <div class="space-y-2" id="recentTests">
          <div class="text-center text-gray-500 py-6 sm:py-8">
           <p class="text-sm sm:text-base">Henüz test sonucu yok. İlk okuma hızı testini yap!</p><button onclick="showSection('test')" class="mt-2 text-primary hover:text-blue-800 font-medium text-sm sm:text-base">Teste Başla</button>
+         </div>
+        </div>
+       </div><!-- Eye Exercise History -->
+       <div class="mt-8">
+        <h4 class="text-base sm:text-lg font-medium text-gray-700 mb-2 sm:mb-3">Göz Egzersiz Geçmişi</h4>
+        <div class="space-y-2" id="exerciseHistory">
+         <div class="text-center text-gray-500 py-6">
+          <p class="text-sm">Henüz egzersiz kaydı yok. Göz kaslarınızı eğitmeye başlayın!</p>
+          <button onclick="showSection('exercises')" class="mt-2 text-primary hover:text-blue-800 font-medium text-sm">Egzersizlere Git</button>
          </div>
         </div>
        </div>
@@ -852,6 +1338,7 @@
         let isRecording = false;
         let recognition = null;
         let currentLanguage = 'tr';
+        window.currentLanguage = currentLanguage;
         let chatHistory = [];
         let userTestData = [];
         let currentTestText = '';
@@ -860,6 +1347,13 @@
         let messageCount = 0;
         let testDates = [];
         let textTypes = new Set();
+        let currentFocusAudio = null;
+        const focusSoundUrls = {
+            white_noise: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', // Placeholder for white noise
+            rain: 'https://www.soundjay.com/nature/rain-01.mp3',
+            forest: 'https://www.soundjay.com/nature/forest-1.mp3',
+            cafe: 'https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg'
+        };
 
         const translations = {
     en: {
@@ -869,6 +1363,22 @@
         nav_converter: "Converter",
         nav_assistant: "AI Assistant",
         nav_profile: "Profile",
+        nav_race: "Reading Race",
+        race_title: "Reading Race",
+        race_subtitle: "Compete with another reader!",
+        race_player1: "Player 1",
+        race_player2: "Player 2",
+        race_start: "Start Race",
+        race_finish: "Finish",
+        race_winner: "Winner!",
+        race_draw: "It's a draw!",
+        race_wpm: "WPM",
+        race_ready: "Ready?",
+        race_go: "GO!",
+        race_enter_names: "Enter player names to start",
+        race_bionic_mode: "Bionic Mode",
+        race_normal_mode: "Normal Mode",
+        race_select_text: "Select Text",
         nav_settings: "Settings",
 	nav_book_convert: "Book Conversion",
         login: "Login",
@@ -975,6 +1485,7 @@
         profile_menu_converter: "Convert Text",
         profile_menu_assistant: "AI Assistant",
         profile_menu_export: "Export Data",
+        profile_menu_tutorial: "How to Use (Tutorial)",
         profile_menu_logout: "Sign Out",
 
         // Notifications
@@ -984,7 +1495,34 @@
         notif_signin_to_save: "Sign in to save results!",
         notif_data_exported: "Data exported!",
         notif_data_deleted: "All data deleted!",
-        notif_no_data_export: "No test data to export.",
+        notif_no_data_export: "No data to export.",
+
+        // Eye Exercises
+        nav_exercises: "Eye Exercises",
+        exercise_title: "Eye Exercise Program",
+        exercise_subtitle: "Scientifically based exercises to increase your reading speed and focus.",
+        exercise_start: "Start Exercise",
+        exercise_saccadic_title: "Saccadic Jump",
+        exercise_saccadic_desc: "Improve eye muscle speed by following the jumping dot.",
+        exercise_schulte_title: "Schulte Table",
+        exercise_schulte_desc: "Expand your field of vision by finding numbers in order.",
+        exercise_peripheral_title: "Peripheral Expansion",
+        exercise_peripheral_desc: "Focus on the center while perceiving surrounding stimuli.",
+        exercise_infinity_title: "Infinity Trace",
+        exercise_infinity_desc: "Increase eye flexibility by following the infinity pattern.",
+        exercise_instructions: "Instructions",
+        exercise_completed: "Exercise Completed!",
+        exercise_back: "Back to Exercises",
+        exercise_score: "Score",
+        exercise_time: "Time",
+        exercise_level: "Difficulty",
+        exercise_level_easy: "Easy",
+        exercise_level_medium: "Medium",
+        exercise_level_hard: "Hard",
+        exercise_saccadic_inst: "Keep your head still. Your eyes should follow the dot automatically as it jumps. Focus on moving your eyes quickly and precisely between the points.",
+        exercise_schulte_inst: "Keep your eyes fixed on the center of the grid. Try to find numbers from 1 to 25 using only your peripheral vision without moving your eyes from the center.",
+        exercise_peripheral_inst: "Stare at the central point. Random letters will appear in your periphery. Try to identify them or notice their position without looking directly at them.",
+        exercise_infinity_inst: "Keep your head stationary. Follow the moving dot with your eyes as it traces an infinity (figure-eight) pattern to improve flexibility and coordination.",
 
         // AI Assistant
         assistant_title: "AI Assistant",
@@ -1008,7 +1546,113 @@
         quick_what_bionic: "What is BionicText?",
         quick_improve_speed: "Improve reading speed",
         quick_my_stats: "My statistics",
-        quick_benefits: "Speed reading benefits"
+        quick_benefits: "Speed reading benefits",
+        
+        // Tutorial
+        tutorial_title: "Welcome to BionicText!",
+        tutorial_step1_desc: "BionicText helps you read faster by bolding the start of each word. Your brain automatically completes the rest.",
+        tutorial_settings_title: "Personalize It",
+        tutorial_step2_desc: "You can adjust bold intensity and font size in Settings to find what works best for you.",
+        tutorial_test_title: "Measure Your Speed",
+        tutorial_step3_desc: "Try the Reading Speed Test to see the difference for yourself!",
+        tutorial_next: "Next",
+        tutorial_skip: "Skip",
+        tutorial_finish: "Finish",
+        tutorial_ready: "Let's get started if you're ready!",
+        
+        // Focus Sounds
+        settings_focus_sounds: "Focus Sounds",
+        settings_focus_desc: "Background sounds to help you focus while reading.",
+        sound_none: "None",
+        sound_white_noise: "White Noise",
+        sound_rain: "Rain",
+        sound_forest: "Forest",
+        sound_cafe: "Coffee Shop",
+        settings_volume: "Volume",
+        share_badge_title: "Share Achievement",
+        share_badge_text: "I just unlocked the '{badge}' badge on BionicText! 🚀 My reading speed is increasing! #BionicText #SpeedReading",
+        share_on_x: "Share on X",
+        share_on_whatsapp: "Share on WhatsApp",
+        share_on_linkedin: "Share on LinkedIn",
+
+        // Esercizi per gli Occhi
+        nav_exercises: "Esercizi per gli Occhi",
+        exercise_title: "Programma di Esercizi per gli Occhi",
+        exercise_subtitle: "Esercizi scientificamente provati per migliorare la velocità di lettura e la concentrazione.",
+        exercise_start: "Inizia Esercizio",
+        exercise_saccadic_title: "Salto Saccadico",
+        exercise_saccadic_desc: "Migliora la velocità dei muscoli oculari seguendo il punto che salta.",
+        exercise_schulte_title: "Tabella di Schulte",
+        exercise_schulte_desc: "Espandi il tuo campo visivo trovando i numeri in ordine.",
+        exercise_peripheral_title: "Espansione Periferica",
+        exercise_peripheral_desc: "Concentrati sul centro percependo gli stimoli circostanti.",
+        exercise_infinity_title: "Traccia dell'Infinito",
+        exercise_infinity_desc: "Aumenta la flessibilità oculare seguendo il modello dell'infinito.",
+        exercise_instructions: "Istruzioni",
+        exercise_completed: "Esercizio Completato!",
+        exercise_back: "Torna agli Esercizi",
+        exercise_score: "Punteggio",
+        exercise_time: "Tempo",
+        exercise_level: "Difficoltà",
+        exercise_level_easy: "Facile",
+        exercise_level_medium: "Medio",
+        exercise_level_hard: "Difficile",
+        exercise_saccadic_inst: "Tieni la testa ferma. I tuoi occhi dovrebbero seguire il punto automaticamente mentre salta. Concentrati sul muovere gli occhi in modo rapido e preciso tra i punti.",
+        exercise_schulte_inst: "Tieni gli occhi fissi sul centro della griglia. Prova a trovare i numeri da 1 a 25 usando solo la tua visione periferica senza spostare gli occhi dal centro.",
+        exercise_peripheral_inst: "Fissa il punto centrale. Lettere casuali appariranno nella tua periferia. Prova a identificarle o notare la loro posizione senza guardarle direttamente.",
+        exercise_infinity_inst: "Tieni la testa ferma. Segui il punto in movimento con gli occhi mentre traccia un modello a infinito (figura a otto) per migliorare la flessibilità e la coordinazione.",
+
+                // Esercizi per gli Occhi
+                nav_exercises: "Esercizi per gli Occhi",
+                exercise_title: "Programma di Esercizi per gli Occhi",
+                exercise_subtitle: "Esercizi scientificamente provati per migliorare la velocità di lettura e la concentrazione.",
+                exercise_start: "Inizia Esercizio",
+                exercise_saccadic_title: "Salto Saccadico",
+                exercise_saccadic_desc: "Segui i punti per velocizzare i muscoli oculari.",
+                exercise_schulte_title: "Tabella di Schulte",
+                exercise_schulte_desc: "Trova i numeri in ordine per espandere il tuo campo visivo.",
+                exercise_peripheral_title: "Visione Periferica",
+                exercise_peripheral_desc: "Concentrati sul centro notando i bordi.",
+                exercise_infinity_title: "Traccia dell'Infinito",
+                exercise_infinity_desc: "Segui il simbolo dell'infinito per aumentare la flessibilità oculare.",
+                exercise_instructions: "Istruzioni",
+                exercise_completed: "Esercizio Completato!",
+                exercise_back: "Torna agli Esercizi",
+                exercise_score: "Punteggio",
+                exercise_time: "Tempo",
+                exercise_level: "Livello",
+                exercise_next_level: "Livello Successivo",
+                exercise_finish: "Fine",
+                exercise_saccadic_inst: "Tieni la testa ferma e segui i punti che saltano solo con gli occhi.",
+                exercise_schulte_inst: "Tieni gli occhi fissi sul centro e trova i numeri da 1 a 25 il più velocemente possibile.",
+                exercise_peripheral_inst: "Fissa il punto centrale e cerca di percepire gli oggetti in movimento nella tua visione periferica.",
+                exercise_infinity_inst: "Segui il punto in movimento mentre traccia un modello a infinito senza muovere la testa.",
+
+        // Eye Exercises
+        nav_exercises: "Eye Exercises",
+        exercise_title: "Eye Exercise Program",
+        exercise_subtitle: "Scientifically proven exercises to improve reading speed and focus.",
+        exercise_start: "Start Exercise",
+        exercise_saccadic_title: "Saccadic Jump",
+        exercise_saccadic_desc: "Follow the dots to speed up your eye muscles.",
+        exercise_schulte_title: "Schulte Table",
+        exercise_schulte_desc: "Find numbers in order to expand your visual field.",
+        exercise_peripheral_title: "Peripheral Vision",
+        exercise_peripheral_desc: "Focus on the center while noticing the edges.",
+        exercise_infinity_title: "Infinity Trace",
+        exercise_infinity_desc: "Follow the infinity symbol to increase eye flexibility.",
+        exercise_instructions: "Instructions",
+        exercise_completed: "Exercise Completed!",
+        exercise_back: "Back to Exercises",
+        exercise_score: "Score",
+        exercise_time: "Time",
+        exercise_level: "Level",
+        exercise_next_level: "Next Level",
+        exercise_finish: "Finish",
+        exercise_saccadic_inst: "Keep your head still and follow the jumping dots with only your eyes.",
+        exercise_schulte_inst: "Keep your eyes fixed on the center and find all the numbers as fast as possible.",
+        exercise_peripheral_inst: "Stare at the center dot and try to perceive the moving objects in your peripheral vision.",
+        exercise_infinity_inst: "Follow the moving dot as it traces an infinity pattern without moving your head."
     },
 
     // ============================================================
@@ -1022,6 +1666,31 @@
         nav_converter: "Dönüştürücü",
         nav_assistant: "AI Asistan",
         nav_profile: "Profil",
+        nav_race: "Okuma Yarışı",
+        race_title: "Okuma Yarışı",
+        race_subtitle: "Başka bir okuyucuyla yarışın!",
+        race_player1: "1. Oyuncu",
+        race_player2: "2. Oyuncu",
+        race_start: "Yarışı Başlat",
+        race_finish: "Bitir",
+        race_winner: "Kazanan!",
+        race_draw: "Berabere!",
+        race_wpm: "WPM",
+        race_ready: "Hazır mısın?",
+        race_go: "BAŞLA!",
+        race_enter_names: "Başlamak için oyuncu isimlerini girin",
+        race_bionic_mode: "Biyonik Mod",
+        race_normal_mode: "Normal Mod",
+        race_select_text: "Metin Seç",
+        race_find_match: "Eşleşme Bul",
+        race_searching: "Rakip Aranıyor...",
+        race_waiting_opponent: "Rakip Bekleniyor...",
+        race_match_found: "Eşleşme Bulundu!",
+        race_opponent: "Rakip",
+        race_you: "Siz",
+        race_start_online: "Yarış Başlıyor",
+        race_waiting_others: "Diğer oyuncu bekleniyor...",
+        race_opponent_finished: "Rakip bitirdi!",
         nav_settings: "Ayarlar",
         login: "Giriş Yap",
         logout: "Çıkış Yap",
@@ -1128,6 +1797,7 @@
         profile_menu_converter: "Metin Dönüştür",
         profile_menu_assistant: "AI Asistan",
         profile_menu_export: "Veri Dışa Aktar",
+        profile_menu_tutorial: "Nasıl Kullanılır (Öğretici)",
         profile_menu_logout: "Çıkış Yap",
 
         // Notifications
@@ -1138,6 +1808,33 @@
         notif_data_exported: "Veriler dışa aktarıldı!",
         notif_data_deleted: "Tüm veriler silindi!",
         notif_no_data_export: "Dışa aktarılacak veri yok.",
+
+        // Eye Exercises
+        nav_exercises: "Göz Egzersizleri",
+        exercise_title: "Göz Egzersiz Programı",
+        exercise_subtitle: "Okuma hızınızı ve odaklanmanızı artırmak için bilimsel temelli egzersizler.",
+        exercise_start: "Egzersizi Başlat",
+        exercise_saccadic_title: "Sakkadik Sıçrama",
+        exercise_saccadic_desc: "Zıplayan noktayı takip ederek göz kası hızınızı artırın.",
+        exercise_schulte_title: "Schulte Tablosu",
+        exercise_schulte_desc: "Sayıları sırayla bularak görüş alanınızı genişletin.",
+        exercise_peripheral_title: "Periferik Genişleme",
+        exercise_peripheral_desc: "Merkeze odaklanırken çevre uyaranları algılayın.",
+        exercise_infinity_title: "Sonsuzluk Takibi",
+        exercise_infinity_desc: "Sonsuzluk desenini takip ederek göz esnekliğini artırın.",
+        exercise_instructions: "Talimatlar",
+        exercise_completed: "Egzersiz Tamamlandı!",
+        exercise_back: "Egzersizlere Dön",
+        exercise_score: "Skor",
+        exercise_time: "Süre",
+        exercise_level: "Zorluk",
+        exercise_level_easy: "Kolay",
+        exercise_level_medium: "Orta",
+        exercise_level_hard: "Zor",
+        exercise_saccadic_inst: "Başınızı sabit tutun. Gözleriniz, otomatik olarak zıplayan noktayı takip etmelidir. Noktalar arasında gözlerinizi hızlı ve hassas bir şekilde hareket ettirmeye odaklanın.",
+        exercise_schulte_inst: "Gözlerinizi tablonun merkezine sabitleyin. Gözlerinizi merkezden ayırmadan, sadece yan görüşünüzü kullanarak tüm sayıları sırayla bulmaya çalışın.",
+        exercise_peripheral_inst: "Merkezdeki noktaya bakın. Çevrede rastgele harfler belirecektir. Onlara doğrudan bakmadan harfleri tanımaya veya konumlarını fark etmeye çalışın.",
+        exercise_infinity_inst: "Başınızı hareket ettirmeyin. Gözlerinizle sonsuzluk (sekiz) çizerek hareket eden noktayı takip edin. Bu egzersiz koordinasyonu ve esnekliği artırır.",
 
         // AI Assistant
         assistant_title: "AI Asistan",
@@ -1161,7 +1858,60 @@
         quick_what_bionic: "BionicText nedir?",
         quick_improve_speed: "Hızımı artır",
         quick_my_stats: "İstatistiklerim",
-        quick_benefits: "Faydalar"
+        quick_benefits: "Faydalar",
+        
+        // Tutorial
+        tutorial_title: "BionicText'e Hoş Geldiniz!",
+        tutorial_step1_desc: "BionicText, her kelimenin başını kalınlaştırarak daha hızlı okumanıza yardımcı olur. Beyniniz geri kalanını otomatik olarak tamamlar.",
+        tutorial_settings_title: "Kişiselleştirin",
+        tutorial_step2_desc: "Size en uygun olanı bulmak için Ayarlar'dan kalınlık yoğunluğunu ve yazı boyutunu ayarlayabilirsiniz.",
+        tutorial_test_title: "Hızınızı Ölçün",
+        tutorial_step3_desc: "Aradaki farkı kendiniz görmek için Okuma Hızı Testi'ni deneyin!",
+        tutorial_next: "Sonraki",
+        tutorial_skip: "Atla",
+        tutorial_finish: "Bitir",
+        tutorial_ready: "Hazırsanız başlayalım!",
+
+        // Focus Sounds
+        settings_focus_sounds: "Odaklanma Sesleri",
+        settings_focus_desc: "Okurken odaklanmanıza yardımcı olacak arka plan sesleri.",
+        sound_none: "Yok",
+        sound_white_noise: "Beyaz Gürültü",
+        sound_rain: "Yağmur",
+        sound_forest: "Orman",
+        sound_cafe: "Kafe",
+        settings_volume: "Ses Seviyesi",
+        share_badge_title: "Başarımı Paylaş",
+        share_badge_text: "BionicText'te '{badge}' rozetini kazandım! 🚀 Okuma hızım artıyor! #BionicText #HızlıOkuma",
+        share_on_x: "X'te Paylaş",
+        share_on_whatsapp: "WhatsApp'ta Paylaş",
+        share_on_linkedin: "LinkedIn'de Paylaş",
+
+        // Göz Egzersizleri
+        nav_exercises: "Göz Egzersizleri",
+        exercise_title: "Göz Egzersiz Programı",
+        exercise_subtitle: "Okuma hızınızı ve odaklanmanızı artırmak için bilimsel temelli egzersizler.",
+        exercise_start: "Egzersizi Başlat",
+        exercise_saccadic_title: "Odak Sıçraması",
+        exercise_saccadic_desc: "Göz kaslarınızı hızlandırmak için noktaları takip edin.",
+        exercise_schulte_title: "Schulte Tablosu",
+        exercise_schulte_desc: "Görsel algı genişliğinizi artırmak için sayıları bulun.",
+        exercise_peripheral_title: "Geniş Açılı Bakış",
+        exercise_peripheral_desc: "Merkeze odaklanırken kenarları fark etmeye çalışın.",
+        exercise_infinity_title: "Sonsuzluk Takibi",
+        exercise_infinity_desc: "Göz esnekliğini artırmak için sonsuzluk sembolünü izleyin.",
+        exercise_instructions: "Talimatlar",
+        exercise_completed: "Egzersiz Tamamlandı!",
+        exercise_back: "Egzersizlere Dön",
+        exercise_score: "Skor",
+        exercise_time: "Süre",
+        exercise_level: "Seviye",
+        exercise_next_level: "Sonraki Seviye",
+        exercise_finish: "Bitir",
+        exercise_saccadic_inst: "Başınızı sabit tutun ve sadece gözlerinizle zıplayan noktaları takip edin.",
+        exercise_schulte_inst: "Gözlerinizi merkeze sabitleyin ve tüm sayıları en hızlı şekilde bulun.",
+        exercise_peripheral_inst: "Merkezdeki noktaya bakın ve çevredeki hareketli nesneleri görmeye çalışın.",
+        exercise_infinity_inst: "Başınızı hareket ettirmeden, sonsuzluk sembolü çizen noktayı gözlerinizle takip edin."
     },
 
     // ============================================================
@@ -1175,6 +1925,22 @@
         nav_converter: "Convertitore",
         nav_assistant: "Assistente AI",
         nav_profile: "Profilo",
+        nav_race: "Gara di Lettura",
+        race_title: "Gara di Lettura",
+        race_subtitle: "Gareggia con un altro lettore!",
+        race_player1: "Giocatore 1",
+        race_player2: "Giocatore 2",
+        race_start: "Inizia Gara",
+        race_finish: "Fine",
+        race_winner: "Vincitore!",
+        race_draw: "Pareggio!",
+        race_wpm: "WPM",
+        race_ready: "Pronto?",
+        race_go: "VIA!",
+        race_enter_names: "Inserisci i nomi dei giocatori per iniziare",
+        race_bionic_mode: "Modalità Bionica",
+        race_normal_mode: "Modalità Normale",
+        race_select_text: "Seleziona Testo",
         nav_settings: "Impostazioni",
         login: "Accedi",
         logout: "Esci",
@@ -1281,6 +2047,7 @@
         profile_menu_converter: "Converti Testo",
         profile_menu_assistant: "Assistente AI",
         profile_menu_export: "Esporta Dati",
+        profile_menu_tutorial: "Come Usare (Tutorial)",
         profile_menu_logout: "Esci",
 
         // Notifications
@@ -1314,9 +2081,63 @@
         quick_what_bionic: "Cos’è BionicText?",
         quick_improve_speed: "Migliora velocità",
         quick_my_stats: "Statistiche",
-        quick_benefits: "Benefici"
+        quick_benefits: "Benefici",
+        
+        // Tutorial
+        tutorial_title: "Benvenuti in BionicText!",
+        tutorial_step1_desc: "BionicText ti aiuta a leggere più velocemente evidenziando l'inizio di ogni parola. Il tuo cervello completa automaticamente il resto.",
+        tutorial_settings_title: "Personalizzalo",
+        tutorial_step2_desc: "Puoi regolare l'intensità del grassetto e la dimensione del carattere nelle Impostazioni per trovare ciò che funziona meglio per te.",
+        tutorial_test_title: "Misura la tua velocità",
+        tutorial_step3_desc: "Prova il Test di velocità di lettura per vedere la differenza di persona!",
+        tutorial_next: "Avanti",
+        tutorial_skip: "Salta",
+        tutorial_finish: "Fine",
+        tutorial_ready: "Iniziamo se sei pronto!",
+
+        // Focus Sounds
+        settings_focus_sounds: "Suoni di Concentrazione",
+        settings_focus_desc: "Suoni di sottofondo per aiutarti a concentrarti durante la lettura.",
+        sound_none: "Nessuno",
+        sound_white_noise: "Rumore Bianco",
+        sound_rain: "Pioggia",
+        sound_forest: "Foresta",
+        sound_cafe: "Caffetteria",
+        settings_volume: "Volume",
+        share_badge_title: "Share Achievement",
+        share_badge_text: "I just unlocked the '{badge}' badge on BionicText! 🚀 My reading speed is increasing! #BionicText #SpeedReading",
+        share_on_x: "Share on X",
+        share_on_whatsapp: "Share on WhatsApp",
+        share_on_linkedin: "Share on LinkedIn",
+
+        // Esercizi per gli Occhi
+        nav_exercises: "Esercizi per gli Occhi",
+        exercise_title: "Programma di Esercizi per gli Occhi",
+        exercise_subtitle: "Esercizi scientificamente provati per migliorare la velocità di lettura e la concentrazione.",
+        exercise_start: "Inizia Esercizio",
+        exercise_saccadic_title: "Salto Saccadico",
+        exercise_saccadic_desc: "Segui i punti per velocizzare i muscoli oculari.",
+        exercise_schulte_title: "Tabella di Schulte",
+        exercise_schulte_desc: "Trova i numeri in ordine per espandere il tuo campo visivo.",
+        exercise_peripheral_title: "Visione Periferica",
+        exercise_peripheral_desc: "Concentrati sul centro notando i bordi.",
+        exercise_infinity_title: "Traccia dell'Infinito",
+        exercise_infinity_desc: "Segui il simbolo dell'infinito per aumentare la flessibilità oculare.",
+        exercise_instructions: "Istruzioni",
+        exercise_completed: "Esercizio Completato!",
+        exercise_back: "Torna agli Esercizi",
+        exercise_score: "Punteggio",
+        exercise_time: "Tempo",
+        exercise_level: "Livello",
+        exercise_next_level: "Livello Successivo",
+        exercise_finish: "Fine",
+        exercise_saccadic_inst: "Tieni la testa ferma e segui i punti che saltano solo con gli occhi.",
+        exercise_schulte_inst: "Tieni gli occhi fissi sul centro e trova tutti i numeri il più velocemente possibile.",
+        exercise_peripheral_inst: "Fissa il punto centrale e cerca di percepire gli oggetti in movimento nella tua visione periferica.",
+        exercise_infinity_inst: "Segui il punto in movimento mentre traccia un modello a infinito senza muovere la testa.",
     }
 };
+window.translations = translations;
 
 
         const presetTexts = {
@@ -1383,6 +2204,7 @@
         }
     }
 };
+window.presetTexts = presetTexts;
 
         // Mobile menu toggle
         window.toggleMobileMenu = function() {
@@ -1394,49 +2216,72 @@
             menuIconOpen.classList.toggle('hidden');
             menuIconClose.classList.toggle('hidden');
         };
-        
-        // Global function declarations - these must be in global scope
-        window.showSection = function(sectionName) {
-            console.log('Navigating to section:', sectionName);
-            
-            // Hide all sections
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => {
-                section.classList.add('hidden');
-            });
-            
-            // Show selected section
-            const targetSection = document.getElementById(sectionName + 'Section');
-            if (targetSection) {
-                targetSection.classList.remove('hidden');
-                console.log('Showing section:', sectionName);
+
+        // Tutorial Functions
+        let currentTutorialStep = 1;
+        const totalTutorialSteps = 3;
+
+        window.startTutorial = function() {
+            document.getElementById('tutorialModal').classList.remove('hidden');
+            showTutorialStep(1);
+        };
+
+        window.nextTutorialStep = function() {
+            if (currentTutorialStep < totalTutorialSteps) {
+                currentTutorialStep++;
+                showTutorialStep(currentTutorialStep);
             } else {
-                console.error('Section not found:', sectionName + 'Section');
-            }
-            
-            // Update navigation buttons
-            const navButtons = document.querySelectorAll('.nav-btn');
-            navButtons.forEach(btn => {
-                btn.classList.remove('text-white');
-                btn.classList.add('text-gray-300');
-            });
-            
-            // Find and highlight the active button
-            const activeButton = document.querySelector(`button[onclick*="${sectionName}"]`);
-            if (activeButton) {
-                activeButton.classList.remove('text-gray-300');
-                activeButton.classList.add('text-white');
-            }
-            
-            currentSection = sectionName;
-            
-            // Load section-specific data
-            if (sectionName === 'profile') {
-                loadProfileData();
+                finishTutorial();
             }
         };
 
+        window.showTutorialStep = function(step) {
+            // Hide all steps
+            for (let i = 1; i <= totalTutorialSteps; i++) {
+                const stepEl = document.getElementById(`tutorialStep${i}`);
+                const dotEl = document.getElementById(`dot${i}`);
+                if (stepEl) stepEl.classList.remove('active');
+                if (dotEl) dotEl.classList.remove('active');
+            }
+            
+            // Show current step
+            const currentStepEl = document.getElementById(`tutorialStep${step}`);
+            const currentDotEl = document.getElementById(`dot${step}`);
+            if (currentStepEl) currentStepEl.classList.add('active');
+            if (currentDotEl) currentDotEl.classList.add('active');
+            
+            // Update button text
+            const nextBtn = document.getElementById('tutorialNextBtn');
+            if (nextBtn) {
+                if (step === totalTutorialSteps) {
+                    nextBtn.textContent = translations[currentLanguage].tutorial_finish || 'Bitir';
+                    nextBtn.setAttribute('data-translate', 'tutorial_finish');
+                } else {
+                    nextBtn.textContent = translations[currentLanguage].tutorial_next || 'Sonraki';
+                    nextBtn.setAttribute('data-translate', 'tutorial_next');
+                }
+            }
+            currentTutorialStep = step;
+        };
+
+        window.skipTutorial = function() {
+            finishTutorial();
+        };
+
+        window.finishTutorial = function() {
+            document.getElementById('tutorialModal').classList.add('hidden');
+            localStorage.setItem('tutorialCompleted', 'true');
+        };
+        
+        // Global function declarations - these must be in global scope
+
+
         window.showAuth = function() {
+            // Close mobile menu if open
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                window.toggleMobileMenu();
+            }
             document.getElementById('authModal').classList.remove('hidden');
         };
 
@@ -1453,49 +2298,79 @@
         window.toggleAuthMode = function() {
             const modal = document.getElementById('authModal');
             const isSignUp = modal.dataset.mode === 'signup';
+            const submitBtn = document.getElementById('authSubmitBtn');
+            const toggleBtn = document.getElementById('authToggleBtn');
+            const toggleText = document.getElementById('authToggleText');
             
+            // Dil anahtarlarını kontrol et ve varsa kullan, yoksa varsayılan metinleri kullan
+            const getTranslation = (key, fallback) => {
+                if (translations[currentLanguage] && translations[currentLanguage][key]) {
+                    return translations[currentLanguage][key];
+                }
+                return fallback;
+            };
+
             if (isSignUp) {
                 // Switch to sign in
                 modal.dataset.mode = 'signin';
                 modal.querySelector('h2').setAttribute('data-translate', 'auth_welcome');
-                modal.querySelector('h2').textContent = translations[currentLanguage].auth_welcome;
+                modal.querySelector('h2').textContent = getTranslation('auth_welcome', 'Welcome Back');
                 modal.querySelector('p').setAttribute('data-translate', 'auth_signin_subtitle');
-                modal.querySelector('p').textContent = translations[currentLanguage].auth_signin_subtitle;
-                modal.querySelector('button[onclick="login()"]').setAttribute('data-translate', 'auth_signin');
-                modal.querySelector('button[onclick="login()"]').textContent = translations[currentLanguage].auth_signin;
-                modal.querySelector('button[onclick="login()"]').setAttribute('onclick', 'login()');
-                modal.querySelectorAll('.space-y-3 span')[0].setAttribute('data-translate', 'auth_no_account');
-                modal.querySelectorAll('.space-y-3 span')[0].textContent = translations[currentLanguage].auth_no_account;
-                modal.querySelector('button[onclick="toggleAuthMode()"]').setAttribute('data-translate', 'auth_signup');
-                modal.querySelector('button[onclick="toggleAuthMode()"]').textContent = translations[currentLanguage].auth_signup;
+                modal.querySelector('p').textContent = getTranslation('auth_signin_subtitle', 'Sign in to your account');
+                
+                submitBtn.setAttribute('data-translate', 'auth_signin');
+                submitBtn.textContent = getTranslation('auth_signin', 'Sign In');
+                
+                toggleText.setAttribute('data-translate', 'auth_no_account');
+                toggleText.textContent = getTranslation('auth_no_account', "Don't have an account? ");
+                
+                toggleBtn.setAttribute('data-translate', 'auth_signup');
+                toggleBtn.textContent = getTranslation('auth_signup', 'Sign up');
             } else {
                 // Switch to sign up
                 modal.dataset.mode = 'signup';
                 modal.querySelector('h2').setAttribute('data-translate', 'auth_create_account');
-                modal.querySelector('h2').textContent = translations[currentLanguage].auth_create_account || 'Create Account';
+                modal.querySelector('h2').textContent = getTranslation('auth_create_account', 'Create Account');
                 modal.querySelector('p').setAttribute('data-translate', 'auth_signup_subtitle');
-                modal.querySelector('p').textContent = translations[currentLanguage].auth_signup_subtitle || 'Sign up for a new account';
-                modal.querySelector('button[onclick="login()"]').setAttribute('data-translate', 'auth_signup');
-                modal.querySelector('button[onclick="login()"]').textContent = translations[currentLanguage].auth_signup;
-                modal.querySelector('button[onclick="login()"]').setAttribute('onclick', 'signup()');
-                modal.querySelectorAll('.space-y-3 span')[0].setAttribute('data-translate', 'auth_have_account');
-                modal.querySelectorAll('.space-y-3 span')[0].textContent = translations[currentLanguage].auth_have_account || 'Already have an account? ';
-                modal.querySelector('button[onclick="toggleAuthMode()"]').setAttribute('data-translate', 'auth_signin');
-                modal.querySelector('button[onclick="toggleAuthMode()"]').textContent = translations[currentLanguage].auth_signin;
+                modal.querySelector('p').textContent = getTranslation('auth_signup_subtitle', 'Sign up for a new account');
+                
+                submitBtn.setAttribute('data-translate', 'auth_signup');
+                submitBtn.textContent = getTranslation('auth_signup', 'Sign up');
+                
+                toggleText.setAttribute('data-translate', 'auth_have_account');
+                toggleText.textContent = getTranslation('auth_have_account', 'Already have an account? ');
+                
+                toggleBtn.setAttribute('data-translate', 'auth_signin');
+                toggleBtn.textContent = getTranslation('auth_signin', 'Sign in');
+            }
+        };
+
+        window.handleAuth = function() {
+            const modal = document.getElementById('authModal');
+            if (modal.dataset.mode === 'signup') {
+                window.signup();
+            } else {
+                window.login();
             }
         };
         
         window.signup = async function() {
-            const email = document.querySelector('input[type="email"]').value;
-            const password = document.querySelector('input[type="password"]').value;
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('password').value;
             
             if (!email || !password) {
-                showNotification('Please fill in all fields', 'error');
+                const msg = currentLanguage === 'tr' ? 'Lütfen tüm alanları doldurun' : 
+                            currentLanguage === 'it' ? 'Per favore compila tutti i campi' : 
+                            'Please fill in all fields';
+                showNotification(msg, 'error');
                 return;
             }
             
             if (password.length < 6) {
-                showNotification('Password must be at least 6 characters', 'error');
+                const msg = currentLanguage === 'tr' ? 'Şifre en az 6 karakter olmalıdır' : 
+                            currentLanguage === 'it' ? 'La password deve essere di almeno 6 caratteri' : 
+                            'Password must be at least 6 characters';
+                showNotification(msg, 'error');
                 return;
             }
 
@@ -1511,29 +2386,46 @@
                 };
                 
                 localStorage.setItem('currentUser', JSON.stringify(userData));
-                updateUIForLoggedInUser(userData);
-                closeAuth();
-                showNotification('Account created successfully!', 'success');
+                window.updateUIForLoggedInUser(userData);
+                window.closeAuth();
+                const msg = currentLanguage === 'tr' ? 'Hesap başarıyla oluşturuldu!' : 
+                            currentLanguage === 'it' ? 'Account creato con successo!' : 
+                            'Account created successfully!';
+                showNotification(msg, 'success');
+                
+                // Show tutorial for new users
+                setTimeout(() => {
+                    window.startTutorial();
+                }, 1000);
             } catch (error) {
                 console.error('Signup error:', error);
                 let errorMessage = 'Error creating account';
                 if (error.code === 'auth/email-already-in-use') {
-                    errorMessage = 'This email is already registered';
+                    errorMessage = currentLanguage === 'tr' ? 'Bu e-posta zaten kayıtlı' : 
+                                   currentLanguage === 'it' ? 'Questa email è già registrata' : 
+                                   'This email is already registered';
                 } else if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'Invalid email format';
+                    errorMessage = currentLanguage === 'tr' ? 'Geçersiz e-posta formatı' : 
+                                   currentLanguage === 'it' ? 'Formato email non valido' : 
+                                   'Invalid email format';
                 } else if (error.code === 'auth/weak-password') {
-                    errorMessage = 'Password is too weak';
+                    errorMessage = currentLanguage === 'tr' ? 'Şifre çok zayıf' : 
+                                   currentLanguage === 'it' ? 'Password troppo debole' : 
+                                   'Password is too weak';
                 }
                 showNotification(errorMessage, 'error');
             }
         };
 
         window.login = async function() {
-            const email = document.querySelector('input[type="email"]').value;
-            const password = document.querySelector('input[type="password"]').value;
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('password').value;
             
             if (!email || !password) {
-                showNotification(translations[currentLanguage].notif_login_failed + 'Please fill in all fields', 'error');
+                const msg = currentLanguage === 'tr' ? 'Lütfen tüm alanları doldurun' : 
+                            currentLanguage === 'it' ? 'Per favore compila tutti i campi' : 
+                            'Please fill in all fields';
+                showNotification((translations[currentLanguage].notif_login_failed || 'Login failed: ') + msg, 'error');
                 return;
             }
 
@@ -1549,37 +2441,95 @@
                 };
                 
                 localStorage.setItem('currentUser', JSON.stringify(userData));
-                updateUIForLoggedInUser(userData);
-                closeAuth();
+                window.updateUIForLoggedInUser(userData);
+                window.closeAuth();
                 showNotification(translations[currentLanguage].notif_login_success, 'success');
                 
-                // Load user's test data from Firebase
-                await loadUserTestDataFromFirebase(user.uid);
+                if (window.loadUserTestDataFromFirebase) {
+                    await window.loadUserTestDataFromFirebase(user.uid);
+                }
             } catch (error) {
                 console.error('Login error:', error);
                 let errorMessage = 'Invalid email or password';
                 if (error.code === 'auth/user-not-found') {
-                    errorMessage = 'No account found with this email';
+                    errorMessage = currentLanguage === 'tr' ? 'Bu e-posta ile kayıtlı hesap bulunamadı' : 
+                                   currentLanguage === 'it' ? 'Nessun account trovato con questa email' : 
+                                   'No account found with this email';
                 } else if (error.code === 'auth/wrong-password') {
-                    errorMessage = 'Incorrect password';
+                    errorMessage = currentLanguage === 'tr' ? 'Hatalı şifre' : 
+                                   currentLanguage === 'it' ? 'Password errata' : 
+                                   'Incorrect password';
                 } else if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'Invalid email format';
+                    errorMessage = currentLanguage === 'tr' ? 'Geçersiz e-posta formatı' : 
+                                   currentLanguage === 'it' ? 'Formato email non valido' : 
+                                   'Invalid email format';
                 }
-                showNotification(translations[currentLanguage].notif_login_failed + errorMessage, 'error');
+                showNotification((translations[currentLanguage].notif_login_failed || 'Login failed: ') + errorMessage, 'error');
             }
         };
 
         window.logout = async function() {
             try {
-                await window.firebaseSignOut(window.firebaseAuth);
+                if (window.firebaseSignOut && window.firebaseAuth) {
+                    await window.firebaseSignOut(window.firebaseAuth);
+                }
                 localStorage.removeItem('currentUser');
                 localStorage.removeItem('userTestData');
-                updateUIForLoggedOutUser();
-                showNotification('Successfully logged out', 'info');
+                window.updateUIForLoggedOutUser();
+                const msg = currentLanguage === 'tr' ? 'Başarıyla çıkış yapıldı' : 
+                            currentLanguage === 'it' ? 'Disconnessione riuscita' : 
+                            'Successfully logged out';
+                showNotification(msg, 'info');
             } catch (error) {
                 console.error('Logout error:', error);
-                showNotification('Error logging out', 'error');
+                const msg = currentLanguage === 'tr' ? 'Çıkış yapılırken hata oluştu' : 
+                            currentLanguage === 'it' ? 'Errore durante la disconnessione' : 
+                            'Error logging out';
+                showNotification(msg, 'error');
             }
+        };
+
+        window.updateUIForLoggedInUser = function(userData) {
+            // Hide login button, show user menu
+            document.getElementById('authButtons').classList.add('hidden');
+            document.getElementById('userMenu').classList.remove('hidden');
+            
+            // Mobile menu
+            const authButtonsMobile = document.getElementById('authButtonsMobile');
+            const userMenuMobile = document.getElementById('userMenuMobile');
+            if (authButtonsMobile) authButtonsMobile.classList.add('hidden');
+            if (userMenuMobile) userMenuMobile.classList.remove('hidden');
+            
+            // Update user info in navigation
+            const initials = userData.name.charAt(0).toUpperCase();
+            document.getElementById('userInitialsNav').textContent = initials;
+            document.getElementById('userNameNav').textContent = userData.name;
+            
+            // Update dropdown info
+            document.getElementById('userInitialsDropdown').textContent = initials;
+            document.getElementById('userNameDropdown').textContent = userData.name;
+            document.getElementById('userEmailDropdown').textContent = userData.email;
+            
+            // Update mobile user info
+            const userInitialsMobile = document.getElementById('userInitialsMobile');
+            const userNameMobile = document.getElementById('userNameMobile');
+            const userEmailMobile = document.getElementById('userEmailMobile');
+            if (userInitialsMobile) userInitialsMobile.textContent = initials;
+            if (userNameMobile) userNameMobile.textContent = userData.name;
+            if (userEmailMobile) userEmailMobile.textContent = userData.email;
+        };
+
+        window.updateUIForLoggedOutUser = function() {
+            // Show login button, hide user menu
+            document.getElementById('authButtons').classList.remove('hidden');
+            document.getElementById('userMenu').classList.add('hidden');
+            window.closeProfileMenu();
+            
+            // Mobile menu
+            const authButtonsMobile = document.getElementById('authButtonsMobile');
+            const userMenuMobile = document.getElementById('userMenuMobile');
+            if (authButtonsMobile) authButtonsMobile.classList.remove('hidden');
+            if (userMenuMobile) userMenuMobile.classList.add('hidden');
         };
 
         window.toggleProfileMenu = function() {
@@ -1588,7 +2538,8 @@
         };
 
         window.closeProfileMenu = function() {
-            document.getElementById('profileDropdown').classList.add('hidden');
+            const dropdown = document.getElementById('profileDropdown');
+            if (dropdown) dropdown.classList.add('hidden');
         };
 
         window.changeLanguage = function() {
@@ -1603,6 +2554,8 @@
             } else {
                 currentLanguage = selector ? selector.value : (selectorMobile ? selectorMobile.value : 'tr');
             }
+            
+            localStorage.setItem('language', currentLanguage);
             
             // Update speech recognition language
             if (recognition) {
@@ -1980,6 +2933,405 @@ Generated by BionicText
             }
         };
 
+        // Eye Exercise Logic
+        let exerciseInterval = null;
+        let exerciseTimer = 0;
+        let exerciseScore = 0;
+        let currentExerciseType = null;
+        let currentDifficulty = 'medium';
+        let exerciseStartTime = null;
+        let exerciseSpecificInterval = null;
+        let exerciseSpecificTimeout = null;
+
+        window.startExercise = function(type) {
+            currentExerciseType = type;
+            currentDifficulty = 'medium'; // Default
+            
+            // Show active exercise area
+            document.getElementById('exerciseGrid').classList.add('hidden');
+            document.getElementById('activeExerciseArea').classList.remove('hidden');
+            document.getElementById('exerciseInstructions').classList.remove('hidden');
+            
+            // Set instruction text
+            const instKey = `exercise_${type}_inst`;
+            document.getElementById('exerciseInstructionText').textContent = translations[currentLanguage][instKey] || '';
+            
+            // Reset UI
+            document.getElementById('exerciseTimerValue').textContent = '00:00';
+            document.getElementById('exerciseScoreValue').textContent = '0';
+            document.getElementById('exerciseContainer').innerHTML = '';
+            
+            // Update level UI
+            updateLevelButtons();
+            
+            // Show score if applicable
+            if (type === 'schulte' || type === 'saccadic') {
+                document.getElementById('exerciseScoreDisplay').classList.remove('hidden');
+            } else {
+                document.getElementById('exerciseScoreDisplay').classList.add('hidden');
+            }
+        };
+
+        window.setExerciseLevel = function(level) {
+            currentDifficulty = level;
+            updateLevelButtons();
+        };
+
+        function updateLevelButtons() {
+            const buttons = document.querySelectorAll('.level-btn');
+            buttons.forEach(btn => {
+                if (btn.dataset.level === currentDifficulty) {
+                    btn.classList.remove('border-gray-100', 'font-medium');
+                    btn.classList.add('border-primary', 'bg-primary', 'bg-opacity-5', 'font-bold', 'text-primary');
+                } else {
+                    btn.classList.add('border-gray-100', 'font-medium');
+                    btn.classList.remove('border-primary', 'bg-primary', 'bg-opacity-5', 'font-bold', 'text-primary');
+                }
+            });
+        }
+
+        window.beginExerciseCountdown = function() {
+            const overlay = document.getElementById('exerciseInstructions');
+            const countdownEl = document.createElement('div');
+            countdownEl.className = 'absolute inset-0 flex items-center justify-center bg-white bg-opacity-90 z-20 text-6xl font-bold text-primary animate-pulse';
+            overlay.parentElement.appendChild(countdownEl);
+            
+            overlay.classList.add('hidden');
+            
+            let count = 3;
+            countdownEl.textContent = count;
+            
+            const countInterval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    countdownEl.textContent = count;
+                } else {
+                    clearInterval(countInterval);
+                    countdownEl.remove();
+                    actuallyStartExercise();
+                }
+            }, 800);
+        };
+
+        function actuallyStartExercise() {
+            exerciseScore = 0;
+            exerciseTimer = 0;
+            exerciseStartTime = Date.now();
+            
+            // Start timer
+            if (exerciseInterval) clearInterval(exerciseInterval);
+            exerciseInterval = setInterval(updateExerciseTimer, 1000);
+            
+            // Render specific exercise
+            renderExercise(currentExerciseType);
+            
+            showNotification(translations[currentLanguage].exercise_start, 'info');
+        }
+
+        window.stopExercise = function() {
+            if (exerciseInterval) {
+                clearInterval(exerciseInterval);
+                exerciseInterval = null;
+            }
+            
+            if (exerciseSpecificInterval) {
+                clearInterval(exerciseSpecificInterval);
+                exerciseSpecificInterval = null;
+            }
+            
+            if (exerciseSpecificTimeout) {
+                clearTimeout(exerciseSpecificTimeout);
+                exerciseSpecificTimeout = null;
+            }
+            
+            document.getElementById('activeExerciseArea').classList.add('hidden');
+            document.getElementById('exerciseGrid').classList.remove('hidden');
+            document.getElementById('exerciseContainer').innerHTML = '';
+            
+            currentExerciseType = null;
+        };
+
+        function updateExerciseTimer() {
+            exerciseTimer++;
+            const minutes = Math.floor(exerciseTimer / 60);
+            const seconds = exerciseTimer % 60;
+            document.getElementById('exerciseTimerValue').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function renderExercise(type) {
+            const container = document.getElementById('exerciseContainer');
+            container.innerHTML = '';
+            
+            switch(type) {
+                case 'saccadic':
+                    runSaccadicJump(container);
+                    break;
+                case 'schulte':
+                    runSchulteTable(container);
+                    break;
+                case 'peripheral':
+                    runPeripheralVision(container);
+                    break;
+                case 'infinity':
+                    runInfinityTrace(container);
+                    break;
+            }
+        }
+
+        function runSaccadicJump(container) {
+            const dot = document.createElement('div');
+            dot.className = 'w-6 h-6 bg-primary rounded-full absolute transition-all shadow-lg';
+            container.appendChild(dot);
+            
+            const difficultySettings = {
+                easy: { interval: 1500, points: 20 },
+                medium: { interval: 1000, points: 30 },
+                hard: { interval: 600, points: 50 }
+            };
+            
+            const settings = difficultySettings[currentDifficulty] || difficultySettings.medium;
+            
+            const moveDot = () => {
+                if (!currentExerciseType || currentExerciseType !== 'saccadic') return;
+                
+                const padding = 60;
+                const maxX = container.clientWidth - padding * 2;
+                const maxY = container.clientHeight - padding * 2;
+                
+                const x = Math.random() * maxX + padding;
+                const y = Math.random() * maxY + padding;
+                
+                dot.style.left = `${x}px`;
+                dot.style.top = `${y}px`;
+                
+                exerciseScore++;
+                document.getElementById('exerciseScoreValue').textContent = exerciseScore;
+                
+                if (exerciseScore >= settings.points) {
+                    completeExercise('saccadic');
+                }
+            };
+            
+            dot.style.transitionDuration = `${settings.interval / 2}ms`;
+            moveDot();
+            exerciseSpecificInterval = setInterval(moveDot, settings.interval);
+        }
+
+        function runSchulteTable(container) {
+            const difficultySettings = {
+                easy: { size: 3 },
+                medium: { size: 5 },
+                hard: { size: 7 }
+            };
+            
+            const settings = difficultySettings[currentDifficulty] || difficultySettings.medium;
+            const size = settings.size;
+            const total = size * size;
+            const numbers = Array.from({length: total}, (_, i) => i + 1);
+            
+            // Shuffle
+            for (let i = numbers.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+            }
+            
+            const grid = document.createElement('div');
+            grid.className = `grid grid-cols-${size} gap-2 p-4 w-full max-w-[500px] aspect-square`;
+            
+            let nextNumber = 1;
+            
+            numbers.forEach(num => {
+                const cell = document.createElement('button');
+                cell.className = 'bg-white border-2 border-gray-200 rounded-lg flex items-center justify-center text-xl font-bold text-gray-700 hover:bg-blue-50 hover:border-primary transition-all min-h-[50px]';
+                cell.textContent = num;
+                
+                cell.onclick = () => {
+                    if (num === nextNumber) {
+                        cell.classList.remove('bg-white', 'text-gray-700');
+                        cell.classList.add('bg-primary', 'text-white');
+                        cell.disabled = true;
+                        nextNumber++;
+                        exerciseScore = nextNumber - 1;
+                        document.getElementById('exerciseScoreValue').textContent = exerciseScore;
+                        
+                        if (nextNumber > total) {
+                            completeExercise('schulte');
+                        }
+                    } else {
+                        cell.classList.add('shake-horizontal', 'border-red-500');
+                        setTimeout(() => cell.classList.remove('shake-horizontal', 'border-red-500'), 500);
+                    }
+                };
+                
+                grid.appendChild(cell);
+            });
+            
+            container.appendChild(grid);
+            
+            // Center point for focus
+            const centerPoint = document.createElement('div');
+            centerPoint.className = 'absolute w-2 h-2 bg-red-500 rounded-full opacity-30 pointer-events-none';
+            container.appendChild(centerPoint);
+        }
+
+        function runPeripheralVision(container) {
+            const centerDot = document.createElement('div');
+            centerDot.className = 'w-4 h-4 bg-primary rounded-full absolute shadow-lg z-10';
+            container.appendChild(centerDot);
+            
+            const difficultySettings = {
+                easy: { interval: 2000, duration: 60000, spread: 0.3 },
+                medium: { interval: 1500, duration: 60000, spread: 0.5 },
+                hard: { interval: 1000, duration: 60000, spread: 0.8 }
+            };
+            
+            const settings = difficultySettings[currentDifficulty] || difficultySettings.medium;
+            const stimuli = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            
+            const spawnStimulus = () => {
+                if (!currentExerciseType || currentExerciseType !== 'peripheral') return;
+                
+                const el = document.createElement('div');
+                el.className = 'absolute text-2xl font-bold text-blue-400 opacity-0 transition-opacity duration-500 pointer-events-none';
+                el.textContent = stimuli[Math.floor(Math.random() * stimuli.length)];
+                
+                const angle = Math.random() * Math.PI * 2;
+                const maxDistance = (Math.min(container.clientWidth, container.clientHeight) / 2) * settings.spread;
+                const minDistance = 100;
+                const distance = minDistance + Math.random() * (maxDistance - minDistance);
+                
+                const x = container.clientWidth / 2 + Math.cos(angle) * distance;
+                const y = container.clientHeight / 2 + Math.sin(angle) * distance;
+                
+                el.style.left = `${x}px`;
+                el.style.top = `${y}px`;
+                
+                container.appendChild(el);
+                
+                setTimeout(() => el.style.opacity = '1', 10);
+                setTimeout(() => {
+                    el.style.opacity = '0';
+                    setTimeout(() => {
+                        if (el.parentNode) container.removeChild(el);
+                    }, 500);
+                }, settings.interval - 100);
+                
+                exerciseScore++;
+                document.getElementById('exerciseScoreValue').textContent = exerciseScore;
+            };
+            
+            exerciseSpecificInterval = setInterval(spawnStimulus, settings.interval);
+            
+            exerciseSpecificTimeout = setTimeout(() => {
+                completeExercise('peripheral');
+            }, settings.duration);
+        }
+
+        function runInfinityTrace(container) {
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute('viewBox', '0 0 400 200');
+            svg.className = 'w-full max-w-[500px] h-auto';
+            
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute('d', 'M 100,100 C 100,50 150,50 200,100 C 250,150 300,150 300,100 C 300,50 250,50 200,100 C 150,150 100,150 100,100');
+            path.setAttribute('fill', 'none');
+            path.setAttribute('stroke', '#e2e8f0');
+            path.setAttribute('stroke-width', '4');
+            svg.appendChild(path);
+            
+            const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            dot.setAttribute('r', '8');
+            dot.setAttribute('fill', '#3b82f6');
+            svg.appendChild(dot);
+            
+            container.appendChild(svg);
+            
+            const difficultySettings = {
+                easy: { speed: 0.003 },
+                medium: { speed: 0.006 },
+                hard: { speed: 0.012 }
+            };
+            
+            const settings = difficultySettings[currentDifficulty] || difficultySettings.medium;
+            
+            let progress = 0;
+            const animate = () => {
+                if (!currentExerciseType || currentExerciseType !== 'infinity') return;
+                
+                progress += settings.speed;
+                if (progress > 1) progress = 0;
+                
+                const point = path.getPointAtLength(progress * path.getTotalLength());
+                dot.setAttribute('cx', point.x);
+                dot.setAttribute('cy', point.y);
+                
+                requestAnimationFrame(animate);
+            };
+            
+            animate();
+            
+            // Stop after 60 seconds
+            exerciseSpecificTimeout = setTimeout(() => {
+                completeExercise('infinity');
+            }, 60000);
+        }
+
+        function completeExercise(type) {
+            if (exerciseInterval) {
+                clearInterval(exerciseInterval);
+                exerciseInterval = null;
+            }
+            
+            if (exerciseSpecificInterval) {
+                clearInterval(exerciseSpecificInterval);
+                exerciseSpecificInterval = null;
+            }
+            
+            if (exerciseSpecificTimeout) {
+                clearTimeout(exerciseSpecificTimeout);
+                exerciseSpecificTimeout = null;
+            }
+            
+            const timeSpent = exerciseTimer;
+            const score = exerciseScore;
+            
+            // Save to localStorage
+            const history = JSON.parse(localStorage.getItem('exerciseHistory') || '[]');
+            history.push({
+                type,
+                date: new Date().toISOString(),
+                time: timeSpent,
+                score: score
+            });
+            localStorage.setItem('exerciseHistory', JSON.stringify(history));
+            
+            // Show completion message
+            const container = document.getElementById('exerciseContainer');
+            container.innerHTML = `
+                <div class="text-center p-8 animate-fade-in">
+                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2" data-translate="exercise_completed">Egzersiz Tamamlandı!</h3>
+                    <p class="text-gray-600 mb-6">
+                        ${translations[currentLanguage].exercise_time}: ${document.getElementById('exerciseTimerValue').textContent}
+                        ${score > 0 ? `<br>${translations[currentLanguage].exercise_score}: ${score}` : ''}
+                    </p>
+                    <button onclick="stopExercise()" class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-800 transition-all shadow-lg">
+                        ${translations[currentLanguage].exercise_back}
+                    </button>
+                </div>
+            `;
+            
+            showNotification(translations[currentLanguage].exercise_completed, 'success');
+            
+            // Check achievements
+            checkAchievements();
+        }
+
         // Profile functions
         window.exportAllData = function() {
             const testData = JSON.parse(localStorage.getItem('userTestData') || '[]');
@@ -2128,15 +3480,22 @@ Generated by BionicText
             achievementsContainer.innerHTML = window.achievements.map(achievement => {
                 const isUnlocked = unlockedAchievements.includes(achievement.id);
                 return `
-                    <div class="flex items-center p-2 bg-gray-50 rounded-lg ${isUnlocked ? 'bg-green-50' : 'opacity-50'}">
-                        <div class="w-8 h-8 ${isUnlocked ? 'bg-green-500' : 'bg-gray-300'} rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                            <span class="text-sm">${achievement.emoji}</span>
+                    <div class="flex items-center p-3 bg-gray-50 rounded-xl transition-all ${isUnlocked ? 'bg-green-50 border border-green-100 shadow-sm' : 'opacity-50'}">
+                        <div class="w-10 h-10 ${isUnlocked ? 'bg-green-500' : 'bg-gray-300'} rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                            <span class="text-lg">${achievement.emoji}</span>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <div class="font-medium text-gray-700 text-sm">${achievement.name}</div>
-                            <div class="text-xs text-gray-500">${achievement.desc}</div>
+                            <div class="font-bold text-gray-800 text-sm">${achievement.name}</div>
+                            <div class="text-xs text-gray-500 leading-tight">${achievement.desc}</div>
                         </div>
-                        ${isUnlocked ? '<svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>' : ''}
+                        <div class="flex items-center space-x-2">
+                            ${isUnlocked ? `
+                                <button onclick="openShareModal('${achievement.id}')" class="p-2 text-primary hover:bg-primary hover:bg-opacity-10 rounded-lg transition-colors" title="${translations[currentLanguage].share_badge_title}">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+                                </button>
+                                <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            ` : ''}
+                        </div>
                     </div>
                 `;
             }).join('');
@@ -2261,22 +3620,27 @@ Generated by BionicText
             }, 100);
             
             console.log('App initialization complete');
+            
+            // Hide intro overlay after 2 seconds
+            setTimeout(() => {
+                const intro = document.getElementById('intro-overlay');
+                if (intro) {
+                    intro.classList.add('hidden');
+                    setTimeout(() => intro.remove(), 800); // Remove from DOM after fade out
+                }
+            }, 2000);
         });
 
         // Mobile menu toggle
-        window.toggleMobileMenu = function() {
-            const mobileMenu = document.getElementById('mobileMenu');
-            const menuIconOpen = document.getElementById('menuIconOpen');
-            const menuIconClose = document.getElementById('menuIconClose');
-            
-            mobileMenu.classList.toggle('hidden');
-            menuIconOpen.classList.toggle('hidden');
-            menuIconClose.classList.toggle('hidden');
-        };
-        
+
         // Global function declarations - these must be in global scope
         window.showSection = function(sectionName) {
             console.log('Navigating to section:', sectionName);
+            
+            // Stop any running eye exercises if leaving the section
+            if (currentSection === 'exercises' && sectionName !== 'exercises') {
+                stopExercise();
+            }
             
             // Hide all sections
             const sections = document.querySelectorAll('.section');
@@ -2315,200 +3679,10 @@ Generated by BionicText
             }
         };
 
-        window.showAuth = function() {
-            document.getElementById('authModal').classList.remove('hidden');
-        };
+        // Authentication functions moved to global scope
 
-        window.closeAuth = function() {
-            document.getElementById('authModal').classList.add('hidden');
-        };
 
-        window.togglePassword = function() {
-            const passwordInput = document.getElementById('password');
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-        };
 
-        window.toggleAuthMode = function() {
-            const modal = document.getElementById('authModal');
-            const isSignUp = modal.dataset.mode === 'signup';
-            
-            if (isSignUp) {
-                // Switch to sign in
-                modal.dataset.mode = 'signin';
-                modal.querySelector('h2').setAttribute('data-translate', 'auth_welcome');
-                modal.querySelector('h2').textContent = translations[currentLanguage].auth_welcome;
-                modal.querySelector('p').setAttribute('data-translate', 'auth_signin_subtitle');
-                modal.querySelector('p').textContent = translations[currentLanguage].auth_signin_subtitle;
-                modal.querySelector('button[onclick="login()"]').setAttribute('data-translate', 'auth_signin');
-                modal.querySelector('button[onclick="login()"]').textContent = translations[currentLanguage].auth_signin;
-                modal.querySelector('button[onclick="login()"]').setAttribute('onclick', 'login()');
-                modal.querySelectorAll('.space-y-3 span')[0].setAttribute('data-translate', 'auth_no_account');
-                modal.querySelectorAll('.space-y-3 span')[0].textContent = translations[currentLanguage].auth_no_account;
-                modal.querySelector('button[onclick="toggleAuthMode()"]').setAttribute('data-translate', 'auth_signup');
-                modal.querySelector('button[onclick="toggleAuthMode()"]').textContent = translations[currentLanguage].auth_signup;
-            } else {
-                // Switch to sign up
-                modal.dataset.mode = 'signup';
-                modal.querySelector('h2').setAttribute('data-translate', 'auth_create_account');
-                modal.querySelector('h2').textContent = translations[currentLanguage].auth_create_account || 'Create Account';
-                modal.querySelector('p').setAttribute('data-translate', 'auth_signup_subtitle');
-                modal.querySelector('p').textContent = translations[currentLanguage].auth_signup_subtitle || 'Sign up for a new account';
-                modal.querySelector('button[onclick="login()"]').setAttribute('data-translate', 'auth_signup');
-                modal.querySelector('button[onclick="login()"]').textContent = translations[currentLanguage].auth_signup;
-                modal.querySelector('button[onclick="login()"]').setAttribute('onclick', 'signup()');
-                modal.querySelectorAll('.space-y-3 span')[0].setAttribute('data-translate', 'auth_have_account');
-                modal.querySelectorAll('.space-y-3 span')[0].textContent = translations[currentLanguage].auth_have_account || 'Already have an account? ';
-                modal.querySelector('button[onclick="toggleAuthMode()"]').setAttribute('data-translate', 'auth_signin');
-                modal.querySelector('button[onclick="toggleAuthMode()"]').textContent = translations[currentLanguage].auth_signin;
-            }
-        };
-        
-        window.signup = async function() {
-            const email = document.querySelector('input[type="email"]').value;
-            const password = document.querySelector('input[type="password"]').value;
-            
-            if (!email || !password) {
-                showNotification('Please fill in all fields', 'error');
-                return;
-            }
-            
-            if (password.length < 6) {
-                showNotification('Password must be at least 6 characters', 'error');
-                return;
-            }
-
-            try {
-                const userCredential = await window.firebaseSignUp(window.firebaseAuth, email, password);
-                const user = userCredential.user;
-                
-                const userData = {
-                    uid: user.uid,
-                    email: user.email,
-                    name: user.email.split('@')[0],
-                    joinDate: new Date().toISOString().split('T')[0]
-                };
-                
-                localStorage.setItem('currentUser', JSON.stringify(userData));
-                updateUIForLoggedInUser(userData);
-                closeAuth();
-                showNotification('Account created successfully!', 'success');
-            } catch (error) {
-                console.error('Signup error:', error);
-                let errorMessage = 'Error creating account';
-                if (error.code === 'auth/email-already-in-use') {
-                    errorMessage = 'This email is already registered';
-                } else if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'Invalid email format';
-                } else if (error.code === 'auth/weak-password') {
-                    errorMessage = 'Password is too weak';
-                }
-                showNotification(errorMessage, 'error');
-            }
-        };
-
-        window.login = async function() {
-            const email = document.querySelector('input[type="email"]').value;
-            const password = document.querySelector('input[type="password"]').value;
-            
-            if (!email || !password) {
-                showNotification(translations[currentLanguage].notif_login_failed + 'Please fill in all fields', 'error');
-                return;
-            }
-
-            try {
-                const userCredential = await window.firebaseSignIn(window.firebaseAuth, email, password);
-                const user = userCredential.user;
-                
-                const userData = {
-                    uid: user.uid,
-                    email: user.email,
-                    name: user.email.split('@')[0],
-                    joinDate: new Date().toISOString().split('T')[0]
-                };
-                
-                localStorage.setItem('currentUser', JSON.stringify(userData));
-                updateUIForLoggedInUser(userData);
-                closeAuth();
-                showNotification(translations[currentLanguage].notif_login_success, 'success');
-                
-                // Load user's test data from Firebase
-                await loadUserTestDataFromFirebase(user.uid);
-            } catch (error) {
-                console.error('Login error:', error);
-                let errorMessage = 'Invalid email or password';
-                if (error.code === 'auth/user-not-found') {
-                    errorMessage = 'No account found with this email';
-                } else if (error.code === 'auth/wrong-password') {
-                    errorMessage = 'Incorrect password';
-                } else if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'Invalid email format';
-                }
-                showNotification(translations[currentLanguage].notif_login_failed + errorMessage, 'error');
-            }
-        };
-
-        window.logout = async function() {
-            try {
-                await window.firebaseSignOut(window.firebaseAuth);
-                localStorage.removeItem('currentUser');
-                localStorage.removeItem('userTestData');
-                updateUIForLoggedOutUser();
-                showNotification('Successfully logged out', 'info');
-            } catch (error) {
-                console.error('Logout error:', error);
-                showNotification('Error logging out', 'error');
-            }
-        };
-
-        window.toggleProfileMenu = function() {
-            const dropdown = document.getElementById('profileDropdown');
-            dropdown.classList.toggle('hidden');
-        };
-
-        window.closeProfileMenu = function() {
-            document.getElementById('profileDropdown').classList.add('hidden');
-        };
-
-        window.changeLanguage = function() {
-            const selector = document.getElementById('languageSelector');
-            const selectorMobile = document.getElementById('languageSelectorMobile');
-            
-            // Sync both selectors
-            if (event && event.target) {
-                currentLanguage = event.target.value;
-                if (selector) selector.value = currentLanguage;
-                if (selectorMobile) selectorMobile.value = currentLanguage;
-            } else {
-                currentLanguage = selector ? selector.value : (selectorMobile ? selectorMobile.value : 'tr');
-            }
-            
-            // Update speech recognition language
-            if (recognition) {
-                recognition.lang = currentLanguage === 'tr' ? 'tr-TR' : currentLanguage === 'it' ? 'it-IT' : 'en-US';
-            }
-            
-            // Update all translatable elements
-            const elements = document.querySelectorAll('[data-translate]');
-            elements.forEach(element => {
-                const key = element.getAttribute('data-translate');
-                if (translations[currentLanguage] && translations[currentLanguage][key]) {
-                    element.textContent = translations[currentLanguage][key];
-                }
-            });
-            
-            // Update placeholder texts
-            const placeholderElements = document.querySelectorAll('[data-translate-placeholder]');
-            placeholderElements.forEach(element => {
-                const key = element.getAttribute('data-translate-placeholder');
-                if (translations[currentLanguage] && translations[currentLanguage][key]) {
-                    element.placeholder = translations[currentLanguage][key];
-                }
-            });
-            
-            // Update preset text if needed
-            loadPresetText();
-        };
 
 
 
@@ -2866,200 +4040,10 @@ Generated by BionicText AI
             document.getElementById('notification').classList.add('hidden');
         };
 
-        window.showAuth = function() {
-            document.getElementById('authModal').classList.remove('hidden');
-        };
+        // Profile functions moved to global scope
 
-        window.closeAuth = function() {
-            document.getElementById('authModal').classList.add('hidden');
-        };
 
-        window.togglePassword = function() {
-            const passwordInput = document.getElementById('password');
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-        };
 
-        window.toggleAuthMode = function() {
-            const modal = document.getElementById('authModal');
-            const isSignUp = modal.dataset.mode === 'signup';
-            
-            if (isSignUp) {
-                // Switch to sign in
-                modal.dataset.mode = 'signin';
-                modal.querySelector('h2').setAttribute('data-translate', 'auth_welcome');
-                modal.querySelector('h2').textContent = translations[currentLanguage].auth_welcome;
-                modal.querySelector('p').setAttribute('data-translate', 'auth_signin_subtitle');
-                modal.querySelector('p').textContent = translations[currentLanguage].auth_signin_subtitle;
-                modal.querySelector('button[onclick="login()"]').setAttribute('data-translate', 'auth_signin');
-                modal.querySelector('button[onclick="login()"]').textContent = translations[currentLanguage].auth_signin;
-                modal.querySelector('button[onclick="login()"]').setAttribute('onclick', 'login()');
-                modal.querySelectorAll('.space-y-3 span')[0].setAttribute('data-translate', 'auth_no_account');
-                modal.querySelectorAll('.space-y-3 span')[0].textContent = translations[currentLanguage].auth_no_account;
-                modal.querySelector('button[onclick="toggleAuthMode()"]').setAttribute('data-translate', 'auth_signup');
-                modal.querySelector('button[onclick="toggleAuthMode()"]').textContent = translations[currentLanguage].auth_signup;
-            } else {
-                // Switch to sign up
-                modal.dataset.mode = 'signup';
-                modal.querySelector('h2').setAttribute('data-translate', 'auth_create_account');
-                modal.querySelector('h2').textContent = translations[currentLanguage].auth_create_account || 'Create Account';
-                modal.querySelector('p').setAttribute('data-translate', 'auth_signup_subtitle');
-                modal.querySelector('p').textContent = translations[currentLanguage].auth_signup_subtitle || 'Sign up for a new account';
-                modal.querySelector('button[onclick="login()"]').setAttribute('data-translate', 'auth_signup');
-                modal.querySelector('button[onclick="login()"]').textContent = translations[currentLanguage].auth_signup;
-                modal.querySelector('button[onclick="login()"]').setAttribute('onclick', 'signup()');
-                modal.querySelectorAll('.space-y-3 span')[0].setAttribute('data-translate', 'auth_have_account');
-                modal.querySelectorAll('.space-y-3 span')[0].textContent = translations[currentLanguage].auth_have_account || 'Already have an account? ';
-                modal.querySelector('button[onclick="toggleAuthMode()"]').setAttribute('data-translate', 'auth_signin');
-                modal.querySelector('button[onclick="toggleAuthMode()"]').textContent = translations[currentLanguage].auth_signin;
-            }
-        };
-        
-        window.signup = async function() {
-            const email = document.querySelector('input[type="email"]').value;
-            const password = document.querySelector('input[type="password"]').value;
-            
-            if (!email || !password) {
-                showNotification('Please fill in all fields', 'error');
-                return;
-            }
-            
-            if (password.length < 6) {
-                showNotification('Password must be at least 6 characters', 'error');
-                return;
-            }
-
-            try {
-                const userCredential = await window.firebaseSignUp(window.firebaseAuth, email, password);
-                const user = userCredential.user;
-                
-                const userData = {
-                    uid: user.uid,
-                    email: user.email,
-                    name: user.email.split('@')[0],
-                    joinDate: new Date().toISOString().split('T')[0]
-                };
-                
-                localStorage.setItem('currentUser', JSON.stringify(userData));
-                updateUIForLoggedInUser(userData);
-                closeAuth();
-                showNotification('Account created successfully!', 'success');
-            } catch (error) {
-                console.error('Signup error:', error);
-                let errorMessage = 'Error creating account';
-                if (error.code === 'auth/email-already-in-use') {
-                    errorMessage = 'This email is already registered';
-                } else if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'Invalid email format';
-                } else if (error.code === 'auth/weak-password') {
-                    errorMessage = 'Password is too weak';
-                }
-                showNotification(errorMessage, 'error');
-            }
-        };
-
-        window.login = async function() {
-            const email = document.querySelector('input[type="email"]').value;
-            const password = document.querySelector('input[type="password"]').value;
-            
-            if (!email || !password) {
-                showNotification(translations[currentLanguage].notif_login_failed + 'Please fill in all fields', 'error');
-                return;
-            }
-
-            try {
-                const userCredential = await window.firebaseSignIn(window.firebaseAuth, email, password);
-                const user = userCredential.user;
-                
-                const userData = {
-                    uid: user.uid,
-                    email: user.email,
-                    name: user.email.split('@')[0],
-                    joinDate: new Date().toISOString().split('T')[0]
-                };
-                
-                localStorage.setItem('currentUser', JSON.stringify(userData));
-                updateUIForLoggedInUser(userData);
-                closeAuth();
-                showNotification(translations[currentLanguage].notif_login_success, 'success');
-                
-                // Load user's test data from Firebase
-                await loadUserTestDataFromFirebase(user.uid);
-            } catch (error) {
-                console.error('Login error:', error);
-                let errorMessage = 'Invalid email or password';
-                if (error.code === 'auth/user-not-found') {
-                    errorMessage = 'No account found with this email';
-                } else if (error.code === 'auth/wrong-password') {
-                    errorMessage = 'Incorrect password';
-                } else if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'Invalid email format';
-                }
-                showNotification(translations[currentLanguage].notif_login_failed + errorMessage, 'error');
-            }
-        };
-
-        window.logout = async function() {
-            try {
-                await window.firebaseSignOut(window.firebaseAuth);
-                localStorage.removeItem('currentUser');
-                localStorage.removeItem('userTestData');
-                updateUIForLoggedOutUser();
-                showNotification('Successfully logged out', 'info');
-            } catch (error) {
-                console.error('Logout error:', error);
-                showNotification('Error logging out', 'error');
-            }
-        };
-
-        window.toggleProfileMenu = function() {
-            const dropdown = document.getElementById('profileDropdown');
-            dropdown.classList.toggle('hidden');
-        };
-
-        window.closeProfileMenu = function() {
-            document.getElementById('profileDropdown').classList.add('hidden');
-        };
-
-        window.changeLanguage = function() {
-            const selector = document.getElementById('languageSelector');
-            const selectorMobile = document.getElementById('languageSelectorMobile');
-            
-            // Sync both selectors
-            if (event && event.target) {
-                currentLanguage = event.target.value;
-                if (selector) selector.value = currentLanguage;
-                if (selectorMobile) selectorMobile.value = currentLanguage;
-            } else {
-                currentLanguage = selector ? selector.value : (selectorMobile ? selectorMobile.value : 'tr');
-            }
-            
-            // Update speech recognition language
-            if (recognition) {
-                recognition.lang = currentLanguage === 'tr' ? 'tr-TR' : currentLanguage === 'it' ? 'it-IT' : 'en-US';
-            }
-            
-            // Update all translatable elements
-            const elements = document.querySelectorAll('[data-translate]');
-            elements.forEach(element => {
-                const key = element.getAttribute('data-translate');
-                if (translations[currentLanguage] && translations[currentLanguage][key]) {
-                    element.textContent = translations[currentLanguage][key];
-                }
-            });
-            
-            // Update placeholder texts
-            const placeholderElements = document.querySelectorAll('[data-translate-placeholder]');
-            placeholderElements.forEach(element => {
-                const key = element.getAttribute('data-translate-placeholder');
-                if (translations[currentLanguage] && translations[currentLanguage][key]) {
-                    element.placeholder = translations[currentLanguage][key];
-                }
-            });
-            
-            // Update preset text if needed
-            loadPresetText();
-        };
 
 
 
@@ -3447,107 +4431,7 @@ Generated by BionicText AI
             loadPresetText();
         }
 
-        // Authentication functions
-        function showAuth() {
-            document.getElementById('authModal').classList.remove('hidden');
-        }
-
-        function closeAuth() {
-            document.getElementById('authModal').classList.add('hidden');
-        }
-
-        function togglePassword() {
-            const passwordInput = document.getElementById('password');
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-        }
-
-        function toggleAuthMode() {
-            // This would toggle between sign in and sign up modes
-            // For now, we'll just show a simple login
-        }
-
-        function login() {
-            // Simple mock login - in a real app, this would connect to a backend
-            const email = document.querySelector('input[type="email"]').value;
-            const password = document.querySelector('input[type="password"]').value;
-            
-            if (email && password) {
-                // Mock successful login
-                const userData = {
-                    email: email,
-                    name: email.split('@')[0],
-                    joinDate: new Date().toISOString().split('T')[0]
-                };
-                
-                localStorage.setItem('currentUser', JSON.stringify(userData));
-                updateUIForLoggedInUser(userData);
-                closeAuth();
-                showNotification(translations[currentLanguage].notif_login_success, 'success');
-            } else {
-                showNotification(translations[currentLanguage].notif_login_failed + 'Please fill in all fields', 'error');
-            }
-        }
-
-        function logout() {
-            localStorage.removeItem('currentUser');
-            updateUIForLoggedOutUser();
-            showNotification('Successfully logged out', 'info');
-        }
-
-        function updateUIForLoggedInUser(userData) {
-            // Hide login button, show user menu
-            document.getElementById('authButtons').classList.add('hidden');
-            document.getElementById('userMenu').classList.remove('hidden');
-            
-            // Mobile menu
-            const authButtonsMobile = document.getElementById('authButtonsMobile');
-            const userMenuMobile = document.getElementById('userMenuMobile');
-            if (authButtonsMobile) authButtonsMobile.classList.add('hidden');
-            if (userMenuMobile) userMenuMobile.classList.remove('hidden');
-            
-            // Update user info in navigation
-            const initials = userData.name.charAt(0).toUpperCase();
-            document.getElementById('userInitialsNav').textContent = initials;
-            document.getElementById('userNameNav').textContent = userData.name;
-            
-            // Update dropdown info
-            document.getElementById('userInitialsDropdown').textContent = initials;
-            document.getElementById('userNameDropdown').textContent = userData.name;
-            document.getElementById('userEmailDropdown').textContent = userData.email;
-            
-            // Update mobile user info
-            const userInitialsMobile = document.getElementById('userInitialsMobile');
-            const userNameMobile = document.getElementById('userNameMobile');
-            const userEmailMobile = document.getElementById('userEmailMobile');
-            if (userInitialsMobile) userInitialsMobile.textContent = initials;
-            if (userNameMobile) userNameMobile.textContent = userData.name;
-            if (userEmailMobile) userEmailMobile.textContent = userData.email;
-        }
-
-        function updateUIForLoggedOutUser() {
-            // Show login button, hide user menu
-            document.getElementById('authButtons').classList.remove('hidden');
-            document.getElementById('userMenu').classList.add('hidden');
-            closeProfileMenu();
-            
-            // Mobile menu
-            const authButtonsMobile = document.getElementById('authButtonsMobile');
-            const userMenuMobile = document.getElementById('userMenuMobile');
-            if (authButtonsMobile) authButtonsMobile.classList.remove('hidden');
-            if (userMenuMobile) userMenuMobile.classList.add('hidden');
-        }
-
-        function toggleProfileMenu() {
-            const dropdown = document.getElementById('profileDropdown');
-            dropdown.classList.toggle('hidden');
-        }
-
-        function closeProfileMenu() {
-            document.getElementById('profileDropdown').classList.add('hidden');
-        }
-
-        // Test functions
+        // Profile functions
         function setTestTextMode(mode) {
             // Update button styles
             const buttons = document.querySelectorAll('.test-text-btn');
@@ -3858,6 +4742,7 @@ Visit: https://bionictext.ai
         }
 
         function convertToBionic(text) {
+            window.convertToBionic = convertToBionic;
             // Get bold intensity setting (default 50%)
             const intensity = parseInt(localStorage.getItem('boldIntensity') || '50');
             
@@ -4147,6 +5032,46 @@ Visit: https://bionictext.ai
             
             // Update achievements display
             updateAchievementsDisplay();
+            
+            // Load exercise history
+            loadExerciseHistory();
+        }
+
+        function loadExerciseHistory() {
+            const exerciseHistoryContainer = document.getElementById('exerciseHistory');
+            const history = JSON.parse(localStorage.getItem('exerciseHistory') || '[]');
+            
+            if (history.length === 0) {
+                exerciseHistoryContainer.innerHTML = `
+                    <div class="text-center text-gray-500 py-6">
+                        <p class="text-sm">Henüz egzersiz kaydı yok. Göz kaslarınızı eğitmeye başlayın!</p>
+                        <button onclick="showSection('exercises')" class="mt-2 text-primary hover:text-blue-800 font-medium text-sm">Egzersizlere Git</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            const recentHistory = history.slice(-5).reverse();
+            exerciseHistoryContainer.innerHTML = recentHistory.map(entry => {
+                const title = translations[currentLanguage][`exercise_${entry.type}_title`] || entry.type;
+                const date = new Date(entry.date).toLocaleDateString();
+                const minutes = Math.floor(entry.time / 60);
+                const seconds = entry.time % 60;
+                const timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                return `
+                    <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                        <div>
+                            <div class="font-medium text-gray-800">${title}</div>
+                            <div class="text-xs text-gray-500">${date}</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-semibold text-primary">${timeStr}</div>
+                            ${entry.score > 0 ? `<div class="text-xs text-gray-500">${translations[currentLanguage].exercise_score}: ${entry.score}</div>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
         function loadRecentTests(testData) {
@@ -4379,6 +5304,7 @@ Visit: https://bionictext.ai
 
         // Notification system
         function showNotification(message, type = 'info') {
+            window.showNotification = showNotification;
             const notification = document.getElementById('notification');
             const notificationText = document.getElementById('notificationText');
             const notificationIcon = document.getElementById('notificationIcon');
@@ -4451,19 +5377,20 @@ Visit: https://bionictext.ai
                 btn.classList.remove('border-primary');
                 btn.classList.add('border-gray-300');
             });
-            event.target.closest('.theme-btn').classList.remove('border-gray-300');
-            event.target.closest('.theme-btn').classList.add('border-primary');
             
-            // Apply theme colors
-            if (theme === 'dark') {
-                body.style.backgroundColor = '#1a1a1a';
-                body.style.color = '#ffffff';
-            } else if (theme === 'sepia') {
-                body.style.backgroundColor = '#f4ecd8';
-                body.style.color = '#5c4a3a';
+            if (event && event.target) {
+                const targetBtn = event.target.closest('.theme-btn');
+                if (targetBtn) {
+                    targetBtn.classList.remove('border-gray-300');
+                    targetBtn.classList.add('border-primary');
+                }
             } else {
-                body.style.backgroundColor = '#f9fafb';
-                body.style.color = '#111827';
+                // Find button by onclick attribute if no event
+                const themeButton = document.querySelector(`button[onclick*="setTheme('${theme}')"]`);
+                if (themeButton) {
+                    themeButton.classList.remove('border-gray-300');
+                    themeButton.classList.add('border-primary');
+                }
             }
         };
 
@@ -4475,6 +5402,14 @@ Visit: https://bionictext.ai
                 localStorage.removeItem('theme');
                 localStorage.removeItem('readingGuide');
                 localStorage.removeItem('autoScroll');
+                localStorage.removeItem('focusSound');
+                localStorage.removeItem('focusVolume');
+                
+                // Stop audio if playing
+                if (currentFocusAudio) {
+                    currentFocusAudio.pause();
+                    currentFocusAudio = null;
+                }
                 
                 // Reset UI
                 document.getElementById('globalFontSize').value = 18;
@@ -4482,6 +5417,22 @@ Visit: https://bionictext.ai
                 document.getElementById('boldIntensity').value = 50;
                 document.getElementById('readingGuide').checked = false;
                 document.getElementById('autoScroll').checked = false;
+                
+                if (document.getElementById('focusVolume')) {
+                    document.getElementById('focusVolume').value = 50;
+                    document.getElementById('focusVolumeValue').innerText = '50%';
+                }
+                
+                // Reset sound buttons UI
+                document.querySelectorAll('.sound-btn').forEach(b => {
+                    b.classList.remove('border-primary');
+                    b.classList.add('border-gray-200');
+                });
+                const noneBtn = document.querySelector('button[onclick*="playFocusSound(\'none\')"]');
+                if (noneBtn) {
+                    noneBtn.classList.remove('border-gray-200');
+                    noneBtn.classList.add('border-primary');
+                }
                 
                 updateGlobalFontSize(18);
                 updateGlobalLineHeight(1.6);
@@ -4516,6 +5467,94 @@ Visit: https://bionictext.ai
             });
         }
 
+        window.playFocusSound = function(type, btn = null) {
+            // Stop current audio if any
+            if (currentFocusAudio) {
+                currentFocusAudio.pause();
+                currentFocusAudio = null;
+            }
+
+            // Update UI
+            document.querySelectorAll('.sound-btn').forEach(b => {
+                b.classList.remove('border-primary');
+                b.classList.add('border-gray-200');
+            });
+
+            const selectedBtn = btn || (event && event.currentTarget);
+            if (selectedBtn) {
+                selectedBtn.classList.remove('border-gray-200');
+                selectedBtn.classList.add('border-primary');
+            }
+
+            if (type === 'none') {
+                localStorage.removeItem('focusSound');
+                return;
+            }
+
+            // Create and play new audio
+            const url = focusSoundUrls[type];
+            if (url) {
+                currentFocusAudio = new Audio(url);
+                currentFocusAudio.loop = true;
+                const volume = document.getElementById('focusVolume') ? document.getElementById('focusVolume').value : 50;
+                currentFocusAudio.volume = volume / 100;
+                currentFocusAudio.play().catch(err => console.log('Audio playback failed:', err));
+                localStorage.setItem('focusSound', type);
+            }
+        };
+
+        window.updateFocusVolume = function(volume) {
+            document.getElementById('focusVolumeValue').innerText = volume + '%';
+            if (currentFocusAudio) {
+                currentFocusAudio.volume = volume / 100;
+            }
+            localStorage.setItem('focusVolume', volume);
+        };
+
+        // Share Badge Functions
+        let currentSharingBadge = null;
+
+        window.openShareModal = function(badgeId) {
+            const badge = window.achievements.find(a => a.id === badgeId);
+            if (!badge) return;
+
+            currentSharingBadge = badge;
+            document.getElementById('modalBadgeIcon').innerText = badge.emoji;
+            document.getElementById('modalBadgeName').innerText = badge.name;
+            document.getElementById('shareBadgeModal').classList.remove('hidden');
+        };
+
+        window.closeShareModal = function() {
+            document.getElementById('shareBadgeModal').classList.add('hidden');
+            currentSharingBadge = null;
+        };
+
+        window.shareAchievement = function(platform) {
+            if (!currentSharingBadge) return;
+
+            const badgeName = currentSharingBadge.name;
+            const textTemplate = translations[currentLanguage].share_badge_text || "I just earned the '{badge}' badge on BionicText! 🚀 My reading speed is increasing! #BionicText #FastReading";
+            const text = textTemplate.replace('{badge}', badgeName);
+            const url = window.location.href;
+
+            let shareUrl = '';
+            switch (platform) {
+                case 'x':
+                    shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+                    break;
+                case 'whatsapp':
+                    shareUrl = `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`;
+                    break;
+                case 'linkedin':
+                    shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+                    break;
+            }
+
+            if (shareUrl) {
+                window.open(shareUrl, '_blank', 'width=600,height=400');
+            }
+        };
+
         function loadSettings() {
             // Load font size
             const fontSize = localStorage.getItem('globalFontSize') || '18';
@@ -4534,6 +5573,7 @@ Visit: https://bionictext.ai
             
             // Load theme
             const theme = localStorage.getItem('theme') || 'light';
+            setTheme(theme);
             const themeButton = document.querySelector(`button[onclick="setTheme('${theme}')"]`);
             if (themeButton) {
                 themeButton.classList.add('border-primary');
@@ -4550,6 +5590,29 @@ Visit: https://bionictext.ai
                 document.getElementById('autoScroll').checked = autoScroll;
             }
             
+            // Load focus sounds
+            const focusSound = localStorage.getItem('focusSound') || 'none';
+            const focusVolume = localStorage.getItem('focusVolume') || '50';
+            if (document.getElementById('focusVolume')) {
+                document.getElementById('focusVolume').value = focusVolume;
+                document.getElementById('focusVolumeValue').innerText = focusVolume + '%';
+            }
+            
+            // Auto-play focus sound if not 'none' (user might need to interact first though)
+            if (focusSound !== 'none') {
+                const soundBtn = document.querySelector(`button[onclick*="playFocusSound('${focusSound}')"]`);
+                // We don't auto-play on load to comply with browser policies, 
+                // but we highlight the button and set the selection.
+                if (soundBtn) {
+                    document.querySelectorAll('.sound-btn').forEach(b => {
+                        b.classList.remove('border-primary');
+                        b.classList.add('border-gray-200');
+                    });
+                    soundBtn.classList.remove('border-gray-200');
+                    soundBtn.classList.add('border-primary');
+                }
+            }
+            
             applyGlobalSettings();
         }
 
@@ -4563,5 +5626,6 @@ Visit: https://bionictext.ai
             }
         });
 </script>
+<script src="race.js"></script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a5b613e0244d5ff',t:'MTc2NDM0ODc4OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
